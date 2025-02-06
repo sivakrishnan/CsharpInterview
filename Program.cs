@@ -1,7 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CsharpInterview.WorkOutAbstractClass;
 using CsharpInterview.WorkOutMethodHiding;
+using CsharpInterview.WorkOutOutKeyword;
 using CsharpInterview.WorkOutOverriding;
+using CsharpInterview.WorkOutRefKeyword;
 using System.Net.Http.Headers;
 
 Console.WriteLine("Hello, World!");
@@ -10,7 +12,7 @@ Console.WriteLine("Hello, World!");
 SecondChildAbstractClass objChildAbstractClass = new SecondChildAbstractClass();
 Console.WriteLine("value--" + AbstractClass.first.ToString());
 
-Console.WriteLine("----------------------------------------" );
+Console.WriteLine("----------------------------------------");
 
 
 FirstChildAbstractClass objFirstChildAbstractClass = new FirstChildAbstractClass();
@@ -41,3 +43,47 @@ dHide.print();
 
 MethodHidingBaseClass bdHideFinal = new MethodHidingDerivedClass();
 bdHideFinal.print();
+
+Console.WriteLine("----------------Ref Keyword------------------------");
+
+int a = 10;
+
+
+Console.WriteLine($"Before call a value is ={a}");
+RefKeyword objRef = new RefKeyword();
+objRef.TestRefKeyword(ref a);
+Console.WriteLine($"After call a value is={a}");
+
+Console.WriteLine("----------------Out Keyword------------------------");
+
+int outValue = 10;
+
+
+Console.WriteLine($"Before call a value is ={outValue}");
+OutKeyword objOut = new OutKeyword();
+objOut.TestOutKeyword(out outValue);
+Console.WriteLine($"After call a value is={outValue}");
+
+
+Console.WriteLine("----------------Array with Multiple Type------------------------");
+
+object[] arrObject = new object[3];
+
+arrObject[0]=1;
+arrObject[1]="string";
+arrObject[2]=b;
+
+foreach (var type in arrObject)
+{
+    Console.WriteLine($"value is={type}");
+}
+
+
+Console.WriteLine("----------------Each word in string reverse------------------------");
+
+string inputString = "one two three four five";
+string result = string.Join(" ", inputString.Split(' ').Reverse().Select(x => new string(x.Reverse().ToArray())));
+
+Console.WriteLine($"result is={result}");
+
+

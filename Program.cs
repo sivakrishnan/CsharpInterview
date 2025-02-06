@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CsharpInterview.WorkOutAbstractClass;
+using CsharpInterview.WorkOutClassHierarchy;
 using CsharpInterview.WorkOutMethodHiding;
 using CsharpInterview.WorkOutOutKeyword;
 using CsharpInterview.WorkOutOverriding;
@@ -86,4 +87,11 @@ string result = string.Join(" ", inputString.Split(' ').Reverse().Select(x => ne
 
 Console.WriteLine($"result is={result}");
 
+Console.WriteLine("----------------Class Hierarchy------------------------");
+
+OuterClass outerClass = new OuterClass();
+outerClass.outclassfunction();
+
+OuterClass.InnerClass inner=new OuterClass.InnerClass();
+inner.innerclassfunction();
 

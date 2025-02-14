@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using CsharpInterview.LogicalProgam;
 using CsharpInterview.WorkOutAbstractClass;
+using CsharpInterview.WorkOutBasicSingleton;
 using CsharpInterview.WorkOutClassHierarchy;
 using CsharpInterview.WorkOutMethodHiding;
 using CsharpInterview.WorkOutOutKeyword;
@@ -95,3 +97,17 @@ outerClass.outclassfunction();
 OuterClass.InnerClass inner=new OuterClass.InnerClass();
 inner.innerclassfunction();
 
+Console.WriteLine("----------------Singleton Example-----------------------");
+
+BasicSingleton obj1 = BasicSingleton.GetInstance;
+obj1.PrintDetails("basic singleton 1.");
+
+BasicSingleton obj2 = BasicSingleton.GetInstance;
+obj2.PrintDetails("basic singleton 2.");
+
+
+Console.WriteLine("----------------Logical Progam-----------------------");
+
+string logicalInput = "(dafsd{adfsd[abc]}})";
+LogicalPrograms objLogical = new LogicalPrograms(logicalInput);
+objLogical.CheckOpenCloseBracesProper();

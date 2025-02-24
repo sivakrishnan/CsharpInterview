@@ -1,0 +1,337 @@
+﻿27)What is the purpose of the finally block in exception handling in C#?
+(1 Point)
+
+To execute code only if an exception is thrown.
+
+To execute code only if no exception is thrown.
+
+To execute code regardless of whether an exception is thrown or not. ----------------->Correct Ans
+
+To re-throw the caught exception.
+
+
+26) Which of the following correctly describes the use of ref and out keywords in C#?
+(1 Point)
+
+Both ref and out are used to pass arguments by reference, but out requires that the parameter be initialised before being passed.
+
+Both ref and out are used to pass arguments by reference, but ref requires that the parameter be initialised before being passed. ----------------->Correct Ans
+
+ref is used to pass arguments by reference, and out is used to pass arguments by value.
+
+ref is used to pass arguments by value, and out is used to pass arguments by reference.
+
+
+25) What is the purpose of the params keyword in C#?
+(1 Point)
+
+To pass a fixed number of arguments to a method.
+
+To pass an unknown number of arguments to a method. ----------------->Correct Ans
+
+To pass a single argument to a method.
+
+To pass arguments by reference.
+
+
+
+24) What does the yield keyword do in C#?
+(1 Point)
+
+It stops the execution of a method.
+
+It returns multiple values from a method.
+
+It allows a method to return an IEnumerable one item at a time. ----------------->Correct Ans
+
+It converts a method into a lambda expression.
+
+
+23) Which of the following statements is true about delegates in C#?
+(1 Point)
+
+Delegates are a type-safe way of calling methods. ----------------->Correct Ans
+
+Delegates can only point to static methods.
+
+Delegates are used for memory management.
+
+Delegates cannot be multicast.
+
+
+
+22) What does the StringBuilder class provide that the String class does not?
+(1 Point)
+
+Immutable string manipulation.
+
+Better performance for multiple string modifications. ----------------->Correct Ans
+
+Regular expression capabilities.
+
+Enhanced string comparison methods.
+
+
+21) What is the difference between == and .Equals() method in C#?
+(1 Point)
+
+== compares reference equality, while .Equals() compares value equality ----------------->Correct Ans
+
+== compares value equality, while .Equals() compares reference equality
+
+== is used for comparing strings, while .Equals() is used for comparing integers
+
+== is used for assignment, while .Equals() is used for comparison
+
+
+
+20) Explain the concept of covariance and contravariance in C#
+(1 Point)
+
+Covariance and contravariance are used for defining asynchronous and synchronous operations in C#.
+
+Covariance allows you to assign a variable of a more specific type to a variable of a more general type, while contravariance allows you to assign a variable of a more general type to a variable of a more specific type.----------------->Correct Ans
+
+Covariance allows returning a more specific type from a method than declared in the method signature and contravariance allows a method to return a more generic type than declared in the method signature.
+
+Covariance refers to the ability to cast from a base type to a derived type and contravariance is the ability to cast a derived type to a specific type.
+
+
+
+19) What does the following code snippet demonstrate in terms of C# language features?  Note image irukku 
+(1 Point)
+
+
+Extension methods
+
+Generic constraints
+
+Covariance
+
+Contravariance
+
+
+
+18) What is the purpose of the unsafe keyword in C#?
+(1 Point)
+
+The unsafe keyword is used to allow the use of pointers and direct memory manipulation in C#, providing low-level control over memory allocation and performance optimisations  ----------------->Correct Ans
+
+The unsafe keyword is used for asynchronous operations in C#.
+
+The unsafe keyword is used for defining multiple signatures of methods in C#
+
+The unsafe keyword is used for defining access modifiers in C#
+
+
+
+17) What is the output of this program? note image irukku
+(1 Point)
+
+
+
+4 5 6
+
+3 4 5
+
+3 4 5 6 
+
+2 3 4 5 6
+
+
+
+16) What is the output of this program? image irukku
+(1 Point)
+
+
+"Method Completed" followed by "First Task Started" and "Second Task Started"
+
+"First Task Started" followed by "Second Task Started" and then "Method Completed"
+
+"Method Completed"
+
+"First Task Started" followed by "Method Completed" and then "Second Task Started"
+
+
+
+15) Which new feature in C# 8.0 allows you to declare methods with optional implementations in interfaces?
+(1 Point)
+
+Default Interface Methods ----------------->Correct Ans
+
+Abstract Methods
+
+Extension Methods
+
+Static Methods in Interfaces
+
+
+14) What is the purpose of nullable reference types introduced in C# 8.0?
+(1 Point)
+
+To remove the need for null checks in code.
+
+To provide a compile-time check to help avoid null reference exceptions.----------------->Correct Ans
+
+To enable reference types to be null by default.
+
+To allow value types to be null.
+
+13) What is the purpose of the using declaration in C# 8.0?
+(1 Point)
+
+To declare a namespace import.
+
+To ensure a resource is disposed only when explicitly called.
+
+To specify a disposable resource in a shorter syntax without braces. ----------------->Correct Ans
+
+To create a global alias for a namespace.
+
+
+12) Which of the following patterns was introduced in C# 8.0 to enhance pattern matching?
+(1 Point)
+
+Type Patterns
+
+Property Patterns
+
+Tuple Patterns
+
+All of the above ----------------->Correct Ans
+
+11) What is the new feature in C# 8.0 that allows asynchronous streams to be processed with await?
+(1 Point)
+
+Async Streams ----------------->Correct Ans
+
+Async Lambdas
+
+Async Methods
+
+Async Enumerables
+
+
+
+
+10) Which of the following principles is not part of the SOLID principles of OOP?
+(1 Point)
+
+Single Responsibility Principle
+
+Open/Closed Principle
+
+Liskov Substitution Principle
+
+Principle of Least Privilege ----------------->Correct Ans
+
+
+
+9) Which of the following best describes the Dependency Inversion Principle?
+(1 Point)
+
+High-level modules should depend on low-level modules.
+
+Low-level modules should depend on high-level modules.
+
+Both high-level and low-level modules should depend on abstractions. ----------------->Correct Ans
+
+Abstractions should depend on details.
+
+
+
+8) What is the primary purpose of a primary key in a SQL table?
+(1 Point)
+
+To allow duplicate values in a table.
+
+To create a relationship between two tables.
+
+To uniquely identify each row in a table.----------------->Correct Ans
+
+To store large text data.
+
+
+
+7) Which of the following is a valid way to create a foreign key in SQL Server?
+(1 Point)
+
+FOREIGN KEY (ColumnName) REFERENCES OtherTable(OtherColumn)  ----------------->Correct Ans
+
+CREATE FOREIGN KEY ON ColumnName
+
+ADD FOREIGN KEY TO ColumnName
+
+FOREIGN KEY REFERENCES OtherTable
+
+
+
+6) Which of the following best describes the concept of "Infrastructure as Code" (IaC)?
+(1 Point)
+
+Utilising serverless computing services
+
+Automating the deployment of applications
+
+Manually configuring servers and network devices
+
+Using high-level programming languages to manage and provision infrastructure ----------------->Correct Ans
+
+
+5) Which of the following best describes serverless computing?
+(1 Point)
+
+Hosting applications that automatically scale based on demand without managing the underlying infrastructure----------------->Correct Ans
+
+Running applications on physical servers without virtualisation
+
+Using dedicated servers for each application
+
+Implementing manual server configurations for high availability
+
+
+4) What is the main advantage of using a NoSQL database over a traditional relational database?
+(1 Point)
+
+Strong schema enforcement
+
+Improved data integrity constraints
+
+Better support for complex transactions
+
+Horizontal scalability ----------------->Correct Ans
+
+
+3) What is the main advantage of denormalisation in NoSQL databases?
+(1 Point)
+
+Enables complex joins between tables
+
+Reduces redundancy and improves data integrity
+
+Simplifies data querying and improves read performance----------------->Correct Ans
+
+Ensures strong consistency across distributed clusters
+
+2) What are the key principles of DevOps?
+(1 Point)
+
+Waterfall Model, Iterative Development, and Spiral Model.
+
+Continuous Integration, Continuous Deployment, and Continuous Monitoring.----------------->Correct Ans
+
+Agile Development, Scrum, and Kanban.
+
+Version Control, Bug Tracking, and Code Review.
+
+
+1) What is the role of Continuous Monitoring in DevOps practices?
+(1 Point)
+
+Monitoring user activity on the application.
+
+Monitoring network traffic patterns.
+
+Monitoring server hardware utilisation.
+
+Monitoring application performance, logs, and metrics in real-time.----------------->Correct Ans

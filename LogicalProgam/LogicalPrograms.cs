@@ -10,13 +10,29 @@ namespace CsharpInterview.LogicalProgam
     public class LogicalPrograms
     {
         string InputString = string.Empty;
+        int[] intArray = { 1, 2, 3, 4, 5 };
         public LogicalPrograms()
         {
+
 
         }
         public LogicalPrograms(string inputString)
         {
             InputString=inputString;
+        }
+
+        public void NumberOfOccurenceOfEachChar()
+        {
+            var data = InputString.ToCharArray().AsEnumerable().GroupBy(x => x).Select(x => new
+            {
+                CharName = x.Key,
+                CharCount = x.Count()
+            });
+
+            foreach (var item in data)
+            {
+                Console.WriteLine($"Character Name- {item.CharName} Character Count- {item.CharCount}");
+            }
         }
         public void CheckOpenCloseBracesProper()
         {
@@ -58,6 +74,16 @@ namespace CsharpInterview.LogicalProgam
             }
 
             Console.WriteLine("Valid format");
+        }
+
+        public void SumOfArrayElements()
+        {
+            int sum = 0;
+            foreach (int i in intArray)
+            {
+                sum += i;
+            }
+            Console.WriteLine("sum="+sum.ToString());
         }
     }
 }

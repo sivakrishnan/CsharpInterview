@@ -1,13 +1,15 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using CsharpInterview;
 using CsharpInterview.LogicalProgam;
+using CsharpInterview.ToListVsToArray;
 using CsharpInterview.WorkOutAbstractClass;
 using CsharpInterview.WorkOutBasicSingleton;
 using CsharpInterview.WorkOutClassHierarchy;
+using CsharpInterview.WorkOutFunc;
 using CsharpInterview.WorkOutMethodHiding;
 using CsharpInterview.WorkOutOutKeyword;
 using CsharpInterview.WorkOutOverriding;
 using CsharpInterview.WorkOutRefKeyword;
-using System.Net.Http.Headers;
 
 Console.WriteLine("Hello, World!");
 
@@ -34,6 +36,10 @@ MethodOverridingBaseClass bOverride = new MethodOverridingDerivedClass();
 bOverride.print();
 
 
+MethodOverridingBaseClass bOverride1 = new MethodOverridingDerivedClass();
+((MethodOverridingDerivedClass)bOverride1).print();
+
+
 
 Console.WriteLine("----------------Method Hiding------------------------");
 
@@ -50,7 +56,14 @@ bdHideFinal.print();
 Console.WriteLine("----------------Ref Keyword------------------------");
 
 int a = 10;
+int at = 20;
+Multiply(ref at);
+Console.WriteLine(at);
 
+static void Multiply(ref int number)
+{
+    number*=2;
+}
 
 Console.WriteLine($"Before call a value is ={a}");
 RefKeyword objRef = new RefKeyword();
@@ -94,7 +107,7 @@ Console.WriteLine("----------------Class Hierarchy------------------------");
 OuterClass outerClass = new OuterClass();
 outerClass.outclassfunction();
 
-OuterClass.InnerClass inner=new OuterClass.InnerClass();
+OuterClass.InnerClass inner = new OuterClass.InnerClass();
 inner.innerclassfunction();
 
 Console.WriteLine("----------------Singleton Example-----------------------");
@@ -111,3 +124,58 @@ Console.WriteLine("----------------Logical Progam-----------------------");
 string logicalInput = "(dafsd{adfsd[abc]}})";
 LogicalPrograms objLogical = new LogicalPrograms(logicalInput);
 objLogical.CheckOpenCloseBracesProper();
+
+string logicalInput1 = "abbcccddddeeeee";
+LogicalPrograms objLogical1 = new LogicalPrograms(logicalInput1);
+objLogical1.NumberOfOccurenceOfEachChar();
+
+LogicalPrograms objLogical2 = new LogicalPrograms();
+objLogical2.SumOfArrayElements();
+
+
+
+Console.WriteLine("---------------veni test-----------------------");
+Parent P = new Parent();
+
+P.Print();
+
+Child P1 = new Child();
+
+P1.Print();
+
+Console.WriteLine("-------------ToArray vs ToList-----------------");
+ToListVsToArrays obj = new ToListVsToArrays();
+obj.SomeCheck();
+
+int[] arrayNumbers = { 1, 2, 3, 4, 5 };
+var query = from num in arrayNumbers
+            where num%2==0
+            select num;
+arrayNumbers=arrayNumbers.Append(6).ToArray();
+Console.WriteLine("After filter and append one value count={0}", query.Count());
+
+Console.WriteLine("-------------Deferred Execution-----------------");
+
+List<int> numbersDeferred = new List<int> { 1, 2, 3, 4, 5 };
+var query1 = numbersDeferred.Where(n => n>2);
+numbersDeferred.Add(45);
+foreach (var number in query1)
+{
+    Console.WriteLine(number);
+}
+
+Console.WriteLine("-------------Immediate Execution-----------------");
+
+List<int> numbersImmediate = new List<int> { 1, 2, 3, 4, 5 };
+var query1Immediate = numbersImmediate.Where(n => n>2).ToList();
+numbersImmediate.Add(45);
+foreach (var number in query1Immediate)
+{
+    Console.WriteLine(number);
+}
+
+
+Console.WriteLine("-------------Func vs Action vs Predicate Workout-----------------");
+
+FuncCheck objFunc = new FuncCheck();
+objFunc.FuncWithTwoParameter();

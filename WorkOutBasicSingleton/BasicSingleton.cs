@@ -5,13 +5,13 @@ namespace CsharpInterview.WorkOutBasicSingleton
     public sealed class BasicSingleton
     {
         private static int Counter = 0;
-        private static BasicSingleton instance = null;
+        private static BasicSingleton instance = new BasicSingleton();
 
         public static BasicSingleton GetInstance
         {
             get
             {
-                return instance ?? (instance = new BasicSingleton());
+                return instance;
             }
         }
         private BasicSingleton()

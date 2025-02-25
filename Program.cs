@@ -10,6 +10,7 @@ using CsharpInterview.WorkOutMethodHiding;
 using CsharpInterview.WorkOutOutKeyword;
 using CsharpInterview.WorkOutOverriding;
 using CsharpInterview.WorkOutRefKeyword;
+using CsharpInterview.WorkOutStaticConstructor;
 
 Console.WriteLine("Hello, World!");
 
@@ -179,3 +180,35 @@ Console.WriteLine("-------------Func vs Action vs Predicate Workout-------------
 
 FuncCheck objFunc = new FuncCheck();
 objFunc.FuncWithTwoParameter();
+
+
+Console.WriteLine("----------------StaticConstructor--------------");
+StaticConstructor sc1 = new StaticConstructor();
+StaticConstructor sc2 = new StaticConstructor();
+
+Console.WriteLine("----------------var vs dynamic--------------");
+
+var i = 0;
+//i = "test"; //compile time error 
+dynamic j = 1;
+j = "test";
+object k = 2;
+k = "test";
+
+
+Console.WriteLine("----------------Single vs First--------------");
+
+string[] data = { "test", "test1", "test1" };
+
+//string str0 = data.Where(x => x == "test2").Single(); //  exception Sequence contains no elements
+
+//string str = data.Where(x => x == "test1").Single(); // exception like sequence contains more than one occurence
+
+//string str = data.Where(x => x == "test2").First(); // exception Sequence contains no elements
+
+string str = data.Where(x => x == "test1").First();
+
+string str1 = data.Where(x => x == "test2").SingleOrDefault();
+//string str2 = data.Where(x => x == "test1").SingleOrDefault(); // exception like sequence contains more than one occurence
+string str3 = data.Where(x => x == "test2").FirstOrDefault();
+string str4 = data.Where(x => x == "test1").FirstOrDefault();

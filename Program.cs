@@ -11,6 +11,7 @@ using CsharpInterview.WorkOutOutKeyword;
 using CsharpInterview.WorkOutOverriding;
 using CsharpInterview.WorkOutRefKeyword;
 using CsharpInterview.WorkOutStaticConstructor;
+using CsharpInterview.WorkOutThread;
 
 Console.WriteLine("Hello, World!");
 
@@ -63,7 +64,7 @@ Console.WriteLine(at);
 
 static void Multiply(ref int number)
 {
-    number*=2;
+    number *= 2;
 }
 
 Console.WriteLine($"Before call a value is ={a}");
@@ -86,9 +87,9 @@ Console.WriteLine("----------------Array with Multiple Type---------------------
 
 object[] arrObject = new object[3];
 
-arrObject[0]=1;
-arrObject[1]="string";
-arrObject[2]=b;
+arrObject[0] = 1;
+arrObject[1] = "string";
+arrObject[2] = b;
 
 foreach (var type in arrObject)
 {
@@ -150,15 +151,15 @@ obj.SomeCheck();
 
 int[] arrayNumbers = { 1, 2, 3, 4, 5 };
 var query = from num in arrayNumbers
-            where num%2==0
+            where num % 2 == 0
             select num;
-arrayNumbers=arrayNumbers.Append(6).ToArray();
+arrayNumbers = arrayNumbers.Append(6).ToArray();
 Console.WriteLine("After filter and append one value count={0}", query.Count());
 
 Console.WriteLine("-------------Deferred Execution-----------------");
 
 List<int> numbersDeferred = new List<int> { 1, 2, 3, 4, 5 };
-var query1 = numbersDeferred.Where(n => n>2);
+var query1 = numbersDeferred.Where(n => n > 2);
 numbersDeferred.Add(45);
 foreach (var number in query1)
 {
@@ -168,7 +169,7 @@ foreach (var number in query1)
 Console.WriteLine("-------------Immediate Execution-----------------");
 
 List<int> numbersImmediate = new List<int> { 1, 2, 3, 4, 5 };
-var query1Immediate = numbersImmediate.Where(n => n>2).ToList();
+var query1Immediate = numbersImmediate.Where(n => n > 2).ToList();
 numbersImmediate.Add(45);
 foreach (var number in query1Immediate)
 {
@@ -212,3 +213,59 @@ string str1 = data.Where(x => x == "test2").SingleOrDefault();
 //string str2 = data.Where(x => x == "test1").SingleOrDefault(); // exception like sequence contains more than one occurence
 string str3 = data.Where(x => x == "test2").FirstOrDefault();
 string str4 = data.Where(x => x == "test1").FirstOrDefault();
+
+
+//Console.WriteLine("----------------Thread with ThreadStart Delegate--------------");
+
+//Thread t1 = new Thread(new ThreadStart(WorkOutThreads.PrintNumbers));
+//t1.Start();
+
+
+//Console.WriteLine("----------------Thread with Delegate keyword--------------");
+
+//Thread t2 = new Thread(delegate () { WorkOutThreads.PrintNumbers(); });
+//t2.Start();
+
+//Console.WriteLine("----------------Thread with Lambda expression-------------");
+
+//Thread t3 = new Thread(() => WorkOutThreads.PrintNumbers());
+//t3.Start();
+
+//Console.WriteLine("----------------Thread -------------");
+
+//Thread t4 = new Thread(WorkOutThreads.PrintNumbers);
+//t4.Start();
+
+
+Console.WriteLine("----------------Thread with parameter- this is loose the type safety------------");
+
+//object target = 10;
+//ParameterizedThreadStart pt = new ParameterizedThreadStart(WorkOutThreads.PrintNumbers);
+//Thread t5 = new Thread(pt);
+//t5.Start(target);
+
+
+Console.WriteLine("----------------Thread with parameter- to make sure the type safety use helper class------------");
+
+int target = 10;
+WorkOutThreads wt = new WorkOutThreads(target, null);
+
+Thread t6 = new Thread(new ThreadStart(wt.PrintNumbers));
+t6.Start();
+
+
+Console.WriteLine("----------------Thread with callback function------------");
+
+static void PrintSum(int sum)
+{
+    Console.WriteLine("Sum of Numbers=" + sum);
+}
+
+
+SumOfNumbersCallback callback = new SumOfNumbersCallback(PrintSum);
+
+int target1 = 10;
+WorkOutThreads wt1 = new WorkOutThreads(target1, callback);
+
+Thread t7 = new Thread(new ThreadStart(wt1.PrintSumOfNumbers));
+t7.Start();

@@ -1,0 +1,114 @@
+﻿-----------------appsettings sample configuration---------------------
+
+  "SSO_Client_Id": "727995af-d73d-428c-a2c0-eb7136b1f04d",
+  "SSO_Tenant_Id": "9d314297-75dc-4329-8f94-a66489b4b9bb",
+  "SSO_Client_Secret": "xgf8Q~lZBR6GkwYonr-kTl-n6FB9kvoTKl5eSadh",
+  "SSO_AzureSSOTokenUrl": "https://login.microsoftonline.com/9d314297-75dc-4329-8f94-a66489b4b9bb/oauth2/v2.0/token",
+  "SSO_ApplicationRedirectUrl": "https://localhost:7232/Account/SsoAuthenticated",
+  "SSO_Authorization_EndPoint": "https://login.microsoftonline.com/9d314297-75dc-4329-8f94-a66489b4b9bb/oauth2/v2.0/authorize",
+  "SSO_Scope": "email openid offline_access profile",
+
+
+  -------------------------After click the SSO Button---------------------------------------------------
+
+        public IActionResult SSORedirect()
+        {
+           // _logger.LogInformation("LoginModel: OnPostAsync called.");
+            string sso_authurl = "";
+            try
+            {
+                sso_authurl = new AzureSSOHelper(_sMConfigSettings).GetAuthnReqUrl();
+            }
+            catch (Exception ex)
+            {
+              //  _logger.LogError("LoginModel OnGetAsync Error : " + ex.Message);
+            }
+            return Redirect(sso_authurl);
+
+        }
+
+-------------------------------sample AuthnReqUrl-----------------------------------------------------
+
+https://login.microsoftonline.com/9d314297-75dc-4329-8f94-a66489b4b9bb/oauth2/v2.0/authorize?client_id=727995af-d73d-428c-a2c0-eb7136b1f04d&response_type=code&scope=email 
+openid offline_access profile&redirect_uri=https://localhost:7232/Account/SsoAuthenticated
+
+-------------------------------from Azure to Our Application will hit ---------------------------------
+
+ [HttpGet]
+        public IActionResult SsoAuthenticated(string code, string session_state)
+        {
+
+sample code 
+1.AV4Al0Ixndx1KUOPlKZkibS5u6-VeXI914xCosDrcTax8E1eAABeAA.AgABBAIAAABVrSpeuWamRam2jAF1XRQEAwDs_wUA9P-gF3SJhVM0ENdo_MaG4dK5WvdFt4DdWQdKm8M-ztC7t3-wNI7rmRcE_dl1KH-gydDQaKjdZLQ16MtVSlvvX3JazN1yXMtyAQ2LoP_C7WAFX757ftkfwlpLm_MSmPTqWjmjpDsUqQpVPBVpkxOB0bAgiNkQfqdg9-zrANqczhO3U8ZmbtkQ0Jx-e2ITMmJ6wnR7TVKbbFXyKg3AM2PCNmLM2kFNOGP7N-z6YcLMKpsSdhcKhmNvUsmDQlVOF7zJYaFOE06ymf7VPHjMYrnd5OPj-UeRAHTb_MLZTbqriMin2SxPIyqSmJQ_3NWEOJj_3_RPDnRmCVDjDAdDi37nD2ks8YZyNI0v-2D-_i7nL-JTn6Tcvv-uUNszrZqbvbMjZ66KmNAlKBCO2767RU-68laSY9JCFk1QSwv_zIesWWuhrdGOkUOZcYGmzM_avE09X14lKB4vFDY-A4CWEgiZsrCU-4azso6slp-uEbHT0FKYk7GZVfrX_5o8KRdzMp7cZUeUevUwhFXNkAyZGaCHfv96FxShfrigyxW6UszLifbcADMeX9rOmAOGniwlASjkLvttj_piwCaOHILf0sTuy9cgEFcCWvuOx5qBCJoMHJwmqJlb2I7FaqvmCgwARFnpYFofBWrzotuIwqaMgt64cZp3Ek6tpK1LVzu3uMv2_r51cj2AQ_ESGFYnXNO_hkdBpk3ayXOa--aUPOOfwagBL2WZPMjNiKEyC6STCuSDiIh7rEbmptW9HRek-wvRUnX5hoDunAZJE1ojMk3aCuOppT_9HD5hdrfKxWNPkbM0QXqLNmzo4-QL
+
+sample session_state
+
+002e43d9-9043-3a6f-043f-88cd0edcf62f
+
+--------------------------------Get Token Using above code-------------------------------------------------------------------------
+  
+                AzureSSOHelper azureSSOHelper = new AzureSSOHelper(_sMConfigSettings);
+                SsoAccessToken ssoobject = azureSSOHelper.GetToken(code);
+
+    public SsoAccessToken GetToken(string code)
+        {
+            SsoAccessToken ssoAccessToken = new();
+            Dictionary<string, string> values = new()
+                 {
+                 { "grant_type", "authorization_code" },
+                 { "client_id", ClientId},
+                 { "client_secret", ClientSecret },
+                 { "code" , code },
+                 { "redirect_uri", ApplicationRedirectUrl}
+                 };
+
+            TLSValidation();
+            HttpClient tokenClient = new();
+            HttpResponseMessage response = tokenClient.PostAsync(AzureSSOTokenUrl, new FormUrlEncodedContent(values)).Result;
+            if (response != null)
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<SsoAccessToken>(responseContent);
+                }
+            }
+            return ssoAccessToken;
+        }
+
+
+---------------------get user id from jwt token----------------------------------
+ AzureSSOHelper azureSSOHelper = new AzureSSOHelper(_sMConfigSettings);
+                SsoAccessToken ssoobject = azureSSOHelper.GetToken(code);
+
+                if (ssoobject != null && !string.IsNullOrEmpty(ssoobject.access_token))
+                {
+                   // _logger.LogInformation("SsoAuthenticated: access toekn from GetToken is :{accesstoken}", ssoobject.access_token);
+                    userDetails = azureSSOHelper.GetUserIdFromAccessToken(ssoobject.access_token);
+                }
+
+
+
+ public Dictionary<string, string> GetUserIdFromAccessToken(string accessToken)
+        {
+            Dictionary<string, string> keyValuePairs = new();
+            JwtSecurityTokenHandler jwtSecurityTokenHandler = new();
+            JwtSecurityToken jwtSecurityToken = (JwtSecurityToken)jwtSecurityTokenHandler.ReadToken(accessToken);
+
+            string base64Encoded = jwtSecurityToken?.EncodedPayload;
+            dynamic jsonUserData = null;
+
+            if (!string.IsNullOrEmpty(base64Encoded))
+            {
+                base64Encoded = base64Encoded.Length % 4 == 0 ? base64Encoded : string.Concat(base64Encoded, "====".AsSpan(base64Encoded.Length % 4));
+                byte[] data = Convert.FromBase64String(base64Encoded);
+                string base64Decode = Encoding.UTF8.GetString(data);
+                jsonUserData = JsonConvert.DeserializeObject(base64Decode);
+            }
+            if (jsonUserData != null)
+            {                 
+                keyValuePairs.Add("UserName", jsonUserData.upn?.ToString());              
+                keyValuePairs.Add("UserFullName", jsonUserData.name?.ToString());
+            }
+            return keyValuePairs;
+        }

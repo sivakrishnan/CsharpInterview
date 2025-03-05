@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CsharpInterview;
+using CsharpInterview.Common;
 using CsharpInterview.LogicalProgam;
 using CsharpInterview.ToListVsToArray;
 using CsharpInterview.WorkOutAbstractClass;
@@ -269,3 +270,22 @@ WorkOutThreads wt1 = new WorkOutThreads(target1, callback);
 
 Thread t7 = new Thread(new ThreadStart(wt1.PrintSumOfNumbers));
 t7.Start();
+
+
+Console.WriteLine("----------------Second Highest Salary--------------");
+
+Employee emp = new Employee();
+emp.employees=new List<Employee>(){
+    new Employee { Id = 1, Name = "Alice", Salary = 5000 },
+            new Employee { Id = 2, Name = "Bob", Salary = 7000 },
+            new Employee { Id = 3, Name = "Charlie", Salary = 7000 },
+            new Employee { Id = 4, Name = "David", Salary = 6000 },
+        };
+var secondHighestSalary = emp.employees
+    .Select(e => e.Salary)
+    .Distinct()
+    .OrderByDescending(s => s)
+    .Skip(1)
+    .FirstOrDefault();
+
+Console.WriteLine("Second Highest Salary: " + secondHighestSalary);

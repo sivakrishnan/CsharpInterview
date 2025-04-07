@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 
 namespace CsharpInterview.LogicalProgam
@@ -11,6 +7,8 @@ namespace CsharpInterview.LogicalProgam
     {
         string InputString = string.Empty;
         int[] intArray = { 1, 2, 3, 4, 5 };
+
+        int[] arrFirstAndLastInSqureBraces = { 1, 2, 3, 4, 5 };
         public LogicalPrograms()
         {
 
@@ -84,6 +82,32 @@ namespace CsharpInterview.LogicalProgam
                 sum += i;
             }
             Console.WriteLine("sum="+sum.ToString());
+        }
+
+
+        public void FirstAndLastInSqureBraces()
+        {
+            int firstIndex = 0;
+            int lastIndex = arrFirstAndLastInSqureBraces.Length-1;
+
+            for(int i=0; i<=arrFirstAndLastInSqureBraces.Length/2; i++)
+            {
+                if(firstIndex==lastIndex)
+                {
+                    Console.WriteLine($"[{arrFirstAndLastInSqureBraces[firstIndex]}]");
+                }
+                else
+                {
+                    Console.WriteLine($"[{arrFirstAndLastInSqureBraces[firstIndex]}, {arrFirstAndLastInSqureBraces[lastIndex]}]");
+                }
+               
+                firstIndex=firstIndex+1;
+                lastIndex=lastIndex-1;
+                if (firstIndex>lastIndex)
+                {
+                    break;
+                }
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using CsharpInterview.ToListVsToArray;
 using CsharpInterview.WorkOutAbstractClass;
 using CsharpInterview.WorkOutBasicSingleton;
 using CsharpInterview.WorkOutClassHierarchy;
+using CsharpInterview.WorkOutExtensionMethod;
 using CsharpInterview.WorkOutFunc;
 using CsharpInterview.WorkOutMethodHiding;
 using CsharpInterview.WorkOutOutKeyword;
@@ -97,6 +98,11 @@ foreach (var type in arrObject)
     Console.WriteLine($"value is={type}");
 }
 
+Console.WriteLine("----------------Extension Method------------------------");
+
+string strExtension = "first second third";
+
+Console.WriteLine($"Extension Method Output- {strExtension.FirstWord()}");
 
 Console.WriteLine("----------------Each word in string reverse------------------------");
 
@@ -134,6 +140,10 @@ objLogical1.NumberOfOccurenceOfEachChar();
 
 LogicalPrograms objLogical2 = new LogicalPrograms();
 objLogical2.SumOfArrayElements();
+
+LogicalPrograms objLogical3 = new LogicalPrograms();
+objLogical3.FirstAndLastInSqureBraces();
+
 
 
 

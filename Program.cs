@@ -8,6 +8,8 @@ using CsharpInterview.WorkOutBasicSingleton;
 using CsharpInterview.WorkOutClassHierarchy;
 using CsharpInterview.WorkOutExtensionMethod;
 using CsharpInterview.WorkOutFunc;
+using CsharpInterview.WorkOutLiskov.Accounts;
+using CsharpInterview.WorkOutLiskov.Clients;
 using CsharpInterview.WorkOutMethodHiding;
 using CsharpInterview.WorkOutOutKeyword;
 using CsharpInterview.WorkOutOverriding;
@@ -103,6 +105,16 @@ Console.WriteLine("----------------Extension Method------------------------");
 string strExtension = "first second third";
 
 Console.WriteLine($"Extension Method Output- {strExtension.FirstWord()}");
+
+Console.WriteLine("----------------Liskov substituion Principle------------------------");
+
+TellerMachine teller = new TellerMachine();
+SavingsAccount savings = new SavingsAccount();
+
+teller.WithdrawFromAccount(savings, 100);
+
+var fixedDeposit = new FixedDepositAccount();
+ //teller.WithdrawFromAccount(fixedDeposit, 100);//
 
 Console.WriteLine("----------------Each word in string reverse------------------------");
 

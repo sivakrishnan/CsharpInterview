@@ -1,4 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using Amazon;
+using Amazon.CloudWatch;
+using Amazon.CloudWatch.Model;
+using Amazon.Runtime;
 using CsharpInterview;
 using CsharpInterview.Common;
 using CsharpInterview.LogicalProgam;
@@ -114,7 +118,7 @@ SavingsAccount savings = new SavingsAccount();
 teller.WithdrawFromAccount(savings, 100);
 
 var fixedDeposit = new FixedDepositAccount();
- //teller.WithdrawFromAccount(fixedDeposit, 100);//
+//teller.WithdrawFromAccount(fixedDeposit, 100);//
 
 Console.WriteLine("----------------Each word in string reverse------------------------");
 
@@ -311,3 +315,35 @@ var secondHighestSalary = emp.employees
     .FirstOrDefault();
 
 Console.WriteLine("Second Highest Salary: " + secondHighestSalary);
+
+
+Console.WriteLine("----------------AWS Cloud Watch--------------");
+BasicAWSCredentials awsCredential = new BasicAWSCredentials("AKIAW5BDRMA3RW644M7X", "QurIB/1FkWlU99BPLz6odIc5/dE1TF68NxXrrr0U");
+
+AmazonCloudWatchClient aws = new AmazonCloudWatchClient(awsCredential, RegionEndpoint.APSouth1);
+
+var request = new PutMetricDataRequest
+{
+    Namespace = "MyApp/CustomMetrics",
+    MetricData = new List<MetricDatum>
+        {
+            new MetricDatum
+            {
+                MetricName = "UserLogins",
+                Timestamp = DateTime.UtcNow,
+                Value = 1,
+                Unit = StandardUnit.Count,
+                Dimensions = new List<Dimension>
+                {
+                    new Dimension
+                    {
+                        Name = "Environment",
+                        Value = "Production"
+                    }
+                }
+            }
+        }
+};
+=
+// await aws.PutMetricDataAsync(request);
+Console.WriteLine("Cloud watch metrics included");

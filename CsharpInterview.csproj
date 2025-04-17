@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="WorkOutAWS\AWSCloudWatch\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.CloudWatch" Version="3.7.402.83" />
+  </ItemGroup>
+
 </Project>

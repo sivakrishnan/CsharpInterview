@@ -9,7 +9,7 @@ namespace CsharpInterview.LogicalProgam
         int[] intArray = { 1, 2, 3, 4, 5 };
         int SumOfDigit = 12345;
 
-        int[] arrFirstAndLastInSqureBraces = { 1, 2, 3, 4, 5 };
+        int[] arrFirstAndLastInSqureBraces = { 1, 2, 3, 4, 5, 6, 7 };
         public LogicalPrograms()
         {
 

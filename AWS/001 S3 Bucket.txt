@@ -1,0 +1,127 @@
+	
+############################------------ S3 Bucket ------------############################
+
+@@@ Video 115: 
+1) S3 Introduction
+
+Amazon s3 allows users to store objects (files) in buckets (directories)
+Buckets must have a globally unique name (across all regions all accounts)
+Buckets are defined at the region level
+S3 looks like a global service. But buckets are created in regions
+
+Naming Conversion:
+
+No Uppercase
+No underscore
+Not an IP
+Must start with lowercase or number
+Must NOT start with the prefix xn--
+Must NOT end with the suffix -s3alias
+
+
+2) s3 Objects
+
+Objects (files) have a keys
+The key is the FULL Path:
+	s3://my-bucket/my_file.txt
+
+The key is composed of Prefix + object name
+	example s3://my-bucket/my_folder1/another_folder/my_file.txt
+	
+	prefix is "my_folder1/another_folder/"
+	object name is "my_file.txt"
+	
+3) S3 Objects 
+
+	Object values are the content of the body
+		max object size is 5TB(5000GB)
+		If uploading more than 5GB, must use "multi-part upload"
+		
+	Metadata (list of text key/value pairs - system or user metadata)
+	Tags (Unicode key/value pairs upto 10) use for security /lifecycle)
+	Version ID(if versioning is enabled)
+
+@@@ Video 116: create bucket/my_file
+@@@ Video 117: S3 Security - Bucket Policy
+
+User Based
+
+	IAM policies- which API calls should be allowed for a specific user from IAM
+
+Resource Based
+
+	Bucket Policies - bucket wide rules from the s3 console - allows cross account
+	Object Access Control List (ACL) - finer grain (can be disabled)
+	Bucket Access Control List (ACL) - less Common (can be disabled)
+	
+Note: an IAM Principal can access an S3 object if
+
+	The user IAM permissions ALLOW it. or the resource policy ALLOW it
+	AND there's No explicit DENY
+	
+Encryption: encrypt objects in Amazon S3 using encryption keys
+
+
+S3 Bucket Policies
+
+JSON based Policies
+
+Effect    ---> Allow/Deny
+Principal ---> The Account or User to apply the policy to
+Action    ---> Set of API to Allow or Deny
+Resource  ---> buckets or objects
+
+Example Bucket Policy:
+
+{
+	"Version": "2025-04-30",
+	"Statement":[
+		{
+			"Sid":"PublicRead",
+			"Effect":"Allow",
+			"Principal":"*",
+			"Action":[
+				"s3:GetObject"
+			],
+			"Resource":[
+				"arn:aws:s3:::examplebucket/*"
+			]
+		}
+	]
+}
+	
+
+User S3 bucket for policy to:
+
+	Grant public access to the bucket
+	Force Objects to be encrypted at upload
+	Grant access to another account (Cross Account)
+	
+	
+@@@ Video 123:1min Amazon S3 - Replication
+
+
+	Must enable versioning in source and destination buckets
+	Cross Region Replication (CRR)
+	Same Region Replication (SRR)
+	Buckets can be in different AWS Account
+	Coping is asynchronous
+	Must give proper IAM permissions to S3 bucket
+	
+@@@ Video 124:1min: Amazon S3 - Replication Notes
+
+
+	After you enable Replication, only new objects are replicated
+	Optionally, you can replicate existing objects using S3 Batch Replication
+	
+	For DELETE Operations
+		can replicate delete marker from source to target (optional settings)
+		Deletions with Version ID are not replicated (to avoid malicious deletes)
+		
+	There is "No Chaining" Replication
+		If bucket 1 has replication with Bucket 2, which has replication into Bucket 3
+		Then objects created in bucket 1, are not replicated into bucket 3
+		
+
+
+

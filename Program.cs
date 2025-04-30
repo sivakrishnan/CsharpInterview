@@ -160,7 +160,8 @@ objLogical2.SumOfArrayElements();
 LogicalPrograms objLogical3 = new LogicalPrograms();
 objLogical3.FirstAndLastInSqureBraces();
 
-
+LogicalPrograms objLogical4 = new LogicalPrograms();
+objLogical4.SumOfDigitFindOut();
 
 
 Console.WriteLine("---------------veni test-----------------------");
@@ -326,7 +327,7 @@ var request = new PutMetricDataRequest
 {
     Namespace = "MyApp/CustomMetrics",
     MetricData = new List<MetricDatum>
-        {
+    {
             new MetricDatum
             {
                 MetricName = "UserLogins",
@@ -342,8 +343,8 @@ var request = new PutMetricDataRequest
                     }
                 }
             }
-        }
+    }
 };
-=
+
 // await aws.PutMetricDataAsync(request);
 Console.WriteLine("Cloud watch metrics included");

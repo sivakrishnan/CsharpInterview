@@ -28,6 +28,8 @@ namespace CsharpInterview.ToListVsToArray
         {
             list1[0]=42;
             Console.WriteLine("Is List1 of 0 and List2 of 0 both are same {0}", (list1[0]==list2[0]).ToString());
+            Console.WriteLine("Is List1 of 0 is {0}", (list1[0]).ToString());
+            Console.WriteLine("Is List2 of 0 is {0}", (list2[0]).ToString());
             list1.Add(42);
             Console.WriteLine("List 1 length - {0}", list1.Count);
             Console.WriteLine("List 2 length - {0}", list2.Count);

@@ -7,6 +7,7 @@ namespace CsharpInterview.LogicalProgam
     {
         string InputString = string.Empty;
         int[] intArray = { 1, 2, 3, 4, 5 };
+        int SumOfDigit = 12345;
 
         int[] arrFirstAndLastInSqureBraces = { 1, 2, 3, 4, 5 };
         public LogicalPrograms()
@@ -74,6 +75,12 @@ namespace CsharpInterview.LogicalProgam
             Console.WriteLine("Valid format");
         }
 
+        public void SumOfDigitFindOut()
+        {
+            int SumOfDigits = SumOfDigit.ToString().ToCharArray().Sum(x => x-'0');
+            Console.WriteLine($"Sum of given Integer {SumOfDigit} is : {SumOfDigits}");
+        }
+
         public void SumOfArrayElements()
         {
             int sum = 0;
@@ -90,9 +97,9 @@ namespace CsharpInterview.LogicalProgam
             int firstIndex = 0;
             int lastIndex = arrFirstAndLastInSqureBraces.Length-1;
 
-            for(int i=0; i<=arrFirstAndLastInSqureBraces.Length/2; i++)
+            for (int i = 0; i<=arrFirstAndLastInSqureBraces.Length/2; i++)
             {
-                if(firstIndex==lastIndex)
+                if (firstIndex==lastIndex)
                 {
                     Console.WriteLine($"[{arrFirstAndLastInSqureBraces[firstIndex]}]");
                 }
@@ -100,7 +107,7 @@ namespace CsharpInterview.LogicalProgam
                 {
                     Console.WriteLine($"[{arrFirstAndLastInSqureBraces[firstIndex]}, {arrFirstAndLastInSqureBraces[lastIndex]}]");
                 }
-               
+
                 firstIndex=firstIndex+1;
                 lastIndex=lastIndex-1;
                 if (firstIndex>lastIndex)

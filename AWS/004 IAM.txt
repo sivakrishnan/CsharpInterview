@@ -1,0 +1,88 @@
+############################------------ IAM & AWS CLI (56 mins) ------------############################
+
+@@@ Section 4 
+@@@ Video 12: (3 mins): IAM Introduction: User, Groups, Policies
+@@@ Video 13: (6 mins): IAM User, Groups Hands On
+@@@ Video 14: (3 mins): IAM Policies
+@@@ Video 15: (8 mins): IAM Policies Hands On
+@@@ Video 16: (4 mins): IAM MFA Overview
+@@@ Video 17: (4 mins): IAM MFA Hands On
+@@@ Video 18: (4 mins): AWS Access Keys, CLI and SDK
+
+How can user Access AWS?
+
+To Access AWS, you have three options:
+
+	AWS Management Console (protected by password + MFA)
+	AWS Command Line Interface (CLI) : protected by access keys
+	AWS Software Development Kit (SDK) : protected by access keys
+	
+Acess Keys are generated through the AWS Console
+users can manage their own access keys
+Access keys are secret, just like a password. Dont share them
+
+Access key ID ~= username
+Secret Access Key ~= password 
+
+
+AWS Command Line Interface (CLI):
+
+	A tool that enables you to interact with AWS Services using commands in your command line shell
+	Direct Access to the public APIs of AWS Services
+	You can develop scripts to manage your resources
+	Alternative to using AWS Management Console
+
+AWS Software Development Kit (SDK) :
+
+	Language-specific APIs (set of libraries)
+	Enables you to access and manage AWS Services programmatically
+	Embadded within your application
+	Supports SDK (javascript, Python, PHP, .Net, Ruby, Java, GO, Node.js, C++)
+	Mobile SDK (Android, iOS..)
+	IoT SDk
+
+@@@ Video 19: (2 mins): AWS CLI Setup on Windows
+
+download it from AWS website for file "AWSCLIV2.msi"
+in Windowns commend type the below command for checking:
+
+aws --version
+
+@@@ Video 20: (1 mins): AWS CLI Setup on Mac OS X
+@@@ Video 21: (2 mins): AWS CLI Setup on Linux
+@@@ Video 22: (4 mins): AWS CLI Hands On
+
+aws configure
+
+
+aws iam list-users
+
+@@@ Video 23: (4 mins): AWS Cloud Shell
+
+same like window command, but this one available in aws console itself
+@@@ Video 24: (2 mins): IAM Roles for AWS Services
+
+	some AWS Service will need to perform action on your behalf
+	To Do so, we will assign permissions to AWS services with IAM Roles
+	Common Roles	
+	
+		EC2 Instance Roles
+		Lambda function Roles
+		Roles for CloudFormation
+
+@@@ Video 25: (2 mins): IAM Roles Hands On
+@@@ Video 26: (1 mins): IAM Security Tools
+
+IAM Credentials Report (account-level)
+
+	a report that lists all your account's user and the status of their vaious credentials
+	
+IAM Access Advisor (user-level)
+
+	Access Advisor shows the service permissions granted to the user, and when those services were last accessed.
+	You can use this information to revise your policies.
+
+@@@ Video 27: (2 mins): IAM Security Tools Hands On
+@@@ Video 28: (1 mins): IAM Best Practices
+@@@ Video 29: (2 mins): Shared Responsibility Model for IAM
+@@@ Video 30: (1 mins): IAM Summary

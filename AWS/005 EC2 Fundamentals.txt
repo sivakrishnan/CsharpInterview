@@ -1,0 +1,96 @@
+############################------------ EC2 Fundamentals (1hr and 28 mins) ------------############################
+
+@@@ Section 5
+@@@ Video 31: (5 mins): AWS Budget Setup
+@@@ Video 32: (5 mins): EC2 Basics
+
+EC2--> Elastic Compute Cloud (Infrastructure as a Service)
+
+It mainly consists in the capability of:
+
+	Renting Virtual Machines (EC2)
+	Storing data in virtual drives (EBS)
+	Distributing Load across machines (ELB)
+	Scaling the services using an Auto-Scaling Group (ASG)
+
+EC2 Sizing & Configuration Options
+
+	Operating Systems: Linux, Windows or Mac
+	How much Compute Power and Core (CPU)
+	How much Random Access Memory (RAM)
+	How much Storage Space:
+		Network Attached:(EBS, EFS)
+		hardware (EC2 Instance Store)
+	Network Card: speed of the card, public IP Address
+	Firewall rules: security groups
+	Bootstrap scripts(configure at first launch): EC2 User data
+		It is possible to bootstrap our instances using an EC2 User Data Script
+		bootstrapping means launching commands when a machine starts
+		That scripts is only run once at the instance first starts
+		EC2 User Data, is used to automate boots tasks such as:
+		
+			Installing updates
+			Installing software
+			Downloading common files from the internet
+	
+	m5.2xlarge
+	
+	m-> Instance Class
+	5-> generation(AWS improves them over time)
+	2xlarge ->size within the instance class
+	
+	
+
+		
+
+
+
+@@@ Video 33: (14 mins): Create an EC2 instance withh EC2 User Data to have a websit handson
+@@@ Video 34: (6 mins): EC2 Instance Types Basics
+
+	EC2 Instances Types
+	
+		General Purpose
+		Compute Optimized
+		Memory Optimized
+		Accelarated Computing
+		Storage Optimized
+		HPC Optimized (High Performance Computing)
+		Instance Feature
+		Messuring Instance Performance
+		
+@@@ Video 35: (7 mins): Security Groups & Classic Ports Overview
+
+	Security Groups are the fundamental of network security in AWS
+	They control how traffic is allowed into or out of our EC2 instances
+	Security Groups only contain "Allow" rules
+	Security Groups rules can reference by IP or by security group
+
+
+	Security groups are acting as a "Firewall" on EC2 instances
+	They regulates:
+	
+		Access to the ports
+		Authorized IP address (IPv4 and IPv6
+		Control of inbound network (by default all the inbound traffic are blocked
+		Control of outbound network (by default all the outbound traffic are authorized)
+		
+	Classic Ports to know
+	
+		22---> SSH (Secure Shell) - log into linux instance
+		21---> FTP (File Transfer Protocol) uploads files into a file share
+		22---> SFTP (Secure File Transfer Protocol) upload files using SSH
+		80---> HTTP - access unsecured websites
+		443---> HTTPS - access secured websites
+		3389---> RDP - (Remote Desktop Protocol) log into windows instance
+
+@@@ Video 36: (5 mins): Security Groups Hands On
+@@@ Video 37: (3 mins): SSH Overview
+@@@ Video 38: (7 mins): How to SSH using Linux and Mac
+@@@ Video 39: (6 mins): How to SSH using Windows
+@@@ Video 40: (5 mins): How to SSH using Windows 10
+@@@ Video 41: (1 mins): SSH Troubleshooting
+@@@ Video 42: (3 mins): EC2 Instance Connect
+@@@ Video 43: (4 mins): EC2 Instance Role Demo
+@@@ Video 44: (10 mins): EC2 Instance Purchasing Options
+@@@ Video 45: (6 mins): IP Address Changes in AWS

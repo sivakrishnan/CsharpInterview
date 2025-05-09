@@ -1,0 +1,15 @@
+############################------------ Getting Started with AWS ------------############################
+
+@@@ Section 3
+@@@ Video 8: (8 mins): AWS Cloud Overview: Regions & AZ
+
+AWS Regions
+AWS Availability Zone
+AWS Data Center
+AWS Edge Locations / Points of Presence
+
+@@@ Video 9: (1 mins): AWS Console UI Update
+@@@ Video 10: (4 mins): Tour of the AWS Console & Services in AWS
+@@@ Video 11: (2 mins): About the UI Changes in the Course
+
+

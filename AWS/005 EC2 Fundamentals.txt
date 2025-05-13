@@ -86,11 +86,61 @@ EC2 Sizing & Configuration Options
 
 @@@ Video 36: (5 mins): Security Groups Hands On
 @@@ Video 37: (3 mins): SSH Overview
+
+SSH Allows to control a virtual machine, all using the command line
+
+they way to connect with EC2 Instances
+
+Mac ---> SSH, EC2 Instance Connect
+Linux ---> SSH, EC2 Instance Connect
+Windows<10 ---> Putty, EC2 Instance Connect
+Windows>=10 ---> SSH, Putty, EC2 Instance Connect
+
 @@@ Video 38: (7 mins): How to SSH using Linux and Mac
 @@@ Video 39: (6 mins): How to SSH using Windows
 @@@ Video 40: (5 mins): How to SSH using Windows 10
+
+Open Command just type ----> ssh
+
+output:
+
+usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface] [-b bind_address]
+           [-c cipher_spec] [-D [bind_address:]port] [-E log_file]
+           [-e escape_char] [-F configfile] [-I pkcs11] [-i identity_file]
+           [-J destination] [-L address] [-l login_name] [-m mac_spec]
+           [-O ctl_cmd] [-o option] [-P tag] [-p port] [-Q query_option]
+           [-R address] [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]]
+           destination [command [argument ...]]
+		   
+so we can confirm that SSH is available
+
+go to the directory which have .pem file.
+
+type the following command in windows command
+
+---> cd "give the directory have .pem file"
+---> C:\Users\CIPL1543\Downloads> dir   to check weather the .pem file is available
+---> C:\Users\CIPL1543\Downloads>ssh -i .\MyFirstKeyPair.pem ec2-user@43.204.236.233
+
+
 @@@ Video 41: (1 mins): SSH Troubleshooting
 @@@ Video 42: (3 mins): EC2 Instance Connect
 @@@ Video 43: (4 mins): EC2 Instance Role Demo
+
+while u login with EC2 instance using SSH, dont use your user securitykey and Secret Access Key
+
+instead assign a "Role" to EC2 instance
+
 @@@ Video 44: (10 mins): EC2 Instance Purchasing Options
+
+EC2 instance Purchasing Options
+
+	1) On-Demand Instances
+	2) Reserved
+	3) Savings Plan
+	4) Spot Instances
+	5) Dedicated Hosts  ---> book an entire physical server
+	6) Dedicated Instances  ---> no other customer will share your hardware
+	7) Capacity Reservation
+	
 @@@ Video 45: (6 mins): IP Address Changes in AWS

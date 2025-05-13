@@ -1,0 +1,193 @@
+############################------------ AWS Serverless (3hr and 7 mins) ------------############################
+
+@@@ Section 21
+@@@ Video 266: (1 mins): AWS Lambda - Section Introduction
+@@@ Video 267: (2 mins): Serverless Introduction
+
+some Serverless service in AWS
+
+	1) AWS Lambda
+	2) DynamoDB
+	3) AWS Congnito
+	4) AWS API Gateway
+	5) Amazon S3
+	6) AWS SQS & SNS
+	7) AWS Kinesis Data Firehose
+	8) Aurora Serverless
+	9) Step Functions
+	10) Fragate
+	
+
+@@@ Video 268: (7 mins): AWS Lambda Overview
+
+	Virtual functions - no servers to manage
+	Limited by time - short executions
+	Run on-Demand
+	Scaling is automated
+	
+Benefit of Lambda
+
+	1) Easy pricing
+		Pay per request and compute time
+		Free tier of 1,000,000 AWS Lambda request and 4,00,000 GBs of compute time(lambda function runing time)
+	2) Integrated with many programming languages (node.js, javascript, c#, python, ruby, java, 
+	3) Easy monitoring with AWS CloudWatch
+	4) Easy to get more resources per functions (upto 10GB of RAM)
+	5) Increasing RAM will also improve CPU and Network
+		
+Lambda container images
+
+	The container image mush implement the Lambda Runtime API
+	ECS/Fragate is preferred for running arbitory Docker Images
+	
+	
+Example of Serverless Thumbnail creation
+
+					trigger								push
+S3 (store image)-------------->AWS Lambda Functions -------->  another or Same S3(store the thumbnail image)
+								create a Thumbnail
+													    push
+													----------> metadata in dynamoDB (image name, imagesize, Creation date)
+	
+
+@@@ Video 269: (10 mins): AWS Lambda First HandsOn
+@@@ Video 270: (2 mins): AWS Lambda synchronous Invocations
+
+Synchronous means, Results is returned right away (SDK, CLI, API Gateway, Application Load Balancer-ALB)
+
+				invoke
+SDK -------------------------------> Lambda Functions
+CLI <------------------------------
+		response
+		
+				invoke							proxy
+Client  --------------------> API --------------------->	Lambda 
+		<------------------	Gateway <--------------------	Function
+			Response						Response	
+
+Lambda - synchronous Invocations service
+
+User invoked:
+	
+	Elastic Load Balancing (Application Load Balancing)
+	Amazon API Gateway
+	Amazon CloudFont
+	Amazon S3 Batch
+	
+Service Invoked
+
+	Amazon Cognito
+	AWS Step Functions
+
+
+@@@ Video 271: (2 mins): AWS Lambda synchronous Invocations HandsOn
+
+Open AWS Cloudshell  and type the below command
+
+>aws lambda list-functions
+>aws lambda list-functions --region eu-west-1
+
+
+
+@@@ Video 272: (3 mins): Lambda & Application Load Balancer-ALB
+
+To expose a Lambda function as an HTTP(s) endpoint, you can use the Application Load Balancer or API Gateway
+the lambda function must be registered in a target group
+
+	ALB to Lambda: HTTP to Json
+
+			Request Payload for Lambda function
+
+			{
+				"requestContext":{
+					"elb":{
+						"targetGroupArn":"arn:aws:elasticloadBalancing:us-east-2:1234afebc3456"
+					}
+				},
+				"httpMethod": "GET",
+				"path": "/lambda",
+				"queryStringParameters":{
+					"query":"123344444",
+				},
+				"headers":{
+					"connection":"",
+					"host":"",
+					"user-agent":"",
+					"x-amzn-trace-id":"",
+					"x-forwarded-for":"",
+					"x-forwarded-port":"",
+					"x-forwarded-proto":"",
+				}, 
+				"body":"",
+				"isBase64Encoded":false
+			}
+	
+	Lambda to ALB Conversion : JSON to HTTP
+	
+		Response from the Lambda function		
+		
+		{
+			"statusCode":"",
+			"statusDescription":"",
+			"headers":{
+				"content-type":"text/html; charset=utf-8",
+			},
+			"body":"",
+			"isBase64Encoded":false
+		}
+		
+	ALB Multi-Value Headers
+	
+		ALB can support multi-value headers (ALB setting)
+		when u enable multi-value headers, http headers and query string parameter that are sent with multiple values are shown as arrays 
+		within the lambda event and response objects
+		
+		
+		Client------------------------------------------------------> ALB --------------------------------------------------------> Lambda
+		HTTP																											JSON
+http://example.com/path?name=tst1&name=tst2																	"queryStringParameters":{
+																													"name":[
+																														"tst1",
+																														"tst2"
+																													]
+																											}
+	
+@@@ Video 273: (8 mins):
+@@@ Video 274: (3 mins):
+@@@ Video 275: (6 mins):
+@@@ Video 276: (5 mins):
+@@@ Video 277: (2 mins):
+@@@ Video 278: (4 mins):
+@@@ Video 279: (7 mins):
+
+
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):
+@@@ Video 266: (1 mins):

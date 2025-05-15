@@ -1,0 +1,112 @@
+
+1) callbacks
+2) promises
+3) async/await
+4) Strict mode
+5) Higher order function
+6) call, apply, bind
+7) scope
+8) closures
+9) Hoisting
+10) IIFE (Immediately Invoked Function Expression)
+11) Currying
+12) Debouncing
+13) Throttling
+14) polyfills
+
+
+
+################# 5) Higher order function
+
+Higher-order functions can both accept and return functions, enabling powerful patterns like function composition.
+
+const funcAddbyFive = function addbyFive(x){
+    return x+5
+}
+
+const funcMultiplybyTwo = function multiplybyTwo(x){
+    return x*2
+}
+
+function functionCompose(addFunc, multiplyFunc){
+    return (x)=>{
+        return addFunc(multiplyFunc(x))
+    }
+}
+
+const final= functionCompose(funcAddbyFive, funcMultiplybyTwo)
+
+console.log(final(10))
+
+################# 6) call(), apply(), bind()
+
+let Employee={
+    firstName:'siva',
+    lastName:'krish',
+    getEmployeeName:function(greetings, companyName, methodtype){
+        return methodtype+'-'+ greetings+' '+companyName+' '+ this.firstName+' '+this.lastName
+    }
+}
+
+let AnotherEmployee={
+    firstName:'siva another',
+    lastName:'krish another',
+}
+console.log(Employee.getEmployeeName('welcome to', 'colan', 'simple')) // output siva krish
+
+console.log(Employee.getEmployeeName.call(AnotherEmployee, 'welcome to', 'colan', 'call'))
+
+let param=['welcome to', 'colan', 'apply']
+console.log(Employee.getEmployeeName.apply(AnotherEmployee, param))
+
+const bindFunction=Employee.getEmployeeName.bind(AnotherEmployee, 'welcome to', 'colan')
+console.log(bindFunction('bind'))
+
+
+################# 7) scope
+
+1. Global Scope
+2. Function Scope (Local Scope)
+3. Block Scope
+
+################# 8) closures
+
+Closure: The myCounter function creates a closure, allowing the inner function to access and modify the counter variable even after myCounter has finished executing.
+
+function myCounter() {
+  let counter = 0;
+  return function() {
+    counter++;
+    console.log(counter);
+  };
+}
+
+const add = myCounter();
+setInterval(add, 1000);
+
+
+################# 10) IIFE (Immediately Invoked Function Expression)
+
+const add=(function() {
+  let counter = 0;
+  return function() {
+    counter++;
+    console.log(counter);
+  };
+})();
+
+setInterval(add, 1000);
+
+
+################# 11) Currying- meaning combination of Higher order function ( a function return a function or accept a function as argument/parameter)
+, closure ( inner functon as access the parent function variable even the praent function get executed), Immediately Invoked Function)
+
+
+function add(a){
+    return function(b){
+        return function(c){
+            return a+b+c;
+        }
+    }
+}
+console.log(add(1)(2)(3))

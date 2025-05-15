@@ -110,3 +110,41 @@ function add(a){
     }
 }
 console.log(add(1)(2)(3))
+
+
+################# 15) Object creation in javascript
+
+	1) Object literal 
+	
+		const person={
+			name: 'siva',
+			age:45,
+			getDetails:function(){
+				console.log(`${this.name} age is ${this.age}`)
+			}
+		}
+		person.getDetails()
+
+	2) new Object()
+	
+		const obj=new Object();
+		obj.name='siva'
+		obj.age=35;
+
+		obj.getDetails=function(){
+			console.log(`age=${this.age} and name is ${this.name}`)
+		}
+		obj.getDetails();
+		
+	3) Constructor function
+	
+		function person(name, age){
+			this.myName=name;
+			this.myAge=age;
+		}
+		person.prototype.getDetails=function(){
+			console.log(`${this.myName} age is ${this.myAge}`)
+		}
+
+		const obj=new person('siva', 87)
+		obj.getDetails()

@@ -1,0 +1,66 @@
+aws --version
+aws configure
+
+aws ec2 describe-vpcs
+
+
+kubectl version --client
+eksctr version
+ 
+# Create Cluster
+eksctl create cluster --name=eksdemo1 \
+                      --region=us-east-1 \
+                      --zones=us-east-1a,us-east-1b \
+                      --without-nodegroup 
+
+eksctl create cluster --name=eksdemo1 \
+                      --region=ap-south-1 \
+                      --without-nodegroup 
+					  
+eksctl create cluster --name=eksdemo1 --region=ap-south-1 --without-nodegroup
+
+2025-05-21 12:35:59 [ℹ]  eksctl version 0.208.0
+2025-05-21 12:35:59 [ℹ]  using region ap-south-1
+2025-05-21 12:35:59 [ℹ]  setting availability zones to [ap-south-1c ap-south-1b ap-south-1a]
+2025-05-21 12:35:59 [ℹ]  subnets for ap-south-1c - public:192.168.0.0/19 private:192.168.96.0/19
+2025-05-21 12:35:59 [ℹ]  subnets for ap-south-1b - public:192.168.32.0/19 private:192.168.128.0/19
+2025-05-21 12:35:59 [ℹ]  subnets for ap-south-1a - public:192.168.64.0/19 private:192.168.160.0/19
+2025-05-21 12:36:00 [ℹ]  using Kubernetes version 1.32
+2025-05-21 12:36:00 [ℹ]  creating EKS cluster "eksdemo1" in "ap-south-1" region with
+
+after 20 mins
+
+2025-05-21 12:44:07 [ℹ]  creating addon: vpc-cni
+2025-05-21 12:44:07 [ℹ]  successfully created addon: vpc-cni
+2025-05-21 12:44:07 [ℹ]  creating addon: kube-proxy
+2025-05-21 12:44:08 [ℹ]  successfully created addon: kube-proxy
+2025-05-21 12:44:08 [ℹ]  creating addon: coredns
+2025-05-21 12:44:08 [ℹ]  successfully created addon: coredns
+2025-05-21 12:46:10 [ℹ]  waiting for the control plane to become ready
+2025-05-21 12:46:11 [✔]  saved kubeconfig as "C:\\Users\\CIPL1543\\.kube\\config"
+2025-05-21 12:46:11 [ℹ]  no tasks
+2025-05-21 12:46:11 [✔]  all EKS cluster resources for "eksdemo1" have been created
+2025-05-21 12:46:16 [ℹ]  kubectl command should work with "C:\\Users\\CIPL1543\\.kube\\config", try 'kubectl get nodes'
+2025-05-21 12:46:16 [✔]  EKS cluster "eksdemo1" in "ap-south-1" region is ready
+
+# Get List of clusters
+eksctl get cluster 
+eksctl get nodegroup --cluster=eksdemo1
+kubectl config view --minify
+
+eksctl utils associate-iam-oidc-provider --region ap-south-1 --cluster eksdemo1  --approve
+					  
+                 
+ eksctl create nodegroup --cluster=eksdemo1 --region=ap-south-1 --name=eksdemo1-ng-public1 --node-type=t3.medium --nodes=2 --nodes-min=2 --nodes-max=4 --node-volume-size=20 --ssh-access --ssh-public-key=kube-demo --managed --asg-access --external-dns-access --full-ecr-access --appmesh-access --alb-ingress-access 
+ eksctl create nodegroup --cluster=eksdemo1 --region=ap-south-1 --name=eksdemo1-ng-public1 --node-type=t2.micro --nodes=2 --nodes-min=2 --nodes-max=4 --node-volume-size=20 --ssh-access --ssh-public-key=kube-demo --managed --asg-access --external-dns-access --full-ecr-access --appmesh-access --alb-ingress-access 
+ 
+ will take 5 mins to create a node group
+ 
+ 
+ kubectl get nodes
+ kubectl get nodes -o wide
+ 
+ 
+ ssh -i kube-demo.pem ec2-user@13.203.158.241 (this is the public ip)
+ 
+ df -h (shows the disck space in server)

@@ -1,0 +1,37 @@
+############################------------ AWS CloudFormation (1hrs and 11 mins) ------------############################
+
+@@@ Section 18
+@@@ Video 198: (6 mins): AWS CloudFormation Overview
+
+ AWS CloudFormation - is a declarative way of outlining your AWS infrastructure, for any resource
+ 
+ Benefit
+ 
+	1) Infrastructure as code
+	2) Cost
+	3) Productivity
+	4) Separation of Cocern
+
+
+@@@ Video 199: (7 mins): AWS CloudFormation - Create Stack - Hands On
+@@@ Video 200: (7 mins): AWS CloudFormation - Update and Delete Stack - Hands On
+@@@ Video 201: (3 mins): AWS CloudFormation - YAML Crash Course
+
+Template’s Components
+• AWSTemplateFormatVersion – identifies the capabilities of the template “2010-09-09”
+• Description – comments about the template
+• Resources (MANDATORY) – your AWS resources declared in the template
+• Parameters – the dynamic inputs for your template
+• Mappings – the static variables for your template
+• Outputs – references to what has been created
+• Conditionals – list of conditions to perform resource creation
+
+
+@@@ Video 202: (6 mins): AWS CloudFormation - Resources
+@@@ Video 203: (7 mins): AWS CloudFormation - Parameters
+@@@ Video 204: (2 mins): AWS CloudFormation - Mappings 
+@@@ Video 205: (2 mins): AWS CloudFormation - Outputs and Exports
+@@@ Video 206: (2 mins): AWS CloudFormation - Conditions
+@@@ Video 207: (5 mins): AWS CloudFormation - Intrinsic functions
+@@@ Video 208: (6 mins): AWS CloudFormation - RollBacks
+@@@ Video 209: (3 mins): AWS CloudFormation - Service Role

@@ -1,0 +1,135 @@
+Step 1: Create Docker Hub Account
+
+sivakrishnancse052	
+
+------------------------------------------------------------------------
+
+Step 2: Sign In to Docker Desktop
+
+------------------------------------------------------------------------
+
+Step 3: Verify Docker Version and Log In via Command Line
+
+# Check Docker version
+docker version
+
+# Log in to Docker Hub
+docker login
+
+# To Logout from Docker Hub
+docker logout
+
+------------------------------------------------------------------------
+
+Step 4: Run the Base Nginx Container
+
+# Run the default Nginx Docker Image
+docker run --name <CONTAINER-NAME> -p <HOST_PORT>:<CONTAINER_PORT> -d <IMAGE_NAME>:<TAG>
+
+# Example:
+docker run --name myapp1 -p 8090:80 -d nginx
+
+# List running Docker containers
+docker ps
+
+# Access the application in your browser
+http://localhost:8090
+
+# Stop and remove the Docker container
+docker stop myapp1
+docker rm myapp1
+
+# Or force remove the container
+docker rm -f myapp1
+
+------------------------------------------------------------------------
+
+Step 5: Create Dockerfile and Customized index.html
+
+Create a Dockerfile:
+
+FROM nginx
+COPY index.html /usr/share/nginx/html
+
+
+Create a simple index.html:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StackSimplify</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      padding: 50px; 
+      background-color: rgb(197, 144, 144);
+    }
+    h1 { font-size: 50px; }
+    h2 { font-size: 40px; }
+    h3 { font-size: 30px; }
+    p { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to StackSimplify</h1>
+  <h2>Docker Image BUILD, RUN, TAG and PUSH to Docker Hub</h2>
+  <p>Learn technology through practical, real-world demos.</p>
+  <p>Application Version: v1</p>
+</body>
+</html>
+
+------------------------------------------------------------------------
+
+Step 6: Build Docker Image and Run It
+
+
+# Change to the directory containing your Dockerfile
+cd Dockerfiles
+
+# Build the Docker image
+docker build -t <IMAGE_NAME>:<TAG> .
+
+# Example:
+docker build -t mynginx-custom:v1 .
+
+# List Docker images
+docker images
+
+# Run the Docker container and verify
+docker run --name <CONTAINER-NAME> -p <HOST_PORT>:<CONTAINER_PORT> -d <IMAGE_NAME>:<TAG>
+
+# Example:
+docker run --name mynginx1 -p 8090:80 -d mynginx-custom:v1
+
+# Access the application in your browser
+http://localhost:8090
+
+
+------------------------------------------------------------------------
+
+Step 7: Tag and Push the Docker Image to Docker Hub
+
+
+# List Docker images
+docker images
+
+# Tag the Docker image
+docker tag mynginx-custom:v1 YOUR_DOCKER_USERNAME/mynginx-custom:v1
+
+
+# Example with 'stacksimplify':
+docker tag mynginx-custom:v1 stacksimplify/mynginx-custom:v1
+docker tag mynginx-custom:v1 sivakrishnancse052/mynginx-custom:v1
+
+# Push the Docker image to Docker Hub
+docker push YOUR_DOCKER_USERNAME/mynginx-custom:v1
+
+# Example with 'stacksimplify':
+docker push stacksimplify/mynginx-custom:v1
+docker push sivakrishnancse052/mynginx-custom:v1
+
+# IMPORTANT NOTE:
+# Replace YOUR_DOCKER_USERNAME with your actual Docker Hub username.

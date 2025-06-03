@@ -133,3 +133,9 @@ docker rmi <IMAGE-NAME>:<IMAGE-TAG>
 
 # Example:
 docker rmi stacksimplify/mynginx:v1
+
+#Remove all the running images
+docker rmi $(docker images -q)
+
+#Remove all the running and not running images
+docker rmi $(docker images -aq)

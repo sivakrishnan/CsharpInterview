@@ -1,0 +1,54 @@
+Step 2: Create Dockerfile and Copy Customized Files
+
+# Use nginx:alpine-slim as base Docker Image
+FROM nginx:alpine-slim
+
+# OCI Labels
+LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
+LABEL org.opencontainers.image.title="Demo: COPY vs ADD Instructions in Dockerfile"
+LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the differences between COPY and ADD instructions, including copying files and extracting tarballs."
+LABEL org.opencontainers.image.version="1.0"
+
+# Using COPY to copy a local file
+COPY copy-file.html /usr/share/nginx/html
+
+# Using ADD to extract a tarball
+ADD file5.zip /usr/share/nginx/html
+
+
+----------------------------------------------------------------------------------
+
+Step 3: Build Docker Image and Run It
+
+# Change Directory
+cd Dockerfiles
+
+# Build Docker Image
+docker build -t [IMAGE-NAME]:[IMAGE-TAG] .
+
+# Example:
+docker build -t demo5-dockerfile-add-vs-copy:v1 .
+
+# Run Docker Container and Verify
+docker run --name my-add-vs-copy-demo -p 8080:80 -d demo5-dockerfile-add-vs-copy:v1
+
+# List Static Files from Docker Container
+docker exec -it my-add-vs-copy-demo ls -lrta /usr/share/nginx/html
+
+
+# Access Application
+http://localhost:8080
+
+----------------------------------------------------------------------------------
+
+Step 4: Stop and Remove Container and Images
+
+# Stop and remove the container
+docker rm -f my-add-vs-copy-demo
+
+# Remove the Docker images
+docker rmi stacksimplify/demo5-dockerfile-add-vs-copy:v1
+docker rmi demo5-dockerfile-add-vs-copy:v1
+
+# List Docker Images to confirm removal
+docker images

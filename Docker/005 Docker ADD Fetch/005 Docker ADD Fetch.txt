@@ -1,0 +1,52 @@
+Step 2: Create Dockerfile and Add Instructions
+
+# Use nginx:alpine-slim as base Docker Image
+FROM nginx:alpine-slim
+
+# OCI Labels
+LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
+LABEL org.opencontainers.image.title="Demo: Using ADD Instruction to Fetch Files from a URL in Dockerfile"
+LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the ADD instruction, which demonstrates how to download and add content from a GitHub Releases URL to the container."
+LABEL org.opencontainers.image.version="1.0"
+
+# Using GitHub Repository to download files
+ADD https://github.com/stacksimplify/docker-add-fetch-url-demo.git#v1.0.0:docs /usr/share/nginx/html
+
+----------------------------------------------------------------------------------
+
+Step 3: Build Docker Image and Run It
+
+# Change Directory
+cd Dockerfiles
+
+# Build Docker Image
+docker build -t [IMAGE-NAME]:[IMAGE-TAG] .
+
+# Example:
+docker build -t demo6-dockerfile-add-fetch-url:v1 .
+
+# Run Docker Container and Verify
+docker run --name my-add-fetch-url-demo -p 8080:80 -d demo6-dockerfile-add-fetch-url:v1
+
+# List Static Files from Docker Container
+docker exec -it my-add-fetch-url-demo ls -l /usr/share/nginx/html
+
+# Access Application
+http://localhost:8080
+
+----------------------------------------------------------------------------------
+
+Step 4: Stop and Remove Container and Images
+
+# Stop and remove the container
+docker rm -f my-add-fetch-url-demo
+
+# Remove the Docker images
+docker rmi [DOCKER_USERNAME]/[IMAGE-NAME]:[IMAGE-TAG]
+docker rmi [IMAGE-NAME]:[IMAGE-TAG]
+
+# Example:
+docker rmi demo6-dockerfile-add-fetch-url:v1
+
+# List Docker Images to confirm removal
+docker images

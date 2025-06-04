@@ -1,0 +1,75 @@
+Step 1: Create Dockerfile with ARG Instruction
+
+# Define a build-time argument for the NGINX version
+ARG NGINX_VERSION=1.26
+
+# Use nginx:alpine-slim as base Docker Image with specified NGINX_VERSION
+FROM nginx:${NGINX_VERSION}-alpine-slim
+
+# OCI Labels
+LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
+LABEL org.opencontainers.image.title="Demo: Using ARG Instruction"
+LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the ARG instruction"
+LABEL org.opencontainers.image.version="1.0"
+
+# Copy a custom index.html to the Nginx HTML directory
+COPY index.html /usr/share/nginx/html
+
+
+-------------------------------------------------------------------------------------------------------
+
+Create a simple index.html:
+
+<!DOCTYPE html> 
+<html> 
+  <body style='background-color:rgb(227, 213, 180);'> 
+    <h1>Welcome to StackSimplify - ARG Build-time Variables</h1> 
+    <p>Learn technology through practical, real-world demos.</p> 
+    <p>Application Version: V1</p>     
+  </body>
+</html>
+
+-------------------------------------------------------------------------------------------------------
+
+Step 2: Build Docker Images and Run Them
+
+
+# Change to the directory containing your Dockerfile
+cd Dockerfiles
+
+# Build Docker Image using the default NGINX_VERSION from the Dockerfile
+docker build -t [IMAGE-NAME]:[IMAGE-TAG] .
+
+# Example:
+docker build -t demo7-dockerfile-arg:v1.26 .
+
+# Run Docker Container and Verify
+docker run --name my-arg-demo1 -p 8080:80 -d demo7-dockerfile-arg:v1.26
+
+# Verify Nginx version inside the container
+docker exec -it my-arg-demo1 nginx -v
+
+# Access the application in your browser
+http://localhost:8080
+
+-------------------------------------------------------------------------------------------------------
+
+
+Build Docker Image by Overriding ARG Value
+
+
+
+# Build Docker Image by specifying a different NGINX_VERSION at build time
+docker build --build-arg NGINX_VERSION=1.27 -t [IMAGE-NAME]:[IMAGE-TAG] .
+
+# Example:
+docker build --build-arg NGINX_VERSION=1.27 -t demo7-dockerfile-arg:v1.27 .
+
+# Run Docker Container and Verify
+docker run --name my-arg-demo2 -p 8081:80 -d demo7-dockerfile-arg:v1.27
+
+# Verify Nginx version inside the container
+docker exec -it my-arg-demo2 nginx -v
+
+# Access the application in your browser
+http://localhost:8081

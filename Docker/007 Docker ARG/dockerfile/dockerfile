@@ -1,3 +1,6 @@
+# Define a build-time argument for the NGINX version
+ARG NGINX_VERSION=1.26
+
 # Use nginx:alpine-slim as base Docker Image with specified NGINX_VERSION
 FROM nginx:${NGINX_VERSION}-alpine-slim
 

@@ -73,3 +73,23 @@ docker exec -it my-arg-demo2 nginx -v
 
 # Access the application in your browser
 http://localhost:8081
+
+-------------------------------------------------------------------------------------------------------
+
+Step 3: Stop and Remove Containers and Images
+
+
+# Stop and remove the containers
+docker rm -f my-arg-demo1
+docker rm -f my-arg-demo2
+
+# Remove the Docker images from local machine
+docker rmi [DOCKER_USERNAME]/[IMAGE-NAME]:[IMAGE-TAG]
+docker rmi [IMAGE-NAME]:[IMAGE-TAG]
+
+# Examples:
+docker rmi demo7-dockerfile-arg:v1.26
+docker rmi demo7-dockerfile-arg:v1.27
+
+# List Docker Images to confirm removal
+docker images

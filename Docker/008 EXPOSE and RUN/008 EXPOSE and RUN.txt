@@ -1,0 +1,104 @@
+Step 1: Application Files
+
+
+Directory: DockerFiles/nginx-conf
+
+	nginx-8081.conf
+	nginx-8082.conf
+	nginx-8083.conf
+	
+Directory: DockerFiles/nginx-html
+
+
+	index-8081.html
+	index-8082.html
+	index-8083.html
+	index.html
+	
+-------------------------------------------------------------------------------------------------------
+
+Step 2: Create Dockerfile
+
+
+# Use nginx:alpine-slim as base Docker Image
+FROM nginx:alpine-slim
+
+# OCI Labels
+LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
+LABEL org.opencontainers.image.title="Demo: Using RUN and EXPOSE Instructions in Dockerfile"
+LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the usage of RUN and EXPOSE instructions"
+LABEL org.opencontainers.image.version="1.0"
+
+# Copy all Nginx configuration files from nginx-conf directory
+COPY nginx-conf/*.conf /etc/nginx/conf.d/
+
+# Copy all HTML files from nginx-html directory
+COPY nginx-html/*.html /usr/share/nginx/html/
+
+# Install curl using RUN
+RUN apk --no-cache add curl
+
+# Expose the ports 8081, 8082, 8083 (default port 80 already exposed from base nginx image)
+EXPOSE 8081 8082 8083
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 3: Build Docker Image and Run It
+
+# Change Directory
+cd DockerFiles
+
+# Build Docker Image 
+docker build -t [IMAGE-NAME]:[IMAGE-TAG] .
+
+# Example:
+docker build -t demo8-dockerfile-expose-run:v1 .
+
+# Inspect Labels
+docker image inspect demo8-dockerfile-expose-run:v1
+
+# Run Docker Container and Map Ports
+docker run --name my-expose-run-demo -p 8080:80 -p 8081:8081 -p 8082:8082 -p 8083:8083 -d demo8-dockerfile-expose-run:v1
+
+# Access Application in Browser
+http://localhost:8080
+http://localhost:8081
+http://localhost:8082
+http://localhost:8083
+
+# List Configuration Files from Docker Container
+docker exec -it my-expose-run-demo ls /etc/nginx/conf.d
+
+# List HTML Files from Docker Container
+docker exec -it my-expose-run-demo ls /usr/share/nginx/html
+
+# Connect to Container Shell
+docker exec -it my-expose-run-demo /bin/sh
+
+# Commands to Run inside the Container
+curl http://localhost
+curl http://localhost:8081
+curl http://localhost:8082
+curl http://localhost:8083
+
+# Exit the Container Shell
+exit
+
+-------------------------------------------------------------------------------------------------------
+
+Step 4: Stop and Remove Container and Images
+
+
+# Stop and Remove the Container
+docker rm -f my-expose-run-demo
+
+# Remove the Docker Images
+docker rmi [DOCKER_USERNAME]/[IMAGE-NAME]:[IMAGE-TAG]
+docker rmi [IMAGE-NAME]:[IMAGE-TAG]
+
+# Examples:
+docker rmi demo8-dockerfile-expose-run:v1
+
+# List Docker Images to Confirm Removal
+docker images

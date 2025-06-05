@@ -1,0 +1,96 @@
+Step 1: Create Dockerfile and Custom index.html
+
+
+# Use nginx:alpine-slim as base Docker Image
+FROM nginx:alpine-slim
+
+# OCI Labels
+LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
+LABEL org.opencontainers.image.title="Demo: CMD Instruction in Docker"
+LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the CMD instruction"
+LABEL org.opencontainers.image.version="1.0"
+
+# Copy a custom index.html to the Nginx HTML directory
+COPY index.html /usr/share/nginx/html
+
+# Default CMD to start Nginx in the foreground
+CMD ["nginx", "-g", "daemon off;"]
+
+
+Create a simple index.html:
+
+<!DOCTYPE html> 
+<html> 
+  <body style='background-color:rgb(227, 213, 180);'> 
+    <h1>Welcome to StackSimplify - CMD  Dockerfile Instruction</h1> 
+    <p>Learn technology through practical, real-world demos.</p> 
+    <p>Application Version: V1</p>     
+    <p>CMD: Specify default commands.</p>     
+  </body>
+</html>
+-------------------------------------------------------------------------------------------------------
+
+Step 2: Build Docker Image and Run It
+
+# Change to the directory containing your Dockerfile
+cd DockerFiles
+
+# Build the Docker Image
+docker build -t [IMAGE_NAME]:[TAG] .
+
+# Example:
+docker build -t demo10-dockerfile-cmd:v1 .
+
+# check the images using inspect command
+docker image inspect demo4-dockerfile-labels:v1
+
+# Run the Docker Container
+docker run --name my-cmd-demo1 -p 8080:80 -d demo10-dockerfile-cmd:v1
+
+# Verify Nginx is running inside the container
+docker exec -it my-cmd-demo1 ps aux
+
+# Expected Output:
+# You should see the Nginx process running with 'nginx: master process nginx -g daemon off;'
+
+# Access the application in your browser
+http://localhost:8080
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 3: Run Docker Container by Overriding CMD
+
+# Run Docker Container by overriding the CMD instruction
+docker run --name my-cmd-demo2 -it demo10-dockerfile-cmd:v1 /bin/sh
+
+# Run inside container ps aux
+ps aux
+
+# Expected Output:
+# Nginx is not running because the CMD has been overridden with '/bin/sh'
+
+# You can start Nginx manually if desired:
+nginx -g 'daemon off;'
+
+# To exit the container shell:
+exit
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 4: Stop and Remove Containers and Images
+
+# Stop and remove the containers
+docker rm -f my-cmd-demo1
+docker rm -f my-cmd-demo2
+
+# Remove the Docker images from local machine
+docker rmi [DOCKER_USERNAME]/[IMAGE_NAME]:[TAG]
+docker rmi [IMAGE_NAME]:[TAG]
+
+# Example:
+docker rmi demo10-dockerfile-cmd:v1
+
+# List Docker Images to confirm removal
+docker images

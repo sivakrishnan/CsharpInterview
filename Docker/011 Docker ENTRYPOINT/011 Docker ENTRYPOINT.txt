@@ -1,0 +1,59 @@
+Step 1: Create Dockerfile
+
+# Use ubuntu as base Docker Image
+FROM ubuntu
+
+# OCI Labels
+LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
+LABEL org.opencontainers.image.title="Demo: ENTRYPOINT Instruction in Docker"
+LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the ENTRYPOINT instruction"
+LABEL org.opencontainers.image.version="1.0"
+
+# Always run the echo command as the entrypoint
+ENTRYPOINT ["echo", "Kalyan"]
+
+-------------------------------------------------------------------------------------------------------
+
+Step 2: Build Docker Image and Run It
+
+Build the Docker Image
+
+# Change to the directory containing your Dockerfile
+cd DockerFiles
+
+# Build the Docker Image
+docker build -t demo11-dockerfile-entrypoint:v1 .
+
+
+Demo 1: Use ENTRYPOINT As-Is
+# Run Docker Container and Verify
+docker run --name my-entrypoint-demo1 demo11-dockerfile-entrypoint:v1
+
+# Expected Output:
+# Kalyan
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------

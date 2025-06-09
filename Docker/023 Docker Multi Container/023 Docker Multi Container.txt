@@ -1,88 +1,194 @@
-Step 1: Create Dockerfile and Custom index.html
+Step 1: Introduction
+In this guide, we will deploy a multi-container application using Docker. The setup includes:
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
+Creating a Docker Network.
+Launching a MySQL Database container.
+Deploying a User Management WebApp container that connects to the MySQL database.
+Verifying the WebApp features, including user login, listing users, and creating new users.
+Cleaning up Docker resources.
 
-# OCI Labels
-LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
-LABEL org.opencontainers.image.version="1.0"
 
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
+-------------------------------------------------------------------------------------------------------
+Step 2: MySQL Database Container
+We'll begin by setting up the MySQL container to manage the application's backend database.
 
-# Using COPY to copy a local file
-COPY index.html /usr/share/nginx/html
+MySQL Container Setup
+# List existing Docker networks
+docker network ls
 
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
+# Create a new Docker network for the multi-container application
+docker network create ums-app
+
+# List networks to verify the creation of the new network
+docker network ls
+
+# List any existing Docker containers
+docker ps
+docker ps -a
+
+# Create and run the MySQL container
+docker run -d \
+    --network ums-app --network-alias mysql \
+    --name ums-mysqldb \
+    -v ums-mysql-data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=dbpassword11 \
+    -e MYSQL_DATABASE=webappdb \
+    -p 3306:3306 \
+    mysql:8.0
+
+
 
 -------------------------------------------------------------------------------------------------------
 
-Step 2: Build Docker Image and Run It
+Explanation:
 
-# Change to the directory containing your Dockerfile
-cd DockerFiles
+--network ums-app --network-alias mysql: Connects the MySQL container to the custom network with the alias mysql, making it accessible by this name to other containers.
+-v ums-mysql-data:/var/lib/mysql: Mounts a Docker volume for data persistence.
+Environment Variables:
+MYSQL_ROOT_PASSWORD: The MySQL root user password.
+MYSQL_DATABASE: Pre-creates a database named webappdb.
 
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
+-------------------------------------------------------------------------------------------------------
 
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
-
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
-
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
-
-# List Docker Containers
+Verify MySQL Container
+# List running containers to verify MySQL is running
 docker ps
 
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
+# List Docker volumes to check that the volume for MySQL data is created
+docker volume ls
 
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
+# Connect to the MySQL container
+docker exec -it ums-mysqldb mysql -u root -pdbpassword11
 
-# Access the application in your browser
-http://localhost:8080
+# MySQL commands to verify the database
+mysql> show schemas;
+mysql> use webappdb;
+mysql> show tables;
+mysql> exit;
+Expected Output:
 
--------------------------------------------------------------------------------------------------------
-
-Step 3: Stop and Remove Container and Images
-
-
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
-
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
-
-# List Docker Images to confirm removal
-docker images
-
--------------------------------------------------------------------------------------------------------
-
-
+The schema webappdb should be present as it was pre-created for the application.
 
 
 -------------------------------------------------------------------------------------------------------
 
+Get MySQL Container IP Address
+# Fetch the IP address of the MySQL container
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ums-mysqldb
 
+
+-------------------------------------------------------------------------------------------------------
+
+Step 3: Test the Importance of the --network-alias Flag
+We'll test the DNS resolution within the Docker network to understand how the alias mysql works.
+
+# Run a troubleshooting container to test MySQL DNS resolution
+docker run --name test-mysql-dns -it --network ums-app nicolaka/netshoot
+
+# Inside the container, run the dig command to test DNS
+dig mysql
+Observation:
+
+The alias mysql should resolve to the IP address of the MySQL container, confirming the containers can communicate using DNS within the same Docker network.
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step 4: User Management WebApp Container
+Now we'll set up the User Management WebApp container, which will connect to the MySQL container.
+
+Pull and Run the WebApp Container
+Docker Image: ghcr.io/stacksimplify/usermgmt-webapp-v6:latest
+# Pull the User Management WebApp image
+docker pull ghcr.io/stacksimplify/usermgmt-webapp-v6:latest
+
+# Run the WebApp container and link it to the MySQL container
+docker run -d \
+    --network ums-app \
+    --name ums-app \
+    -e DB_HOSTNAME=mysql \
+    -e DB_PORT=3306 \
+    -e DB_NAME=webappdb \
+    -e DB_USERNAME=root \
+    -e DB_PASSWORD=dbpassword11 \
+    -p 8080:8080 \
+    ghcr.io/stacksimplify/usermgmt-webapp-v6:latest
+
+
+-------------------------------------------------------------------------------------------------------
+
+Explanation:
+
+Environment Variables: These connect the WebApp to the MySQL container:
+DB_HOSTNAME: The hostname is set to mysql (the alias created).
+DB_PORT: Port number of MySQL (3306).
+DB_NAME, DB_USERNAME, DB_PASSWORD: Credentials for the MySQL database.
+
+-------------------------------------------------------------------------------------------------------
+
+Verify the WebApp
+# List running containers to verify both MySQL and WebApp are running
+docker ps 
+
+# View logs of the WebApp container to ensure successful startup
+docker logs -f ums-app
+
+-------------------------------------------------------------------------------------------------------
+
+Step 5: Verify and Access the Application
+Check Database for Users
+# Connect to the MySQL container to verify the WebApp has interacted with the database
+docker exec -it ums-mysqldb mysql -u root -pdbpassword11
+
+# MySQL commands to check the user data
+mysql> show schemas;
+mysql> use webappdb;
+mysql> show tables;
+mysql> select * from user;
+Observation:
+
+After WebApp initialization, a default admin user should be present in the user table.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Access the WebApp
+Open your browser and navigate to http://localhost:8080.
+
+Use the default credentials to log in:
+
+Username: admin101
+Password: password101
+Create a New User in the WebApp
+
+Create a new user with the following details:
+
+Username: admin102
+Password: password102
+First Name: fname102
+Last Name: lname102
+Email: email102@kalyan.com
+SSN: ssn102
+Log in with the newly created user.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 6: Clean-Up
+Once you're done with the deployment, clean up the Docker environment.
+
+# Delete all running Docker containers
+docker rm -f $(docker ps -aq)
+
+# Delete all Docker images
+docker rmi $(docker images -q)
+
+# Delete Docker volumes (optional)
+docker volume rm ums-mysql-data 
 
 
 -------------------------------------------------------------------------------------------------------
 
 
 
-
--------------------------------------------------------------------------------------------------------
-
-
-
-
--------------------------------------------------------------------------------------------------------

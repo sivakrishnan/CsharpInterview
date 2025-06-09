@@ -1,0 +1,130 @@
+
+Step 1: Start a Container with a Volume Using --mount Flag
+
+Single-Line Format
+# Start a container with a named volume using the --mount flag
+docker run --name volume-demo1 -p 8090:80 --mount type=volume,source=myvol101,target=/myapps -d nginx:alpine-slim
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+Readable Format
+docker run \
+    --name volume-demo1 \
+    -p 8090:80 \
+    --mount type=volume,source=myvol101,target=/myapps \
+    -d \
+    nginx:alpine-slim
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+Verify the Container and Volume Mount
+
+# List Docker Containers
+docker ps
+
+# Format the output for clarity
+docker ps --format "table {{.Image}}\t{{.Names}}\t{{.Status}}\t{{.ID}}\t{{.Ports}}"
+
+# Connect to the container
+docker exec -it volume-demo1 /bin/sh
+
+# Inside the container, check the mounted volumes
+df -h
+
+# Navigate to the mounted directory
+cd /myapps
+
+# List contents (should be empty initially)
+ls
+
+# Exit the container shell
+exit
+
+
+-------------------------------------------------------------------------------------------------------
+
+Inspect the Docker Container
+
+# Inspect the container's mounts
+docker inspect volume-demo1
+
+# Extract just the Mounts information in JSON format
+docker inspect --format='{{json .Mounts}}' volume-demo1
+
+# For better readability, pipe the output to 'jq' (JSON processor)
+docker inspect --format='{{json .Mounts}}' volume-demo1 | jq
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 2: Start a Container with a Volume Using -v Flag
+
+Single-Line Format
+# Start a container with a named volume using the -v flag
+docker run --name volume-demo2 -p 8091:80 -v myvol102:/myapps -d nginx:alpine-slim
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+Readable Format
+docker run \
+    --name volume-demo2 \
+    -p 8091:80 \
+    -v myvol102:/myapps \
+    -d \
+    nginx:alpine-slim
+
+
+-------------------------------------------------------------------------------------------------------
+
+Verify the Container and Volume Mount
+
+# List Docker Containers
+docker ps
+
+# Format the output for clarity
+docker ps --format "table {{.Image}}\t{{.Names}}\t{{.Status}}\t{{.ID}}\t{{.Ports}}"
+
+# Connect to the container
+docker exec -it volume-demo2 /bin/sh
+
+# Inside the container, check the mounted volumes
+df -h
+
+# Navigate to the mounted directory
+cd /myapps
+
+# List contents (should be empty initially)
+ls
+
+# Exit the container shell
+exit
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+Clean-Up
+After completing the steps, it's good practice to clean up the Docker resources to free up system resources.
+
+# Stop and remove all containers
+docker rm -f $(docker ps -aq)
+
+# Remove all Docker images (use with caution)
+docker rmi $(docker images -q)
+
+# Remove the volumes if desired
+docker volume rm myvol101 myvol102
+
+# Verify that volumes are removed
+docker volume ls
+
+
+
+-------------------------------------------------------------------------------------------------------

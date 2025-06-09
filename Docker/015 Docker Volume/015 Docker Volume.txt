@@ -1,69 +1,103 @@
-Step 1: Create Dockerfile and Custom index.html
+Step 1: Create Docker Volumes Using CLI
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
 
-# OCI Labels
-LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
-LABEL org.opencontainers.image.version="1.0"
+Create a Named Volume
+To create a named Docker volume using the CLI:
 
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
+# Create a named Docker volume
+docker volume create my-volume1
 
-# Using COPY to copy a local file
-COPY index.html /usr/share/nginx/html
+# List Docker volumes
+docker volume ls
 
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
+# Inspect the Docker volume
+docker volume inspect my-volume1
 
 -------------------------------------------------------------------------------------------------------
 
-Step 2: Build Docker Image and Run It
+Create an Anonymous Volume
+To create an anonymous Docker volume (a volume without a name):
 
-# Change to the directory containing your Dockerfile
-cd DockerFiles
+# Create an anonymous Docker volume
+docker volume create
 
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
+# List Docker volumes
+docker volume ls
 
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
+# Example output might show a volume with a long ID like:
+# local     a114ae62254967bb4c9933ad6fdd82a6652dd8b0933ffdb4c818e8ed1a9c13f5
 
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
-
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
-
-# List Docker Containers
-docker ps
-
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
-
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
-
-# Access the application in your browser
-http://localhost:8080
+# Inspect the anonymous Docker volume
+docker volume inspect a114ae62254967bb4c9933ad6fdd82a6652dd8b0933ffdb4c818e8ed1a9c13f5
 
 -------------------------------------------------------------------------------------------------------
 
-Step 3: Stop and Remove Container and Images
+Step 2: Create Docker Volumes Using Docker Desktop
+Create a Named Volume
+You can also create Docker volumes using Docker Desktop:
+
+Open Docker Desktop.
+Navigate to the Volumes tab.
+Click on Create.
+In the Volume Name field, enter my-volume2.
+Click on Create.
+Create an Anonymous Volume
+
+To create an anonymous volume (without a name) using Docker Desktop:
+
+Open Docker Desktop.
+Navigate to the Volumes tab.
+Click on Create.
+Leave the Volume Name field empty.
+Click on Create.
 
 
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
 
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
+-------------------------------------------------------------------------------------------------------
 
-# List Docker Images to confirm removal
-docker images
+Step 3: Remove Unused Docker Volumes with docker volume prune
+The docker volume prune command is used to remove all unused local volumes. This is useful for cleaning up space by removing volumes that are no longer in use.
+
+# Prune unused Docker volumes (will remove anonymous volumes not used by any container)
+docker volume prune
+
+# To confirm the action, type 'y' when prompted.
+
+# Prune all unused Docker volumes (including named volumes not used by any container)
+docker volume prune -a
+
+# List Docker volumes to verify
+docker volume ls
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step 4: Remove Docker Volumes with docker volume rm
+The docker volume rm command allows you to remove one or more specific volumes.
+
+# Create a named Docker volume
+docker volume create my-volume6
+
+# Create an anonymous Docker volume
+docker volume create
+
+# List Docker volumes
+docker volume ls
+
+# Example output:
+# DRIVER    VOLUME NAME
+# local     my-volume6
+# local     a69ef20af8869c0631b7ecc33400a56e2b56fa0cbdf9f14deed938f4c7520051
+
+# Remove a named Docker volume
+docker volume rm my-volume6
+
+# Remove an anonymous Docker volume by specifying its ID
+docker volume rm a69ef20af8869c0631b7ecc33400a56e2b56fa0cbdf9f14deed938f4c7520051
+
+# List Docker volumes to confirm removal
+docker volume ls
 
 -------------------------------------------------------------------------------------------------------
 

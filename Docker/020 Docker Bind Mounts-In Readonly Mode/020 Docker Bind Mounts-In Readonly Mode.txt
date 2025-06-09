@@ -1,88 +1,282 @@
-Step 1: Create Dockerfile and Custom index.html
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
+Step 1: Prepare Host Directory with Static Content
 
-# OCI Labels
-LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
-LABEL org.opencontainers.image.version="1.0"
-
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
-
-# Using COPY to copy a local file
-COPY index.html /usr/share/nginx/html
-
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
+Step 1.1: Review Directory Structure
+# Review Directory
+cd myfiles
 
 -------------------------------------------------------------------------------------------------------
 
-Step 2: Build Docker Image and Run It
+Step 2: Bind Mount Using --mount Flag (READ-ONLY)
+The --mount flag provides a clear and explicit syntax for bind mounts.
 
-# Change to the directory containing your Dockerfile
-cd DockerFiles
+Step 2.1: Run Docker Container with Bind Mount Using --mount
+# Navigate to the 'myfiles' directory
+cd myfiles
 
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
+# Single-Line Format
+docker run --name bind-demo3 -p 8093:80 --mount type=bind,source="$(pwd)"/static-content,target=/usr/share/nginx/html,readonly -d nginx:alpine-slim  
 
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
 
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
 
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
+-------------------------------------------------------------------------------------------------------
 
+# Readable Multi-Line Format
+docker run \
+  --name bind-demo3 \
+  -p 8093:80 \
+  --mount type=bind,source="$(pwd)"/static-content,target=/usr/share/nginx/html,readonly \
+  -d \
+  nginx:alpine-slim  
+Explanation:
+
+--name bind-demo3: Names the container bind-demo3.
+-p 8093:80: Maps host port 8093 to container port 80.
+--mount type=bind,source="$(pwd)"/static-content,target=/usr/share/nginx/html,readonly:
+type=bind: Specifies a bind mount.
+source="$(pwd)"/static-content: The directory on the host machine to mount.
+target=/usr/share/nginx/html: The directory inside the container where the host directory will be mounted.
+readonly: Mounts the directory in READ-ONLY mode, preventing any write operations within the container.
+-d nginx:alpine-slim: Runs the container in detached mode using the Nginx Alpine image.
+
+-------------------------------------------------------------------------------------------------------
+
+Step 2.2: Verify the Bind Mount
 # List Docker Containers
 docker ps
+docker ps --format "table {{.Image}}\t{{.Names}}\t{{.Status}}\t{{.ID}}\t{{.Ports}}"
+Example Output:
 
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
+IMAGE               NAMES         STATUS         ID                  PORTS
+nginx:alpine-slim   bind-demo3    Up 10 seconds   abcdef123456        0.0.0.0:8093->80/tcp
+Explanation:
 
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
-
-# Access the application in your browser
-http://localhost:8080
-
--------------------------------------------------------------------------------------------------------
-
-Step 3: Stop and Remove Container and Images
-
-
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
-
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
-
-# List Docker Images to confirm removal
-docker images
-
--------------------------------------------------------------------------------------------------------
-
-
+docker ps: Lists all running Docker containers.
+docker ps --format "table ...": Formats the output into a table for better readability.
 
 
 -------------------------------------------------------------------------------------------------------
 
 
+Step 2.3: Connect to Container and Verify
+# Connect to the Container
+docker exec -it bind-demo3 /bin/sh
+
+# Inside the Container: Check Disk Usage
+df -h | grep html
+
+# Navigate to the Mounted Directory
+cd /usr/share/nginx/html
+ls
+
+# Attempt to Create a New File (Read-Only)
+cp index.html reddy.html
+
+# Exit the Container Shell
+exit
+
+-------------------------------------------------------------------------------------------------------
+
+Observations:
+
+Mount Point Verification:
+
+/usr/share/nginx/html is mounted to the static-content directory on the host.
+Running df -h | grep html should show the mount point details.
+Example Output:
+
+/dev/sda1                58G      3.5G     51.8G   6% /usr/share/nginx/html
+Data Integrity:
+
+The static-content directory's contents are accessible within the container.
+Attempting to create a new file (reddy.html) will fail due to READ-ONLY permissions.
+Error Output:
+
+cp: can't create 'reddy.html': Read-only file system
+Accessing the Application:
+
+Open a browser and navigate to http://localhost:8093 to view the static content.
+Access http://localhost:8093/app1/index.html to view App1's static content.
+Attempting to access http://localhost:8093/reddy.html will result in a 404 error, confirming that the file was not created.
 
 
 -------------------------------------------------------------------------------------------------------
 
+Step 2.4: Inspect the Docker Container
+# Inspect Docker Container
+docker inspect bind-demo3
 
+# Extract Mounts Information in JSON Format
+docker inspect --format='{{json .Mounts}}' bind-demo3
+
+# Pretty-Print Mounts Information Using jq
+docker inspect --format='{{json .Mounts}}' bind-demo3 | jq 
 
 
 -------------------------------------------------------------------------------------------------------
 
+Explanation:
 
+Type: Indicates a bind mount.
+Source: The directory on the host machine.
+Destination: The directory inside the container where the bind mount is applied.
+Mode: Shows mount options, including readonly.
+RW: false denotes READ-ONLY access.
+Propagation: Mount propagation setting.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 2.5: Verify Using Docker Desktop
+Open Docker Desktop.
+Navigate to Containers:
+Select bind-demo3.
+Check Tabs:
+Bind Mounts: Verify that /usr/share/nginx/html is mounted correctly and marked as READ-ONLY.
+Files: Browse to /usr/share/nginx/html to view the files.
+Exec: Run df -h to confirm the mount point within the container.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 3: Bind Mount Using -v Flag (READ-ONLY)
+The -v or --volume flag provides a shorthand syntax for bind mounts.
+
+Step 3.1: Run Docker Container with Bind Mount Using -v
+# Navigate to the directory containing static content
+cd myfiles
+
+# Single-Line Format
+docker run --name bind-demo4 -p 8094:80 -v "$(pwd)"/static-content:/usr/share/nginx/html:ro -d nginx:alpine-slim  
+
+# Readable Multi-Line Format
+docker run \
+  --name bind-demo4 \
+  -p 8094:80 \
+  -v "$(pwd)"/static-content:/usr/share/nginx/html:ro \
+  -d \
+  nginx:alpine-slim  
+
+-------------------------------------------------------------------------------------------------------
+
+
+Explanation:
+
+--name bind-demo4: Names the container bind-demo4.
+-p 8094:80: Maps host port 8094 to container port 80.
+-v "$(pwd)"/static-content:/usr/share/nginx/html:ro:
+$(pwd)/static-content: The directory on the host machine to mount.
+/usr/share/nginx/html: The directory inside the container where the host directory will be mounted.
+:ro: Mounts the directory in READ-ONLY mode.
+-d nginx:alpine-slim: Runs the container in detached mode using the Nginx Alpine image.
+
+-------------------------------------------------------------------------------------------------------
+
+Step 3.2: Verify the Bind Mount
+# List Docker Containers
+docker ps
+docker ps --format "table {{.Image}}\t{{.Names}}\t{{.Status}}\t{{.ID}}\t{{.Ports}}"
+
+Explanation:
+
+docker ps: Lists all running Docker containers.
+docker ps --format "table ...": Formats the output into a table for better readability.
+
+-------------------------------------------------------------------------------------------------------
+
+Step 3.3: Connect to Container and Verify
+# Connect to the Container
+docker exec -it bind-demo4 /bin/sh
+
+# Inside the Container: Check Disk Usage
+df -h | grep html
+
+# Navigate to the Mounted Directory
+cd /usr/share/nginx/html
+ls
+
+# Attempt to Create a New File (Read-Only)
+cp index.html reddy2.html
+
+# Exit the Container Shell
+exit
+
+
+-------------------------------------------------------------------------------------------------------
+
+Observations:
+
+Mount Point Verification:
+
+/usr/share/nginx/html is mounted to the static-content directory on the host.
+Running df -h | grep html should show the mount point details.
+Example Output:
+
+/dev/sda1                58G      3.5G     51.8G   6% /usr/share/nginx/html
+Data Integrity:
+
+The static-content directory's contents are accessible within the container.
+Attempting to create a new file (reddy2.html) will fail due to READ-ONLY permissions.
+Error Output:
+
+cp: can't create 'reddy2.html': Read-only file system
+Accessing the Application:
+
+Open a browser and navigate to http://localhost:8094 to view the static content.
+Attempting to access http://localhost:8094/reddy2.html will result in a 404 error, confirming that the file was not created
+
+-------------------------------------------------------------------------------------------------------
+
+Step 3.4: Inspect the Docker Container
+# Inspect Docker Container
+docker inspect bind-demo4
+
+# Extract Mounts Information in JSON Format
+docker inspect --format='{{json .Mounts}}' bind-demo4
+
+# Pretty-Print Mounts Information Using jq
+docker inspect --format='{{json .Mounts}}' bind-demo4 | jq  
+
+
+-------------------------------------------------------------------------------------------------------
+
+Explanation:
+
+Type: Indicates a bind mount.
+Source: The directory on the host machine.
+Destination: The directory inside the container where the bind mount is applied.
+Mode: Shows mount options, including ro for read-only.
+RW: false denotes READ-ONLY access.
+Propagation: Mount propagation setting.
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step 3.5: Verify Using Docker Desktop
+Open Docker Desktop.
+Navigate to Containers:
+Select bind-demo4.
+Check Tabs:
+Bind Mounts: Verify that /usr/share/nginx/html is mounted correctly and marked as READ-ONLY.
+Files: Browse to /usr/share/nginx/html to view the files.
+Exec: Run df -h to confirm the mount point within the container.
+
+-------------------------------------------------------------------------------------------------------
+
+Step 4: Clean-Up
+After completing the demonstrations, it's important to clean up Docker resources to free up system resources and maintain a tidy environment.
+
+# Delete Docker Containers
+docker rm -f $(docker ps -aq)
+
+# Delete Docker Images
+docker rmi $(docker images -q)
+Explanation:
+
+docker rm -f $(docker ps -aq): Forcefully removes all Docker containers, both running and stopped.
+docker rmi $(docker images -q): Removes all Docker images from the system. Use with caution.
+docker volume ls: Lists all Docker volumes to verify existing volumes.
+docker volume rm myvol103: Deletes the specific Docker volume myvol103.
 
 
 -------------------------------------------------------------------------------------------------------

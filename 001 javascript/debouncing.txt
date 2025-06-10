@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The Element Object</h1>
+<h2>The addEventListener() Method</h2>
+
+<p>Execute a function when a user clicks on a button:</p>
+
+<input type="text" id="search" placeholder="Type to search..." />
+<label id="lblCheck">test</label>
+
+<p id="demo">
+
+<script>
+function debounce(func, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer); // reset the timer
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+}
+
+function searchHandler(event) {
+  console.log('Searching for:', event.target.value);
+  document.getElementById('lblCheck').innerHTML(event.target.value);
+}
+
+const debouncedSearch = debounce(searchHandler, 500); // runs after 500ms of no typing
+
+document.getElementById('search').addEventListener('input', debouncedSearch);
+
+</script>
+
+</body>
+</html>

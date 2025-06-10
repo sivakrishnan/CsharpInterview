@@ -13,6 +13,8 @@
 12) Debouncing
 13) Throttling
 14) polyfills
+15) Object creation in javascript
+16) setTimeout vs setTimeout
 
 
 
@@ -148,3 +150,16 @@ console.log(add(1)(2)(3))
 
 		const obj=new person('siva', 87)
 		obj.getDetails()
+		
+		
+################# 16) setTimeout vs setTimeout	
+
+function SayHelloFromSetTimeOut (){
+console.log('hai-setTimeout');
+}
+
+function SayHelloFromSetInterval (){
+console.log('hai-setInterval');
+}
+setTimeout( SayHelloFromSetTimeOut, 3000);
+setInterval(SayHelloFromSetInterval, 3000);

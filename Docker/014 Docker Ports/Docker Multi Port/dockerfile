@@ -16,7 +16,9 @@ LABEL nginx_port1=${NGINX_PORT1}
 LABEL nginx_port2=${NGINX_PORT2}
 
 # Install curl
+RUN apk --no-cache add ca-certificates && update-ca-certificates
 RUN apk --no-cache add curl
+
 
 # Create directories for serving content
 RUN mkdir -p /usr/share/nginx/html/app1 /usr/share/nginx/html/app2

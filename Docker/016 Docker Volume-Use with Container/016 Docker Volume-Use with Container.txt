@@ -36,11 +36,36 @@ docker exec -it volume-demo1 /bin/sh
 # Inside the container, check the mounted volumes
 df -h
 
+
+										C:\Users\CIPL1543>docker exec -it volume-demo1 /bin/sh
+										/ # df -h
+										Filesystem                Size      Used Available Use% Mounted on
+										overlay                1006.9G      4.5G    951.1G   0% /
+										tmpfs                    64.0M         0     64.0M   0% /dev
+										tmpfs                     7.8G         0      7.8G   0% /sys/fs/cgroup
+										shm                      64.0M         0     64.0M   0% /dev/shm
+										/dev/sdc               1006.9G      4.5G    951.1G   0% /myapps
+										/dev/sdc               1006.9G      4.5G    951.1G   0% /etc/resolv.conf
+										/dev/sdc               1006.9G      4.5G    951.1G   0% /etc/hostname
+										/dev/sdc               1006.9G      4.5G    951.1G   0% /etc/hosts
+										tmpfs                     7.8G         0      7.8G   0% /proc/acpi
+										tmpfs                    64.0M         0     64.0M   0% /proc/interrupts
+										tmpfs                    64.0M         0     64.0M   0% /proc/kcore
+										tmpfs                    64.0M         0     64.0M   0% /proc/keys
+										tmpfs                    64.0M         0     64.0M   0% /proc/timer_list
+										tmpfs                     7.8G         0      7.8G   0% /sys/firmware
+
 # Navigate to the mounted directory
 cd /myapps
 
 # List contents (should be empty initially)
 ls
+
+############################create file 
+
+C:\Users\CIPL1543>docker exec -it volume-demo1 /bin/sh
+/ # cd /myapps
+/myapps # echo "siva" > krish.txt
 
 # Exit the container shell
 exit

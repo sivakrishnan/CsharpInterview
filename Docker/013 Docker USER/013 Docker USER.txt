@@ -105,8 +105,11 @@ docker exec -it my-user-demo /bin/bash
 Observation:
 1. You should see you have logged into container using non-root user "mypythonuser"
 
+mypythonuser@618a0e9de3bb:/usr/src/app$ id
+uid=999(mypythonuser) gid=999(mypythongroup) groups=999(mypythongroup)
+
 # Inside the container, list files and their ownership
-ls -l
+ls -lrta
 Observation:
 1. app.py should have the user as mypythonuser and group as mypythongroup
 
@@ -121,6 +124,13 @@ env
 # Look for USER and GROUP variables
 # USER=mypythonuser
 # GROUP=mypythongroup
+
+mypythonuser@618a0e9de3bb:/usr/src/app$ env | grep user
+HOME=/home/mypythonuser
+USER=mypythonuser
+
+mypythonuser@618a0e9de3bb:/usr/src/app$ env | grep group
+GROUP=mypythongroup
 
 # Exit the container shell
 exit

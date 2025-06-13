@@ -35,6 +35,10 @@ docker run -d \
     -e MYSQL_DATABASE=webappdb \
     -p 3306:3306 \
     mysql:8.0
+	
+	
+	
+docker run -d --network ums-app --network-alias mysql --name ums-mysqldb  -v ums-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=dbpassword -e MYSQL_DATABASE=webappdb -p 3306:3306 mysql:8.0
 
 
 
@@ -114,6 +118,9 @@ docker run -d \
     -e DB_PASSWORD=dbpassword11 \
     -p 8080:8080 \
     ghcr.io/stacksimplify/usermgmt-webapp-v6:latest
+	
+	
+docker run -d --network ums-app --name ums-app -e DB_HOSTNAME=mysql -e DB_PORT=3306 -e DB_NAME=webappdb -e DB_USERNAME=root  -e DB_PASSWORD=dbpassword -p 8080:8080  ghcr.io/stacksimplify/usermgmt-webapp-v6:latest
 
 
 -------------------------------------------------------------------------------------------------------

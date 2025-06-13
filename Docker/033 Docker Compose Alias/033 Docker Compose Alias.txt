@@ -1,69 +1,204 @@
-Step 1: Create Dockerfile and Custom index.html
+Step-02: Review docker-compose.yaml
+name: ums-stack
+services:
+  web-nginx:
+    image: nginx:latest 
+    container_name: ums-nginx
+    ports:
+      - "8080:8080"  # NGINX listens on port 8080 of the host
+    depends_on:
+      app-ums:
+        condition: service_healthy
+        restart: true      
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Custom NGINX configuration
+    networks:
+      - frontend      
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/nginx-health"]  # Check if NGINX is responding
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
+  app-ums:
+    image: ghcr.io/stacksimplify/usermgmt-webapp-v6:latest 
+    ports:
+      - "8080"  # Only expose the container's port, let Docker choose the host port
+    deploy:
+      replicas: 1  # Scale the service to 3 instances       
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+        restart: true
+    environment:
+      - DB_HOSTNAME=db-mysql
+      - DB_PORT=3306
+      - DB_NAME=webappdb
+      - DB_USERNAME=root
+      - DB_PASSWORD=dbpassword11
+    networks:
+      frontend:
+        aliases:
+          - umsapp
+          - dev-umsapp  
+      backend: 
+        aliases:
+          - myspringapp
+          - myapiservices
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]   # Assuming /health is your app's health check endpoint
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-# OCI Labels
-LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
-LABEL org.opencontainers.image.version="1.0"
+  db-mysql:
+    container_name: ums-mysqldb
+    image: mysql:8.0-bookworm
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dbpassword11
+      MYSQL_DATABASE: webappdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mydb:/var/lib/mysql
+    networks:
+      - backend        
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pdbpassword11"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
+  netshoot:
+    image: nicolaka/netshoot
+    container_name: ums-netshoot
+    entrypoint: ["sleep", "infinity"]  # Keep the container running for manual troubleshooting
+    profiles: ["debug"]
+    networks:
+      - frontend
+      - backend
 
-# Using COPY to copy a local file
-COPY index.html /usr/share/nginx/html
+volumes:
+  mydb:
 
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
+networks:
+  frontend:
+  backend:
 
 -------------------------------------------------------------------------------------------------------
 
-Step 2: Build Docker Image and Run It
+Step-03: Start the Stack
+# Change Directory
+cd aliases-demo
 
-# Change to the directory containing your Dockerfile
-cd DockerFiles
-
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
-
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
-
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
-
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
+# Pull Docker Images and Start Containers
+docker compose up -d 
 
 # List Docker Containers
-docker ps
+docker compose ps
 
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
-
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
-
-# Access the application in your browser
-http://localhost:8080
 
 -------------------------------------------------------------------------------------------------------
 
-Step 3: Stop and Remove Container and Images
+Step-04: web-nginx: Verify Connectivity to app-ums Aliases
+# Connect to web-nginx container
+docker exec -it ums-nginx /bin/bash
+
+# Debian/Ubuntu-based images: Install iputils
+apt-get update
+apt-get install -y iputils-ping dnsutils
+
+# Ping Services
+ping app-ums (SERVICE NAME)
+ping umsapp (ALIAS defined in FRONTEND NETWORK)
+ping dev-umsapp (ALIAS defined in FRONTEND NETWORK)
+Observation:
+1. All 3 should resolve to same IP
+
+# nslookup services
+nslookup app-ums
+nslookup umsapp
+nslookup dev-umsapp
+Observation:
+1. All 3 should resolve to same IP
+
+# dig 
+dig app-ums
+dig umsapp
+dig dev-umsapp
+Observation:
+1. All 3 should resolve to same IP
 
 
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
+## NEGATIVE TEST
+ping myspringapp  (ALIAS defined in BACKEND NETWORK)
+Observation:
+1. Should fail, because from web-nginx we dont have access to Backend network
 
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
 
-# List Docker Images to confirm removal
-docker images
+-------------------------------------------------------------------------------------------------------
+
+Step-05: db-mysql: Verify Connectivity to app-ums Aliases
+# Connect to web-nginx container
+docker exec -it ums-mysqldb /bin/bash
+
+# Debian/Ubuntu-based images: Install iputils
+cat /etc/os-release
+apt-get update
+apt-get install -y iputils-ping dnsutils
+
+# Oracle Image
+cat /etc/os-release
+microdnf install -y iputils bind-utils
+
+# Ping Services
+ping app-ums (SERVICE NAME)
+ping myspringapp (ALIAS defined in FRONTEND NETWORK)
+ping myapiservices (ALIAS defined in FRONTEND NETWORK)
+Observation:
+1. All 3 should resolve to same IP
+
+# nslookup services
+nslookup app-ums
+nslookup myspringapp
+nslookup myapiservices
+Observation:
+1. All 3 should resolve to same IP
+
+# dig 
+dig app-ums
+dig myspringapp
+dig myapiservices
+Observation:
+1. All 3 should resolve to same IP
+
+
+## NEGATIVE TEST
+ping umsapp  (ALIAS defined in FRONTEND NETWORK)
+Observation:
+1. Should fail, because from db-mysql we dont have access to Frontend network
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step-06: Clean-up
+# Stop and Remove Containers
+docker compose down -v
+
+# Delete Docker Images
+docker rmi $(docker images -q)
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
 
 -------------------------------------------------------------------------------------------------------
 

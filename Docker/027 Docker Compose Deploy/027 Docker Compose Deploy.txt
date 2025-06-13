@@ -1,77 +1,222 @@
-Step 1: Create Dockerfile and Custom index.html
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
+Step-02: Review docker-compose.yaml
+name: ums-stack
+services:
+  web-nginx:
+    image: nginx:latest 
+    container_name: ums-nginx
+    ports:
+      - "8080:8080"  # NGINX listens on port 8080 of the host
+    depends_on:
+      - app-ums
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Custom NGINX configuration
 
-# OCI Labels
-LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
-LABEL org.opencontainers.image.version="1.0"
+  app-ums:
+    image: ghcr.io/stacksimplify/usermgmt-webapp-v6:latest
+    ports:
+      - "8080"  # Only expose the container's port, let Docker choose the host port
+    deploy:
+      replicas: 3  # Scale the service to 3 instances       
+    depends_on:
+      - db-mysql
+    environment:
+      - DB_HOSTNAME=db-mysql
+      - DB_PORT=3306
+      - DB_NAME=webappdb
+      - DB_USERNAME=root
+      - DB_PASSWORD=dbpassword11
 
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
+  db-mysql:
+    container_name: ums-mysqldb
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dbpassword11
+      MYSQL_DATABASE=webappdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mydb:/var/lib/mysql
 
-# Using COPY to copy a local file
-COPY index.html /usr/share/nginx/html
-
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
-
--------------------------------------------------------------------------------------------------------
-
-Step 2: Build Docker Image and Run It
-
-# Change to the directory containing your Dockerfile
-cd DockerFiles
-
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
-
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
-
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
-
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
-
-# List Docker Containers
-docker ps
-
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
-
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
-
-# Access the application in your browser
-http://localhost:8080
-
--------------------------------------------------------------------------------------------------------
-
-Step 3: Stop and Remove Container and Images
-
-
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
-
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
-
-# List Docker Images to confirm removal
-docker images
+volumes:
+  mydb:
 
 -------------------------------------------------------------------------------------------------------
 
 
+Step-03: Review nginx.conf
+events { }
+
+http {
+  resolver 127.0.0.11 ipv6=off;  
+  
+  upstream app-ums {
+    server app-ums:8080;  
+    # Session persistence using client's IP address for stateful apps (UMS)
+    # ip_hash;  # Disable this to see how load balancing works
+  }
+
+  server {
+    listen 8080;
+
+    location / {
+      proxy_pass http://app-ums;
+    }
+  }
+}
+
+-------------------------------------------------------------------------------------------------------
+
+Step-04: How to Start the UMS Stack
+Start the UMS stack by following these steps:
+
+# Change to the project directory
+cd ums-stack
+
+# Start the UMS Stack in detached mode
+docker compose up -d
 
 
 -------------------------------------------------------------------------------------------------------
 
+Step-05: Verify Services
+To verify the MySQL and UMS WebApp services:
+
+# List running Docker containers
+docker compose ps
+To view the logs of the services:
+
+docker compose logs db-mysql
+docker compose logs app-ums 
+docker compose logs web-nginx
+To check logs of individual containers:
+
+docker logs <CONTAINER-NAME>
+docker logs ums-stack-app-ums-1
+docker logs ums-stack-app-ums-2
+docker logs ums-stack-app-ums-3
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-06: Verify the Load Balancing
+# Access API that displays the container ID
+http://localhost:8080/hello1
+
+# Run a loop to check load balancing between multiple app-ums containers
+while true; do curl http://localhost:8080/hello1; echo ""; sleep 1; done
+Observation:
+
+Requests will be distributed across the containers.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-07: Enable Persistence in NGINX
+UMS WebApp is stateful. To enable session persistence and prevent issues like login failures when switching between containers, update the nginx.conf:
+
+events { }
+
+http {
+  resolver 127.0.0.11 ipv6=off;  
+  
+  upstream app-ums {
+    server app-ums:8080;  
+    ip_hash;  # Enable session persistence using client's IP address
+  }
+
+  server {
+    listen 8080;
+
+    location / {
+      proxy_pass http://app-ums;
+    }
+  }
+}
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step-08: Restart NGINX Container
+After enabling ip_hash in nginx.conf, restart NGINX:
+
+# Option 1: Restart NGINX service
+docker compose restart web-nginx
+
+# Option 2: Reload NGINX configuration without stopping the container
+docker compose ps # Get container name
+docker exec <nginx_container_name> nginx -s reload
+docker exec ums-nginx nginx -s reload
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-09: Accessing the UMS WebApp
+Open your browser and navigate to http://localhost:8080.
+Log in with:
+Username: admin101
+Password: password101
+You can:
+View the list of users.
+Create new users.
+Test login functionality with the new users.
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-10: Connect to MySQL Container
+To inspect or interact with the MySQL database, connect to the MySQL container:
+
+docker exec -it ums-mysqldb mysql -u root -pdbpassword11
+Inside the MySQL shell, run SQL queries:
+
+mysql> show schemas;
+mysql> use webappdb;
+mysql> show tables;
+mysql> select * from user;
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step-11: Verify the Container to Container communication using Service Names using DNS
+# List running Docker containers
+docker compose ps
+
+# Connect to ums-stack-app-ums-1 container
+docker exec -it ums-stack-app-ums-1 /bin/bash
+
+# Test DNS - web-nginx
+nslookup <SERVICE-NAME>
+nslookup web-nginx
+dig web-nginx
+
+# Test DNS - app-ums
+nslookup <SERVICE-NAME>
+nslookup app-ums
+dig app-ums
+
+# Test DNS - db-mysql
+nslookup <SERVICE-NAME>
+nslookup db-mysql
+dig db-mysql
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step-12: Stop and Clean Up
+To stop and remove the running containers:
+
+docker compose down
+To remove the MySQL volume as well:
+
+docker compose down -v
+
+# Verify that the volume was removed
+docker volume ls  
 
 
 

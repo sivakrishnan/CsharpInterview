@@ -1,69 +1,170 @@
-Step 1: Create Dockerfile and Custom index.html
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
+Step-02: Review nginx.conf
 
-# OCI Labels
-LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
-LABEL org.opencontainers.image.version="1.0"
+events { }
 
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
+http {
+  # Docker's internal DNS resolver, configures the upstream block to resolve the service name to multiple IPs
+  resolver 127.0.0.11 ipv6=off;  
+  
+  upstream app-ums {
+    # Docker will resolve 'app-ums' to the containers automatically
+    server app-ums:8080;  
 
-# Using COPY to copy a local file
-COPY index.html /usr/share/nginx/html
+    # Use client's IP address for session persistence (NEEDED FOR UMS WEBAPP)
+    ip_hash;  # Disable to see how load balancing works by accessing API  http://localhost:8080/hello1
+  }
 
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
+  server {
+    listen 8080;
+
+    # Health check for NGINX (static page or simple response)
+    location /nginx-health {
+        return 200 "NGINX is healthy!";
+        add_header Content-Type text/plain;
+    } 
+
+    # Nginx Status
+    location /nginx_status {
+        stub_status on;              # Enable stub_status module
+        #allow 127.0.0.1;             # Allow requests from localhost
+        #deny all;                    # Deny all other IPs
+    }
+
+    # Proxypass to our User Management Web Application (UMS App)
+    location / {
+      proxy_pass http://app-ums;
+    }
+  }
+}
 
 -------------------------------------------------------------------------------------------------------
 
-Step 2: Build Docker Image and Run It
+Step-03: Review docker-compose.yaml
+name: ums-stack
+services:
+  web-nginx:
+    image: nginx:latest 
+    container_name: ums-nginx
+    ports:
+      - "8080:8080"  # NGINX listens on port 8080 of the host
+    depends_on:
+      - app-ums
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Custom NGINX configuration
+    networks:
+      - frontend      
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/nginx-health"]  # Check if NGINX is responding
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      
+  app-ums:
+    image: ghcr.io/stacksimplify/usermgmt-webapp-v6:latest
+    ports:
+      - "8080"  # Only expose the container's port, let Docker choose the host port
+    deploy:
+      replicas: 1  # Scale the service to 3 instances       
+    depends_on:
+      - db-mysql
+    environment:
+      - DB_HOSTNAME=db-mysql
+      - DB_PORT=3306
+      - DB_NAME=webappdb
+      - DB_USERNAME=root
+      - DB_PASSWORD=dbpassword11
+    networks:
+      - frontend  
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]   # Assuming /health is your app's health check endpoint
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-# Change to the directory containing your Dockerfile
-cd DockerFiles
+  db-mysql:
+    container_name: ums-mysqldb
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dbpassword11
+      MYSQL_DATABASE: webappdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mydb:/var/lib/mysql
+    networks:
+      - backend        
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pdbpassword11"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
+volumes:
+  mydb:
 
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
+networks:
+  frontend:
+  backend:
 
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
+-------------------------------------------------------------------------------------------------------
 
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
+Step-04: Start the Stack
+# Change Directory
+cd  healthcheck-demo
+
+# Pull Docker Images and Start Containers
+docker compose up -d 
 
 # List Docker Containers
-docker ps
+docker compose ps
+Observation:
+1. You should see all the containers showing healthy
 
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
-
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
-
-# Access the application in your browser
-http://localhost:8080
+# Sample Output
+kalyan-mini2:healthchecks-demo kalyan$ docker compose ps
+NAME                  IMAGE                                             COMMAND                  SERVICE     CREATED          STATUS                    PORTS
+ums-mysqldb           mysql:8.0                                         "docker-entrypoint.s…"   db-mysql    39 seconds ago   Up 38 seconds (healthy)   0.0.0.0:3306->3306/tcp, 33060/tcp
+ums-nginx             nginx:latest                                      "/docker-entrypoint.…"   web-nginx   39 seconds ago   Up 38 seconds (healthy)   80/tcp, 0.0.0.0:8080->8080/tcp
+ums-stack-app-ums-1   ghcr.io/stacksimplify/usermgmt-webapp-v6:latest   "catalina.sh run"        app-ums     39 seconds ago   Up 38 seconds (healthy)   0.0.0.0:63848->8080/tcp
+kalyan-mini2:healthchecks-demo kalyan$ 
 
 -------------------------------------------------------------------------------------------------------
 
-Step 3: Stop and Remove Container and Images
+
+Step-05: Clean-up
+# Stop and Remove Containers
+docker compose down -v
+
+# Delete Docker Images
+docker rmi $(docker images -q)
+
+-------------------------------------------------------------------------------------------------------
 
 
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
 
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
 
-# List Docker Images to confirm removal
-docker images
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
 
 -------------------------------------------------------------------------------------------------------
 

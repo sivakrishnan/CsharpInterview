@@ -1,83 +1,231 @@
-Step 1: Create Dockerfile and Custom index.html
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
+Mastering Docker Build Cloud: Accelerate Your Docker Builds with Cloud and Local Builders
 
-# OCI Labels
-LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
-LABEL org.opencontainers.image.version="1.0"
 
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
+Introduction
+In this guide, you will:
 
-# Using COPY to copy a local file
-COPY index.html /usr/share/nginx/html
+Create a Cloud Builder in Docker Build Cloud.
+Create a Local Builder in Docker Desktop.
+Build Docker images using both builders and compare performance differences.
+Learn to clear build caches using the command docker buildx prune.
+Learn to set up the default builder for Docker builds using the command docker buildx use BUILDER-NAME --global.
 
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
+Important Note about Docker Build Cloud
+
+Docker Build Cloud will only be available with the new Docker Pro, Team, and Business plans.
+Docker Build Cloud is not available for Personal use
+-------------------------------------------------------------------------------------------------------
+
+Step 1: Create Cloud Builder
+
+Go to the Docker Build Cloud.
+Click on Create Cloud Builder.
+Cloud Builder name: mycloud-builder1.
+Click on Create.
 
 -------------------------------------------------------------------------------------------------------
 
-Step 2: Build Docker Image and Run It
+Step 2: Add Cloud Builder Endpoint
 
-# Change to the directory containing your Dockerfile
-cd DockerFiles
+Using Docker CLI
 
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
+Docker Login
 
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
+docker login
 
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
-
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
-
-# List Docker Containers
-docker ps
-
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
-
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
-
-# Access the application in your browser
-http://localhost:8080
 
 -------------------------------------------------------------------------------------------------------
 
-Step 3: Stop and Remove Container and Images
+Add the cloud builder endpoint
+
+Replace <YOUR-DOCKER-USERNAME> with your Docker Hub username.
+
+docker buildx create --driver cloud <YOUR-DOCKER-USERNAME>/<BUILDER_NAME>
 
 
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
+Example with 'stacksimplify':
 
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
+docker buildx create --driver cloud stacksimplify/mycloud-builder1
 
-# List Docker Images to confirm removal
+Using Docker Desktop
+
+Sign in to your Docker account using the Sign in button in Docker Desktop.
+Open the Docker Desktop Settings and navigate to the Builders tab.
+Under Available builders, select Connect to builder and follow the prompts.
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step 3: Create Local Builder
+Create a new Buildx builder and set it as the current builder
+
+# Create a new Buildx builder and set it as the current builder
+docker buildx create --name mylocal-builder1 --use
+Inspect and initialize the Buildx builder
+
+# Inspect and initialize the Buildx builder
+docker buildx inspect --bootstrap
+List builder instances
+
+# List Builder Instances
+docker buildx ls
+
+-------------------------------------------------------------------------------------------------------
+
+Step 4: Run Build Using Local Builder
+Note:
+
+We are using --push to push the Docker image directly to Docker Hub.
+We are not using --load in this context since we are not loading the image into local Docker Desktop.
+
+
+-------------------------------------------------------------------------------------------------------
+
+# Change directory to your project
+cd multiplatform-build-cloud-demo
+
+# List Docker Images (optional)
 docker images
 
--------------------------------------------------------------------------------------------------------
+# Run Docker Build with Local Builder
+docker buildx build --builder mylocal-builder1 --platform linux/amd64,linux/arm64 -t <YOUR-DOCKER-USERNAME>/local-builder-demo1 --push .
 
-
-
-
--------------------------------------------------------------------------------------------------------
-
-
+# Example with 'stacksimplify':
+docker buildx build --builder mylocal-builder1 --platform linux/amd64,linux/arm64 -t stacksimplify/local-builder-demo1 --push .
 
 
 -------------------------------------------------------------------------------------------------------
 
 
+Observations:
+
+The build process may take approximately 162 seconds to complete.
+
+After the build, list Docker images:
+
+docker images
+Note: The Docker image will not be present in your local Docker Desktop since it was pushed directly to Docker Hub.
+
+Verify Docker Images in Docker Hub:
+
+Log in to your Docker Hub account.
+Navigate to the Repositories section.
+You should see the newly pushed image local-builder-demo1.
+
+-------------------------------------------------------------------------------------------------------
+
+
+Step 5: Run Build Using Cloud Builder
+Note:
+
+We are using --push to push the Docker image directly to Docker Hub.
+We are not using --load in this context since we are not loading the image into local Docker Desktop.
+
+-------------------------------------------------------------------------------------------------------
+
+
+# Change directory to your project (if not already there)
+cd multiplatform-build-cloud-demo
+
+# List Docker Images (optional)
+docker images
+
+# Run Docker Build with Cloud Builder
+docker buildx build --builder cloud-stacksimplify-mycloud-builder1 --platform linux/amd64,linux/arm64 -t <YOUR-DOCKER-USERNAME>/cloud-builder-demo101 --push .
+
+# Example with 'stacksimplify':
+docker buildx build --builder cloud-stacksimplify-mycloud-builder1 --platform linux/amd64,linux/arm64 -t stacksimplify/cloud-builder-demo101 --push .
+
+-------------------------------------------------------------------------------------------------------
+
+
+Observations:
+
+The build process may take approximately 18 seconds to complete.
+
+After the build, list Docker images:
+
+docker images
+Note: The Docker image will not be present in your local Docker Desktop since it was pushed directly to Docker Hub.
+
+Verify Docker Images in Docker Hub:
+
+Log in to your Docker Hub account.
+Navigate to the Repositories section.
+You should see the newly pushed image cloud-builder-demo101.
+
+-------------------------------------------------------------------------------------------------------
+
+Step 6: Set Cloud Builder as Default Builder
+Set the cloud builder as the default builder globally
+
+docker buildx use cloud-stacksimplify-mycloud-builder1 --global
+
+
+Verify the default builder
+
+Open Docker Desktop.
+Navigate to Settings → Builders.
+Observation: You should see "cloud-stacksimplify-mycloud-builder1" set as the default builder.
+
+
+Create builds without specifying --builder
+
+docker buildx build --platform linux/amd64,linux/arm64 -t stacksimplify/cloud-builder-demo102 --push .
+
+
+Observations:
+
+The build process may take approximately 12 seconds to complete.
+Note: Even without specifying --builder, the build uses the cloud builder as it is set as the default.
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 7: Clean-up
+
+List Docker Buildx builders
+
+docker buildx ls
+
+---------------------------
+Stop the local builder
+
+docker buildx stop mylocal-builder1
+
+----------------------------------------------
+Remove the local builder
+
+docker buildx rm mylocal-builder1
+
+--------------------------------------------
+Verify builders list
+
+docker buildx ls
+
+---------------------------------------
+Remove Docker images (optional)
+
+docker rmi $(docker images -q)
+
+Warning: This command will remove ALL Docker images from your local Docker Desktop.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step 8: Remove Build Caches
+
+Remove build cache for specific builders
+
+docker buildx prune --builder <BUILDER-NAME> -f
+
+Examples:
+
+docker buildx prune --builder mylocal-builder1 -f
+docker buildx prune --builder cloud-stacksimplify-mycloud-builder1 -f
 
 
 -------------------------------------------------------------------------------------------------------

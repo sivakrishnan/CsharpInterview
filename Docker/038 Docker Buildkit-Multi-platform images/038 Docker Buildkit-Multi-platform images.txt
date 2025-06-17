@@ -1,78 +1,138 @@
-Step 1: Create Dockerfile and Custom index.html
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
+Step-01: Introduction
+In this guide, you will learn how to build multi-platform Docker images using Docker BuildKit and Buildx. 
+You will also learn how to use the --load and --push flags with the docker buildx build command.
+
+-------------------------------------------------------------------------------------------------------
+
+Step-02: Review Dockerfile
+# Use nginx as base Docker Image
+FROM nginx
 
 # OCI Labels
 LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
+LABEL org.opencontainers.image.title="Demo: Create Multi-platform Docker Images using Docker BuildKit and Buildx"
+LABEL org.opencontainers.image.description="A Dockerfile demo illustrating Multi-platform Docker Images using Docker BuildKit and Buildx"
 LABEL org.opencontainers.image.version="1.0"
-
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
 
 # Using COPY to copy a local file
 COPY index.html /usr/share/nginx/html
 
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
+-------------------------------------------------------------------------------------------------------
+
+Step-03: Verify NGINX Base Image for Multi-Platform Support
+
+Check the NGINX Docker Official Image to verify if it supports multiple platforms.
+In the Quick reference (cont.) section, you can find the supported architectures:
+Supported architectures:
+amd64, arm32v5, arm32v6, arm32v7, arm64v8, i386, mips64le, ppc64le, s390x
+
 
 -------------------------------------------------------------------------------------------------------
 
-Step 2: Build Docker Image and Run It
+Step-04: Build and Load Multi-Platform Docker Images Locally
+# List Local builders
+docker buildx ls
 
-# Change to the directory containing your Dockerfile
-cd DockerFiles
+# Change Directory
+cd multiplatform-demo
 
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
+# Build Multi-platform Docker Images and Load to Docker Desktop (locally)
+docker buildx build --platform linux/amd64,linux/arm64 -t demo1-multiplatform-local:v1 --load .
+Note:
+When building multi-platform images, it is recommended to use --push instead of --load.
+The --load flag is useful for local development but only supports one platform at a time in the local Docker daemon
 
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
 
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
+-------------------------------------------------------------------------------------------------------
 
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
+Step-05: Build and Push Multi-Platform Docker Images to Docker Hub
+# List Local builders
+docker buildx ls
 
-# List Docker Containers
+# Login with your Docker ID
+docker login
+
+# Change Directory
+cd multiplatform-demo
+
+# Build Multi-platform Docker Images and Push to Docker Hub
+docker buildx build --platform linux/amd64,linux/arm64 -t YOUR_DOCKER_ID/demo2-multiplatform-local:v1 --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t stacksimplify/demo2-multiplatform-local:v1 --push .
+Replace YOUR_DOCKER_ID with your actual Docker Hub username.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-06: Verify Multi-Platform Docker Image in Docker Hub
+Go to Docker Hub.
+Navigate to your Docker image: YOUR_DOCKER_ID/demo2-multiplatform-local.
+Click on Tags.
+Verify that there are multiple image digests corresponding to different architectures (e.g., arm64 and amd64).
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-07: Pull, Run, and Verify the Docker Image
+# Pull the Docker image
+docker pull YOUR_DOCKER_ID/demo2-multiplatform-local:v1
+docker pull stacksimplify/demo2-multiplatform-local:v1
+
+# Inspect the Docker image
+docker image inspect YOUR_DOCKER_ID/demo2-multiplatform-local:v1
+docker image inspect stacksimplify/demo2-multiplatform-local:v1
+
+# Observation:
+# 1. Verify the "Architecture" field in the output.
+# 2. The image pulled corresponds to your local machine's architecture.
+
+# Run the Docker container
+docker run --name my-multiplatform-demo -p 8080:80 -d YOUR_DOCKER_ID/demo2-multiplatform-local:v1
+docker run --name my-multiplatform-demo -p 8080:80 -d stacksimplify/demo2-multiplatform-local:v1
+
+# List Docker containers
 docker ps
 
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
-
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
-
-# Access the application in your browser
+# Access the application
+# In your browser:
 http://localhost:8080
 
+# Or use curl:
+curl http://localhost:8080
+
+Clean Up:
+# Stop the Docker container
+docker stop my-multiplatform-demo
+
+# Remove the Docker container
+docker rm my-multiplatform-demo
+
+
+
 -------------------------------------------------------------------------------------------------------
 
-Step 3: Stop and Remove Container and Images
 
+Step-08: Stop and Remove Buildx Builder
+# List Docker Buildx builders
+docker buildx ls
 
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
+# Stop Docker Buildx builder
+docker buildx stop mybuilder1
 
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
+# Remove Docker Buildx builder
+docker buildx rm mybuilder1
 
-# List Docker Images to confirm removal
+# Verify the builders
+docker buildx ls
+
+-------------------------------------------------------------------------------------------------------
+
+Step-09: Clean Up
+# Remove all Docker images
+docker rmi $(docker images -q)
+
+# List Docker images to confirm
 docker images
-
--------------------------------------------------------------------------------------------------------
-
-
-
-
--------------------------------------------------------------------------------------------------------
-
-
 
 
 -------------------------------------------------------------------------------------------------------

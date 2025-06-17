@@ -1,73 +1,115 @@
-Step 1: Create Dockerfile and Custom index.html
+Step-01: Introduction
+Docker Build implements a client-server architecture, where:
 
-# Use nginx:alpine-slim as base Docker Image
-FROM nginx:alpine-slim
-
-# OCI Labels
-LABEL org.opencontainers.image.authors="Kalyan Reddy Daida"
-LABEL org.opencontainers.image.title="Demo: HEALTHCHECK Instruction in Docker"
-LABEL org.opencontainers.image.description="A Dockerfile demo illustrating the use of the HEALTHCHECK instruction"
-LABEL org.opencontainers.image.version="1.0"
-
-# Install curl (needed for our Healthcheck command)
-RUN apk --no-cache add curl
-
-# Using COPY to copy a local file
-COPY index.html /usr/share/nginx/html
-
-# The HEALTHCHECK instruction tells Docker how to test a container to check that it's still working
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --start-interval=5s --retries=3 CMD curl -f http://localhost/ || exit 1
+Client: Buildx is the client and the user interface for running and managing builds.
+Server: BuildKit is the server, or builder, that handles the build execution.
+BuildKit - In Detail
+BuildKit is an improved backend that replaces the legacy builder.
+BuildKit is the default builder for users on Docker Desktop and Docker Engine as of version 23.0.
+BuildKit provides new functionality and improves your builds' performance.
 
 -------------------------------------------------------------------------------------------------------
 
-Step 2: Build Docker Image and Run It
+Step-02: Docker Buildx Commands - Version and List
+# Show buildx version information
+docker buildx version
 
-# Change to the directory containing your Dockerfile
-cd DockerFiles
+# List builder instances
+docker buildx ls
 
-# Build the Docker Image
-docker build -t demo12-dockerfile-healthcheck:v1 .
+# Observation:
+# 1. Lists the builders pre-configured as part of Docker Desktop installation.
 
-# Inspect the Docker Image
-docker image inspect demo12-dockerfile-healthcheck:v1
+-------------------------------------------------------------------------------------------------------
 
-# Inspect the Healthcheck settings of the Docker Image
-docker image inspect --format='{{json .Config.Healthcheck}}' demo12-dockerfile-healthcheck:v1
+Step-03: Verify Builder Instances Using Docker Desktop
+Open Docker Desktop.
+Navigate to Settings > Builders.
+Review the default builder instances that have been created.
 
-# Run the Docker Container
-docker run --name my-healthcheck-demo -p 8080:80 -d demo12-dockerfile-healthcheck:v1
 
-# List Docker Containers
+-------------------------------------------------------------------------------------------------------
+
+Step-04: Docker Buildx Commands - du and prune
+# Check disk usage
+docker buildx du
+
+# Remove build cache
+docker buildx prune
+
+# Check disk usage again
+docker buildx du
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-05: Docker Buildx Commands - Inspect
+# Inspect the current builder instance
+docker buildx inspect
+
+# Inspect a specific builder instance
+docker buildx inspect --builder desktop-linux
+docker buildx inspect --builder default
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-06: Docker Buildx - Switch Builders
+# List builder instances
+docker buildx ls
+
+# Observation:
+# 1. Observe the star (*) next to the builder name indicating the currently configured builder.
+
+# Switch to the default builder and verify
+docker context use default
+docker buildx ls
+
+# Observation:
+# 1. Go to Docker Desktop > Settings > Builders to verify the active builder.
+
+# Switch back to the desktop-linux builder
+docker context use desktop-linux
+docker buildx ls
+
+# Observation:
+# 1. Go to Docker Desktop > Settings > Builders to verify the active builder.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Step-07: Create and Initialize a New Builder
+# Create a new Buildx builder
+docker buildx create --name mybuilder1 --use 
+[or]
+docker buildx create --name mybuilder1 --use --bootstrap
+
+# Explanation:
+# - `create`: Create a new builder instance.
+# - `--name mybuilder1`: Name of the new builder.
+# - `--use`: Automatically switch to the newly created builder.
+# - `--bootstrap`: Boot builder after creation
+
+# Inspect and Initialize the Buildx builder
+docker buildx inspect --bootstrap
+
+# Explanation:
+# - `inspect`: Inspect the current builder instance.
+# - `--bootstrap`: Ensure the builder has booted before inspecting.
+
+# List builder instances
+docker buildx ls
+
+# List Docker containers
 docker ps
 
-# Expected Output:
-# CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                  NAMES
-# e63e7fe79986   demo12-dockerfile-healthcheck:v1  "/docker-entrypoint.…"   17 seconds ago   Up 15 seconds (healthy)   0.0.0.0:8080->80/tcp   my-healthcheck-demo
+# Observation:
+# Verify if the Buildx container is running.
 
-# Inspect the health status of the container
-docker inspect --format='{{json .State.Health}}' my-healthcheck-demo
-
-# Access the application in your browser
-http://localhost:8080
-
--------------------------------------------------------------------------------------------------------
-
-Step 3: Stop and Remove Container and Images
-
-
-# Stop and remove the container
-docker rm -f my-healthcheck-demo
-
-# Remove the Docker images from local machine
-docker rmi stacksimplify/demo12-dockerfile-healthcheck:v1
-docker rmi demo12-dockerfile-healthcheck:v1
-
-# List Docker Images to confirm removal
-docker images
-
--------------------------------------------------------------------------------------------------------
-
-
+# Verify the builder using Docker Desktop:
+# 1. Open Docker Desktop.
+# 2. Navigate to Settings > Builders.
+# 3. Confirm that 'mybuilder1' is listed and active.
 
 
 -------------------------------------------------------------------------------------------------------

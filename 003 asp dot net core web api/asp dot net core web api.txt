@@ -1,0 +1,143 @@
+Beginner ASP.NET Core Web API Interview Questions
+What is ASP.NET Core?
+
+What is a Web API?
+
+What is the difference between ASP.NET MVC and ASP.NET Core Web API?
+
+What is REST?
+
+What are HTTP verbs (GET, POST, PUT, DELETE)?
+
+What is routing in ASP.NET Core?
+
+How do you return JSON from a Web API?
+
+What is a controller in ASP.NET Core Web API?
+
+Explain the role of Startup.cs.
+
+What is middleware?
+
+How do you test an ASP.NET Core Web API using tools like Postman?
+
+How do you enable CORS in an ASP.NET Core Web API?
+
+What is dependency injection in ASP.NET Core?
+
+Explain the appsettings.json file.
+
+How do you handle exceptions in an ASP.NET Core Web API?
+
+✅ Intermediate ASP.NET Core Web API Interview Questions
+
+
+###1) What is model binding?
+
+	[FromRoute] → bind from route
+	[FromQuery] → bind from query string
+	[FromBody] → bind from request body  --------------> Content Type=application/json
+	[FromForm] → bind from form data --------------> Content Type= multipart/form-data or application/x-www-form-urlencoded
+
+	[FromHeader] → bind from headers
+
+	X-Correlation-Id: 12345
+	public IActionResult GetOrders([FromHeader(Name = "X-Correlation-Id")] string correlationId)
+
+###2) What is model validation?
+
+###3) How do you implement attribute routing?
+
+###4) What is the difference between IActionResult and ActionResult<T>?
+
+###5) How do you use filters in ASP.NET Core (action filters, exception filters)?
+
+###6) What is the purpose of ApiController attribute?
+
+###7) What is Swagger (OpenAPI), and how do you integrate it?
+
+###8) How do you secure a Web API using JWT (JSON Web Token)?
+
+###9) What is middleware pipeline ordering and why does it matter?
+
+###10) Explain environment-based configuration in ASP.NET Core.
+
+###11) What is asynchronous programming and why is it important in Web APIs?
+
+###12) What is content negotiation?
+
+	Content negotiation is the process where the server and the client agree on the best format for the response data.
+	in short server and client agree on data format dynamically.
+	
+	If a client sends:
+	Accept: application/json
+	the server responds with JSON.
+	example: 
+	
+		{
+		  "id": 1,
+		  "name": "Phone"
+		}
+	
+	If a client sends:
+	Accept: application/xml
+	the server responds with XML
+	example: 
+		<Product>
+		  <Id>1</Id>
+		  <Name>Phone</Name>
+		</Product>
+	
+	in program.cs
+	
+	builder.Services.AddControllers().AddXmlSerializerFormatters();
+
+###13) How do you handle file uploads in Web API?
+
+###14) How do you inject a custom service into your controller?
+
+###15) Explain versioning of Web APIs.
+
+	1) URI versioning (most common)
+		/api/v1/products
+		/api/v2/products
+		
+	2) Query string versioning		
+		/api/products?api-version=1.0
+		
+	3) Header versioning
+		api-version: 1.0
+	
+	4) Media type versioning 
+		Accept: application/vnd.myapp.v1+json
+
+✅ Advanced ASP.NET Core Web API Interview Questions
+How does dependency injection work under the hood in ASP.NET Core?
+
+How does Kestrel work in ASP.NET Core?
+
+What is the difference between synchronous and asynchronous middleware?
+
+How does ASP.NET Core manage application configuration internally?
+
+Explain policy-based vs role-based authorization.
+
+How would you implement rate limiting in ASP.NET Core Web API?
+
+What is HATEOAS? How would you implement it?
+
+What is a custom middleware, and how do you build one?
+
+Explain the pipeline for a request in ASP.NET Core.
+
+How would you implement global error handling using ExceptionHandlerMiddleware?
+
+Describe custom model binders.
+
+How does model validation work internally?
+
+What is the role of the Program.cs file in .NET 6/7 minimal hosting?
+
+How would you deploy an ASP.NET Core Web API to Docker?
+
+Explain the differences between API Gateway and a Web API.

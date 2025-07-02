@@ -1,0 +1,92 @@
+Beginner Angular Interview Questions
+What is Angular?
+
+What are components in Angular?
+
+What is a module in Angular?
+
+Explain the role of decorators (@Component, @NgModule, etc.).
+
+What is data binding in Angular, and what types does Angular support?
+
+What is the purpose of ngOnInit()?
+
+How does Angular’s two-way data binding work?
+
+Explain the concept of directives.
+
+What is the difference between structural directives and attribute directives?
+
+What is the Angular CLI? Why should we use it?
+
+How do you communicate between parent and child components?
+
+What are services in Angular?
+
+Explain dependency injection in Angular.
+
+What is a pipe in Angular?
+
+How do you handle forms in Angular? What is the difference between template-driven and reactive forms?
+
+✅ Intermediate Angular Interview Questions
+What is Angular’s change detection mechanism?
+
+How does Angular handle routing?
+
+What are route guards, and how do you use them?
+
+Explain lazy loading in Angular.
+
+What is Ahead-of-Time (AOT) compilation?
+
+How does Angular handle HTTP requests?
+
+What is an observable? How is it different from a promise?
+
+How do you unsubscribe from an observable? Why is it important?
+
+What is NgZone, and why might you use it?
+
+Explain the difference between ngOnInit and constructor.
+
+What are lifecycle hooks in Angular?
+
+What is the difference between ViewChild and ContentChild?
+
+What is ng-content, and how does content projection work?
+
+How do you use trackBy in *ngFor, and why?
+
+What are Angular interceptors? How would you use them?
+
+✅ Advanced Angular Interview Questions
+Explain Angular’s change detection strategy (Default vs OnPush).
+
+How does the Angular Ivy compiler work?
+
+What is tree shaking in Angular, and why is it important?
+
+Can you explain zone.js?
+
+How does Angular handle cross-site scripting (XSS) prevention?
+
+How would you create a custom structural directive?
+
+How would you optimize the performance of a large Angular app?
+
+How would you share data between unrelated components?
+
+Explain Angular module federation (micro-frontends with Angular).
+
+How do you write unit tests in Angular? Which tools are typically used?
+
+How do you test asynchronous code in Angular?
+
+What is the purpose of Renderer2?
+
+What is the difference between ng-template and ng-container?
+
+How does Angular Universal work for server-side rendering?
+
+Describe the Angular injector hierarchy.

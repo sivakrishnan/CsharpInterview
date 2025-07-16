@@ -1,33 +1,44 @@
 Beginner ASP.NET Core Web API Interview Questions
-What is ASP.NET Core?
 
-What is a Web API?
+###1) What is ASP.NET Core?
 
-What is the difference between ASP.NET MVC and ASP.NET Core Web API?
+###2) What is a Web API?
 
-What is REST?
+###3) What is the difference between ASP.NET MVC and ASP.NET Core Web API?
 
-What are HTTP verbs (GET, POST, PUT, DELETE)?
+###4) What is REST?
 
-What is routing in ASP.NET Core?
+	REST stands for Representational State Transfer.
+	It is an architectural style (not a protocol) for designing distributed systems — especially web services — based on these principles:
 
-How do you return JSON from a Web API?
+	Stateless communication
+	Resources identified by URIs
+	Standard HTTP methods (GET, POST, PUT, DELETE, etc.)
+	Use of standard HTTP status codes
+	Transfer representations (usually JSON or XML) of resources
+	Client-server separation
 
-What is a controller in ASP.NET Core Web API?
+###5) What are HTTP verbs (GET, POST, PUT, DELETE)?
 
-Explain the role of Startup.cs.
+###1) What is routing in ASP.NET Core?
 
-What is middleware?
+###1) How do you return JSON from a Web API?
 
-How do you test an ASP.NET Core Web API using tools like Postman?
+###1) What is a controller in ASP.NET Core Web API?
 
-How do you enable CORS in an ASP.NET Core Web API?
+###1) Explain the role of Startup.cs.
 
-What is dependency injection in ASP.NET Core?
+###1) What is middleware?
 
-Explain the appsettings.json file.
+###1) How do you test an ASP.NET Core Web API using tools like Postman?
 
-How do you handle exceptions in an ASP.NET Core Web API?
+###1) How do you enable CORS in an ASP.NET Core Web API?
+
+###1) What is dependency injection in ASP.NET Core?
+
+###1) Explain the appsettings.json file.
+
+###1) How do you handle exceptions in an ASP.NET Core Web API?
 
 ✅ Intermediate ASP.NET Core Web API Interview Questions
 
@@ -110,6 +121,17 @@ How do you handle exceptions in an ASP.NET Core Web API?
 	
 	4) Media type versioning 
 		Accept: application/vnd.myapp.v1+json
+		
+	Microsoft provides a great NuGet package:Microsoft.AspNetCore.Mvc.Versioning
+	
+	in program.cs file
+	
+		builder.Services.AddApiVersioning(options =>
+		{
+			options.DefaultApiVersion = new ApiVersion(1, 0);
+			options.AssumeDefaultVersionWhenUnspecified = true;
+			options.ReportApiVersions = true;
+		});
 
 ✅ Advanced ASP.NET Core Web API Interview Questions
 How does dependency injection work under the hood in ASP.NET Core?

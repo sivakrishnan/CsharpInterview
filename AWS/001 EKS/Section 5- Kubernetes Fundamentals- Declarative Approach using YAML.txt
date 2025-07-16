@@ -1,0 +1,188 @@
+Section 5: Kubernetes Fundamentals- Declarative Approach using YAML
+
+43. Step-01: Introduction to Kubernetes Declarative Approach ###### Duration: 1min
+
+using YAML & kubectl we are going to create the following services
+
+
+Pod
+ReplicaSet
+Deployment
+Service
+
+44. Step-02: YAML Basics Introduction ###### Duration: 10 min
+
+https://github.com/stacksimplify/kubernetes-fundamentals/tree/master/06-YAML-Basics
+
+YAML is not a Markup Language, YAML is used to store information about different things we can use YAML to
+define key, value pairs like variable, lists and objects, YAML is very similar to JSON (Javascript Object Notation)
+
+we can define YAML files with two different extensions
+
+abc.yml
+abc.yaml
+
+YAML Comments
+YAML Key Value Pairs
+YAML Dictionary or Map
+YAML Array / Lists
+YAML Spaces
+YAML Document Separator
+
+
+
+45. Step-04: Create Pods with YAML ###### Duration: 10 min
+
+https://github.com/stacksimplify/kubernetes-fundamentals/tree/master/07-PODs-with-
+
+########################
+
+apiVersion: v1 # String
+kind: Pod  # String
+metadata: # Dictionary
+  name: myapp-pod
+  labels: # Dictionary 
+    app: myapp         
+spec:
+  containers: # List
+    - name: myapp
+      image: stacksimplify/kubenginx:1.0.0
+      ports:
+        - containerPort: 80
+		
+# Create Pod
+kubectl create -f 02-pod-definition.yml
+[or]
+kubectl apply -f 02-pod-definition.yml
+
+kubectl create -f section-05-pod-definition.yml
+
+
+# List Pods
+kubectl get pods
+
+
+
+46. Step-05: Create NodePort Service with YAML and Access Application via Browser ###### Duration: 7 min
+
+https://github.com/stacksimplify/kubernetes-fundamentals/tree/master/07-PODs-with-YAML
+
+
+####################################
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-pod-nodeport-service  # Name of the Service
+spec:
+  type: NodePort
+  selector:
+  # Loadbalance traffic across Pods matching this label selector
+    app: myapp
+  # Accept traffic sent to port 80    
+  ports: 
+    - name: http
+      port: 80    # Service Port
+      targetPort: 80 # Container Port
+      nodePort: 31231 # NodePort
+
+kubectl create -f section-05-pod-nodeport-service.yml
+# List Service
+kubectl get svc
+
+# Get Public IP
+kubectl get nodes -o wide
+
+http://13.126.236.164:31231
+http://65.1.248.24:31231
+
+
+
+47. Step-06: Create ReplicaSets using YAML ###### Duration: 9 min
+
+https://github.com/stacksimplify/kubernetes-fundamentals/tree/master/08-ReplicaSets-with-YAML
+
+####################################
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp2-rs
+spec:
+  replicas: 3 # 3 Pods should exist at all times.
+  selector:  # Pods label should be defined in ReplicaSet label selector
+    matchLabels:
+      app: myapp2
+  template:
+    metadata:
+      name: myapp2-pod
+      labels:
+        app: myapp2 # Atleast 1 Pod label should match with ReplicaSet Label Selector
+    spec:
+      containers:
+      - name: myapp2
+        image: stacksimplify/kubenginx:2.0.0
+        ports:
+          - containerPort: 80
+		  
+		  
+kubectl create -f section-05-replicaset-definition.yml
+
+kubectl get rs
+kubectl get pod
+kubectl describe pod <podname>
+kubectl delete pod <podname>
+
+
+Create NodePort Service for ReplicaSet
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: replicaset-nodeport-service
+spec:
+  type: NodePort
+  selector:
+    app: myapp2
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 31232  
+	  
+
+# Create NodePort Service
+kubectl apply -f section-05-replicaset-nodeport-servie.yml
+
+# List NodePort Service
+kubectl get svc
+
+# Get Public IP
+kubectl get nodes -o wide
+
+# Access Application
+http://<Worker-Node-Public-IP>:<NodePort>
+http://<Worker-Node-Public-IP>:31232
+
+48. Step-07: Create NodePort Service with YAML and Access Application via Browser ###### Duration: 3 min
+49. Step-08: Create Deployment with YAML and Test ###### Duration: 6 min
+
+https://github.com/stacksimplify/kubernetes-fundamentals/blob/master/09-Deployments-with-YAML/kube-manifests/02-deployment-definition.yml
+
+(replica set and deployment both are mostly same) but good pratice is create deployment and mention the replicaset
+section-05-deployment-definition.yml
+section-05-deployment-nodeport-servie.yml
+
+
+######### run two yml file in a single command
+
+kubectl create -f section-05-deployment-definition.yml -f section-05-deployment-nodeport-servie.yml
+
+kubectl get deployment
+
+50. Step-09: Backend Application - Create Deployment and ClusterIP Service ###### Duration: 10 min
+51. Step-10: Frontend Application - Create Deployment and NodePort Service ###### Duration: 8 min
+52. Step-11: Deploy and Test - Frontend and Backend Applications ###### Duration: 4 min
+
+

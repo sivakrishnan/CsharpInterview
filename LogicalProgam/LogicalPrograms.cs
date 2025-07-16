@@ -55,6 +55,11 @@ namespace CsharpInterview.LogicalProgam
                     int openIndex = Array.IndexOf(openBraces, lastOpenChar);
                     int closeIndex = Array.IndexOf(closeBraces, currentChar);
 
+                    if (currentChar==lastOpenChar)
+                    {
+                        continue;
+                    }
+
                     if (openIndex==closeIndex)
                     {
                         continue;
@@ -90,8 +95,6 @@ namespace CsharpInterview.LogicalProgam
             }
             Console.WriteLine("sum="+sum.ToString());
         }
-
-
         public void FirstAndLastInSqureBraces()
         {
             int firstIndex = 0;
@@ -110,6 +113,27 @@ namespace CsharpInterview.LogicalProgam
 
                 firstIndex=firstIndex+1;
                 lastIndex=lastIndex-1;
+                if (firstIndex>lastIndex)
+                {
+                    break;
+                }
+            }
+        }
+
+        public void Test()
+        {
+            string inputString = "malayalam";
+            char[] chrArray = inputString.ToCharArray();
+
+            int firstIndex = 0;
+            int lastIndex = chrArray.Length-1;
+
+            for (int i = 0; i<chrArray.Length/2; i++)
+            {
+                Console.WriteLine($"first index-{chrArray[firstIndex]}, last index-{chrArray[lastIndex]}");
+                firstIndex = firstIndex+1;
+                lastIndex = lastIndex-1;
+
                 if (firstIndex>lastIndex)
                 {
                     break;

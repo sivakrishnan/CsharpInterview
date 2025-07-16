@@ -20,6 +20,7 @@ using CsharpInterview.WorkOutOverriding;
 using CsharpInterview.WorkOutRefKeyword;
 using CsharpInterview.WorkOutStaticConstructor;
 using CsharpInterview.WorkOutThread;
+using static System.Net.Mime.MediaTypeNames;
 
 Console.WriteLine("Hello, World!");
 
@@ -146,7 +147,7 @@ obj2.PrintDetails("basic singleton 2.");
 
 Console.WriteLine("----------------Logical Progam-----------------------");
 
-string logicalInput = "(dafsd{adfsd[abc]}})";
+string logicalInput = "(d{[a]})";
 LogicalPrograms objLogical = new LogicalPrograms(logicalInput);
 objLogical.CheckOpenCloseBracesProper();
 
@@ -162,6 +163,11 @@ objLogical3.FirstAndLastInSqureBraces();
 
 LogicalPrograms objLogical4 = new LogicalPrograms();
 objLogical4.SumOfDigitFindOut();
+
+LogicalPrograms objLogical5 = new LogicalPrograms();
+objLogical5.Test();
+
+
 
 
 Console.WriteLine("---------------veni test-----------------------");
@@ -183,6 +189,19 @@ var query = from num in arrayNumbers
             select num;
 arrayNumbers = arrayNumbers.Append(6).ToArray();
 Console.WriteLine("After filter and append one value count={0}", query.Count());
+
+int[] arrayNumbersCheck = { 1, 2, 3, 4, 5 };
+var queryCheckFinal = from num in arrayNumbersCheck
+            where num % 2 == 0
+            select num;
+arrayNumbersCheck[1] = 100;
+Console.WriteLine("After filter and append one value count={0}", queryCheckFinal.Count());
+
+int[] arrNumbers = { 1, 2, 3, 4, 5 };
+var queryCheck = from num in arrNumbers
+                 select num;
+arrNumbers = arrNumbers.Append(6).ToArray();
+Console.WriteLine("After filter and append one value count={0}", queryCheck.Count());
 
 Console.WriteLine("-------------Deferred Execution-----------------");
 

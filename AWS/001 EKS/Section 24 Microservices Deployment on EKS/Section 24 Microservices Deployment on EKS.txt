@@ -1,0 +1,16 @@
+
+166. Step-01: Microservices Introduction 					 		###### Duration:  2 mins
+
+167. Step-02: Microservices Deployment on EKS - Introduction 		###### Duration:  9 mins
+
+just explained about the architecural diagram. pls refer the images folder
+
+168. Step-03: Pre-requisite Checks 									###### Duration:  10min
+
+169. Step-04: Review Notification Microservice Kubernetes Manifests ###### Duration:  6 mins
+
+170. Step-05: Review User Management Microservice Kubernetes Manifests ###### Duration:  5 mins
+
+171. Step-06: UMS & NS Microservices Deployment & Test 					###### Duration:  14 mins
+
+172. Step-07: Microservices Rollout new Deployments and CleanUp 		###### Duration:  8 mins

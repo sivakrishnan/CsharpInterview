@@ -31,6 +31,7 @@ function throttle(fn, delay) {
         let now = Date.now();
         if (now - t >= delay) {
             fn.apply(this, args);
+			console.log('Resized at: '+now);
             t = now;
         }
     };

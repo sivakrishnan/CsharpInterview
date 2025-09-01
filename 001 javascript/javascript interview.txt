@@ -54,15 +54,15 @@ let AnotherEmployee={
     firstName:'siva another',
     lastName:'krish another',
 }
-console.log(Employee.getEmployeeName('welcome to', 'colan', 'simple')) // output siva krish
+console.log(Employee.getEmployeeName('welcome to', 'colan', 'simple')) // output: simple-welcome to colan siva krish
 
-console.log(Employee.getEmployeeName.call(AnotherEmployee, 'welcome to', 'colan', 'call'))
+console.log(Employee.getEmployeeName.call(AnotherEmployee, 'welcome to', 'colan', 'call'))// output: call-welcome to colan siva another krish another
 
 let param=['welcome to', 'colan', 'apply']
-console.log(Employee.getEmployeeName.apply(AnotherEmployee, param))
+console.log(Employee.getEmployeeName.apply(AnotherEmployee, param)) //output: apply-welcome to colan siva another krish another
 
 const bindFunction=Employee.getEmployeeName.bind(AnotherEmployee, 'welcome to', 'colan')
-console.log(bindFunction('bind'))
+console.log(bindFunction('bind')) //output: bind-welcome to colan siva another krish another
 
 
 ################# 7) scope
@@ -113,6 +113,62 @@ function add(a){
 }
 console.log(add(1)(2)(3))
 
+################# 12)  Debouncing- Debouncing is a technique used to limit how often a function executes.
+
+
+function debounce(fn, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => { // return a timer id
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
+// Usage
+window.addEventListener("resize", debounce(() => {
+  console.log("Resized at", new Date().toISOString());
+}, 500));
+
+################# 13) Throttling- Ensures a function executes at most once every X milliseconds, no matter how often an event fires. It’s like rate-limiting.
+
+function throttle(fn, delay) {
+  let last = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - last >= delay) {
+      fn.apply(this, args);
+      last = now;
+    }
+  };
+}
+
+
+window.addEventListener("scroll", throttle(() => {
+  console.log("Scroll event at", new Date().toISOString());
+}, 1000));
+
+################# 14) polyfills-  A polyfill is a piece of code (usually JavaScript) that implements a feature that is expected in newer JavaScript engines or browsers
+, but is missing in older ones.
+
+
+Suppose you want to use Array.prototype.includes, which is supported in modern browsers but not in "Internet Explorer".
+
+Without polyfill:
+
+[1, 2, 3].includes(2); // ❌ Error in older browsers
+
+
+With polyfill:
+
+if (!Array.prototype.includes) {  // checking weather the "includes" function available or not if not do/add the logic 
+  Array.prototype.includes = function(searchElement, fromIndex) {
+    return this.indexOf(searchElement, fromIndex) !== -1;
+  };
+}
+
+console.log([1, 2, 3].includes(2)); // ✅ Works everywhere
 
 ################# 15) Object creation in javascript
 

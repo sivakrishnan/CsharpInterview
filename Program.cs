@@ -187,8 +187,12 @@ int[] arrayNumbers = { 1, 2, 3, 4, 5 };
 var query = from num in arrayNumbers
             where num % 2 == 0
             select num;
-arrayNumbers = arrayNumbers.Append(6).ToArray();
+arrayNumbers= arrayNumbers.Append(6).ToArray();
 Console.WriteLine("After filter and append one value count={0}", query.Count());
+foreach (var number in query)
+{
+    Console.WriteLine(number);
+}
 
 int[] arrayNumbersCheck = { 1, 2, 3, 4, 5 };
 var queryCheckFinal = from num in arrayNumbersCheck
@@ -202,6 +206,14 @@ var queryCheck = from num in arrNumbers
                  select num;
 arrNumbers = arrNumbers.Append(6).ToArray();
 Console.WriteLine("After filter and append one value count={0}", queryCheck.Count());
+
+
+
+List<int> lstNumbers = new List<int> { 1, 2, 3, 4, 5 };
+var lstQueryCheck = from num in lstNumbers
+                    select num;
+lstNumbers.Add(6);
+Console.WriteLine("After filter and append one value count={0}", lstQueryCheck.Count());
 
 Console.WriteLine("-------------Deferred Execution-----------------");
 
@@ -335,6 +347,86 @@ var secondHighestSalary = emp.employees
     .FirstOrDefault();
 
 Console.WriteLine("Second Highest Salary: " + secondHighestSalary);
+
+Console.WriteLine("----------------Convert tightly coupled to loosely coupled wipro--------------");
+
+//using System;
+
+//public class Client
+//{
+//    private readonly Customer _customer;
+
+//    public Client()
+//    {
+//        _customer = new Customer();
+//    }
+
+//    public void CallingClient()
+//    {
+//        _customer.CallingCustomer();
+//    }
+
+//}
+
+//public class Customer
+//{
+//    public void CallingCustomer()
+//    {
+//        Console.WriteLine("This is CallCustomer");
+//    }
+//}
+
+//class Program
+//{
+//    static void Main(string[] args)
+//    {
+//        Client clientObj = new Client();
+//        clientObj.CallingClient();
+//    }
+//}
+
+
+//// answer
+
+//public interface ICustomer
+//{
+//    void CallingCustomer();
+//}
+
+//public class Customer : ICustomer
+//{
+//    public void CallingCustomer()
+//    {
+//        Console.WriteLine("This is CallCustomer");
+//    }
+//}
+
+
+//public class Client
+//{
+//    private readonly ICustomer _customer;
+
+//    // Constructor Injection
+//    public Client(ICustomer customer)
+//    {
+//        _customer = customer;
+//    }
+
+//    public void CallingClient()
+//    {
+//        _customer.CallingCustomer();
+//    }
+//}
+
+//class Program
+//{
+//    static void Main(string[] args)
+//    {
+//        ICustomer customer = new Customer();  // You can easily swap this with another implementation
+//        Client clientObj = new Client(customer);
+//        clientObj.CallingClient();
+//    }
+//}
 
 
 Console.WriteLine("----------------AWS Cloud Watch--------------");

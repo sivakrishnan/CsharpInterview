@@ -20,25 +20,90 @@ Beginner ASP.NET Core Web API Interview Questions
 
 ###5) What are HTTP verbs (GET, POST, PUT, DELETE)?
 
-###1) What is routing in ASP.NET Core?
+###6) What is routing in ASP.NET Core?
 
-###1) How do you return JSON from a Web API?
+###7) How do you return JSON from a Web API?
 
-###1) What is a controller in ASP.NET Core Web API?
+	In ASP.NET Core Web API, JSON is returned automatically. 
+	If you return a POCO object or ActionResult<T>, the framework serializes it to JSON using System.Text.Json. 
+	You can also explicitly return JSON using Ok(object) or JsonResult. The response is by default application/json unless content negotiation decides otherwise."
+	
+	IActionResult 		  ----> return Ok(Product) 			---->return the json
+	ActionResult<Product> ----> return Product 				---->return the json (behind the code, it will automatically wrapped with Ok(product)
+	IActionResult 		  -----> return JsonResult(Product) ---->explicitly return the json
 
-###1) Explain the role of Startup.cs.
+###8) What is a controller in ASP.NET Core Web API?
 
-###1) What is middleware?
+###9) Explain the role of Startup.cs.
 
-###1) How do you test an ASP.NET Core Web API using tools like Postman?
+	The Startup.cs file configures the services and the request pipeline in ASP.NET Core. 
+	The ConfigureServices method is used to "register services with the dependency injection container", such as EF Core, Identity, logging, or custom repositories. 
+	The Configure method defines how the app handles "HTTP requests by setting up middleware" like routing, authentication, authorization, exception handling, etc. 
+	In .NET 6+, the Startup class is optional because these configurations can be done directly in Program.cs, but the underlying concepts remain the same.
 
-###1) How do you enable CORS in an ASP.NET Core Web API?
+###10) What is middleware?
 
-###1) What is dependency injection in ASP.NET Core?
+	Middleware in ASP.NET Core is a software component that sits in the HTTP request pipeline. Each middleware can inspect, modify, or short-circuit a request and/or response. 
+	They execute in order, so the sequence matters a lot. ASP.NET Core provides built-in middleware like routing, authentication, authorization, and exception handling, 
+	and we can also create custom middleware for cross-cutting concerns like logging, caching, or rate limiting.
 
-###1) Explain the appsettings.json file.
+###11) How do you test an ASP.NET Core Web API using tools like Postman?
 
-###1) How do you handle exceptions in an ASP.NET Core Web API?
+###12) How do you enable CORS in an ASP.NET Core Web API?
+
+	CORS in ASP.NET Core is enabled using the AddCors service and the UseCors middleware. 
+	We define a CORS policy in Program.cs or Startup.cs, specifying allowed origins, headers, and methods. 
+	Then we apply that policy globally with app.UseCors("PolicyName") or per controller/action using the [EnableCors] attribute. 
+	By default, ASP.NET Core blocks cross-origin requests, so enabling CORS is necessary when the frontend and backend are hosted on different domains.
+	
+	1. Register CORS in Program.cs
+	
+	// Add CORS services
+	
+	builder.Services.AddCors(options =>
+	{
+		options.AddPolicy("AllowSpecificOrigin",
+			policy =>
+			{
+				policy.WithOrigins("https://app.example.com") // allowed origin
+					  .AllowAnyHeader()
+					  .AllowAnyMethod();
+			});
+	});
+	
+	
+	2. Enable CORS in the middleware pipeline
+	
+	var app = builder.Build();
+
+	// Use CORS globally
+	app.UseCors("AllowSpecificOrigin");
+
+	app.UseAuthorization();
+	app.MapControllers();
+	app.Run();
+	
+	3. Enable CORS per controller or action (optional)
+
+	Instead of global, you can apply per-controller:
+
+	[ApiController]
+	[Route("api/[controller]")]
+	[EnableCors("AllowSpecificOrigin")]  // apply policy here
+	public class ProductsController : ControllerBase
+	{
+		[HttpGet]
+		public IActionResult GetProducts()
+		{
+			return Ok(new[] { "Laptop", "Phone", "Tablet" });
+		}
+	}
+
+###13) What is dependency injection in ASP.NET Core?
+
+###14) Explain the appsettings.json file.
+
+###15) How do you handle exceptions in an ASP.NET Core Web API?
 
 ✅ Intermediate ASP.NET Core Web API Interview Questions
 
@@ -60,6 +125,33 @@ Beginner ASP.NET Core Web API Interview Questions
 ###3) How do you implement attribute routing?
 
 ###4) What is the difference between IActionResult and ActionResult<T>?
+
+	IActionResult is a flexible interface that lets you return any type of HTTP response, 
+	while ActionResult<T> combines type safety with flexibility. With ActionResult<T> you can return either a strongly typed object (which automatically becomes a 200 OK response) 
+	or other HTTP responses like NotFound() or BadRequest(). It also improves Swagger/OpenAPI documentation by clearly showing the response type.
+
+
+	[HttpGet("{id}")]
+	public IActionResult GetProduct(int id)
+	{
+		var product = _repository.GetById(id);
+
+		if (product == null)
+			return NotFound();
+
+		return Ok(product);
+	}
+	
+	[HttpGet("{id}")]
+	public ActionResult<Product> GetProduct(int id)
+	{
+		var product = _repository.GetById(id);
+
+		if (product == null)
+			return NotFound();
+
+		return product; // automatically wrapped in Ok(product)
+	}
 
 ###5) How do you use filters in ASP.NET Core (action filters, exception filters)?
 
@@ -134,6 +226,7 @@ Beginner ASP.NET Core Web API Interview Questions
 		});
 
 ✅ Advanced ASP.NET Core Web API Interview Questions
+
 How does dependency injection work under the hood in ASP.NET Core?
 
 How does Kestrel work in ASP.NET Core?

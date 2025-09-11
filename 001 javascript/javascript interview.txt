@@ -219,3 +219,18 @@ console.log('hai-setInterval');
 }
 setTimeout( SayHelloFromSetTimeOut, 3000);
 setInterval(SayHelloFromSetInterval, 3000);
+
+################# 17) Wipro interviewer asked	
+
+console.log("start of program");
+ 
+setTimeout(() => {
+    console.log("settimeout called");
+}, 4000);
+ 
+while(true)
+{
+    console.log("while loop called.");
+}
+ 
+console.log("end of program");

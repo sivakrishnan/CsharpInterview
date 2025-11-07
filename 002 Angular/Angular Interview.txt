@@ -52,6 +52,19 @@ Explain the difference between ngOnInit and constructor.
 
 What are lifecycle hooks in Angular?
 
+	ngOnChange()  ----> @Input() properties are initialized
+
+	ngOnInit()  -----> initialize the compoent property
+	ngDoCheck()
+
+	ngAfterContentInit()
+	ngAfterContentChecked()
+
+	ngAfterViewInit()
+	ngAfterViewChecked()
+
+	ngDestroy()  ----> unsubscribe from observable
+
 What is the difference between ViewChild and ContentChild?
 
 What is ng-content, and how does content projection work?

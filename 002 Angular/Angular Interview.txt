@@ -33,6 +33,8 @@ How do you handle forms in Angular? What is the difference between template-driv
 
 What is Angular’s change detection mechanism?
 
+	Angular’s change detection is a system that checks component data for changes and updates the DOM automatically.
+
 How does Angular handle routing?
 
 What are route guards, and how do you use them?
@@ -51,16 +53,16 @@ What is NgZone, and why might you use it?
 
 Explain the difference between ngOnInit and constructor.
 
-constructor-> belongs to TypeScript class (not Angular lifecycle)
-ngOnInit   -> belongs to Angular lifecycle hooks
+	constructor-> belongs to TypeScript class (not Angular lifecycle)
+	ngOnInit   -> belongs to Angular lifecycle hooks
 
-Purpose ---> Initialize class members, inject dependencies
-Purpose ---> Fetch data, call APIs, run initialization that depends on Angular bindings
+	Purpose ---> Initialize class members, inject dependencies
+	Purpose ---> Fetch data, call APIs, run initialization that depends on Angular bindings
 
-runs ---> only one time. immediately when the class created
-runs ---> only one time. after the ngOnchanges, in ngOnChanges the @input values are assigned, so some of the angular bindings are depend on @input values can initialized in ngOninit()
+	runs ---> only one time. immediately when the class created
+	runs ---> only one time. after the ngOnchanges, in ngOnChanges the @input values are assigned, so some of the angular bindings are depend on @input values can initialized in ngOninit()
 
-Execution Order  ---> constructor() → ngOnChanges() → ngOnInit()
+	Execution Order  ---> constructor() → ngOnChanges() → ngOnInit()
 
 What are lifecycle hooks in Angular?
 

@@ -1,0 +1,58 @@
+###########################✅ Intermediate Angular Interview Questions
+
+What is Angular’s change detection mechanism?
+
+	Angular’s change detection is a system that checks component data for changes and updates the DOM automatically.
+
+How does Angular handle routing?
+
+What are route guards, and how do you use them?
+
+Explain lazy loading in Angular.
+
+What is Ahead-of-Time (AOT) compilation?
+
+How does Angular handle HTTP requests?
+
+What is an observable? How is it different from a promise?
+
+How do you unsubscribe from an observable? Why is it important?
+
+What is NgZone, and why might you use it?
+
+Explain the difference between ngOnInit and constructor.
+
+	constructor-> belongs to TypeScript class (not Angular lifecycle)
+	ngOnInit   -> belongs to Angular lifecycle hooks
+
+	Purpose ---> Initialize class members, inject dependencies
+	Purpose ---> Fetch data, call APIs, run initialization that depends on Angular bindings
+
+	runs ---> only one time. immediately when the class created
+	runs ---> only one time. after the ngOnchanges, in ngOnChanges the @input values are assigned, so some of the angular bindings are depend on @input values can initialized in ngOninit()
+
+	Execution Order  ---> constructor() → ngOnChanges() → ngOnInit()
+
+What are lifecycle hooks in Angular?
+
+	ngOnChange()  ----> @Input() properties are initialized
+
+	ngOnInit()  -----> initialize the compoent property
+	ngDoCheck()
+
+	ngAfterContentInit()
+	ngAfterContentChecked()
+
+	ngAfterViewInit()
+	ngAfterViewChecked()
+
+	ngDestroy()  ----> unsubscribe from observable
+
+What is the difference between ViewChild and ContentChild?
+
+What is ng-content, and how does content projection work?
+
+How do you use trackBy in *ngFor, and why?
+
+What are Angular interceptors? How would you use them?
+

@@ -1,0 +1,78 @@
+🟨 Intermediate-Level EF Core Questions
+
+10. What is Change Tracking? ---> EF Core tracks entity states (Added, Modified, Deleted, Unchanged).
+
+11. What are Entity States? ---> Added, Modified, Deleted, Detached, Unchanged
+
+12. What is a Shadow Property? ---> A property not defined in the entity class but defined in EF model.
+
+	public class Product
+	{
+		public int Id { get; set; }
+		public string Name { get; set; }
+	}
+	
+✅ 1️) Define Shadow Property using Fluent API
+
+DbContext
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Product>()
+        .Property<DateTime>("CreatedDate")          // Shadow Property
+        .HasDefaultValueSql("GETDATE()");
+}
+
+
+✔ Now EF Core will create a column CreatedDate in database
+✔ But it does NOT exist in Product class
+
+✅ 2️) Using the Shadow Property
+
+Set its value before saving
+var product = new Product
+{
+    Name = "Laptop"
+};
+
+context.Add(product);
+
+// Set shadow property value
+context.Entry(product).Property("CreatedDate").CurrentValue = DateTime.Now;
+
+context.SaveChanges();
+
+✅ 3️) Reading Shadow Property
+
+var p = context.Products.First();
+var createdDate = context.Entry(p).Property("CreatedDate").CurrentValue;
+
+Console.WriteLine(createdDate);
+
+13. What is Fluent API? ---> Configuration of entities using ModelBuilder.
+
+14. Difference between HasKey, HasAlternateKey, and HasIndex?
+
+HasKey ---> Primary key
+HasAlternateKey ---> Additional unique constraint
+HasIndex ---> Non-unique index
+
+15. What is Global Query Filter? ---> To filter soft-deleted or tenant-specific data.
+
+16. How does EF Core handle concurrency? Using, RowVersion and ConcurrencyToken
+
+17. What is AsNoTracking()? ---> Disables change tracking → improves read performance.
+
+18. Difference: IQueryable vs IEnumerable in EF?
+
+IQueryable → executed in SQL, deferred.
+IEnumerable → executed in .NET (in-memory).
+
+19. How to log SQL queries in EF Core?
+
+Using:
+
+optionsBuilder.LogTo(Console.WriteLine);
+
+20. What is Split Query vs Single Query?
+
+Controls how EF loads related entities.

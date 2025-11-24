@@ -1,0 +1,697 @@
+Beginner Angular Interview Questions
+
+##################################################################################################################
+
+What is Angular?
+
+Angular is a front-end, TypeScript-based, open-source framework used to build dynamic, single-page, enterprise-level web applications.
+It is maintained by Google and widely used for large-scale applications.
+
+
+⭐ Key Features of Angular
+
+1. Component-Based Architecture- Everything is a component, UI broken into small reusable building blocks. Each with its own HTML, CSS, and TypeScript
+2. TypeScript-Based - Angular uses TypeScript, providing: Strong typing, Better debugging, Cleaner code.
+3. Two-Way Data Binding - Automatically syncs data between UI and logic.
+4. Built-In Dependency Injection - Makes code modular and testable:
+
+constructor(private service: UserService) {}
+
+5. Routing - Supports navigation between pages in single-page apps.
+6. RxJS for Asynchronous Programming - Uses Observables for: API calls, Streams, Real-time data
+7. Angular CLI - Command-line tool for: Generating components, Building apps, Running tests, Scaffold entire projects
+
+##################################################################################################################
+
+Single Page Applications (SPAs)
+
+Angular is commonly used to build Single Page Applications (SPAs) because of the way it handles routing, rendering, and data updates.
+
+1) Angular loads the application once
+
+	In an SPA, the browser downloads: HTML, CSS, JavaScript- Only one time at the start. After that, Angular dynamically updates the page without full reloads.
+
+2) Angular has a built-in Router for client-side navigation
+
+	The Angular Router changes the URL without reloading the browser. but the page does not reload — Angular replaces only the specific component.
+	This behavior is the foundation of an SPA.
+
+3) Components render dynamically
+
+	Angular uses: data binding, change detection, virtual DOM (efficient updates), Only the part of the UI that needs updating is refreshed.
+
+4) Faster user experience
+
+	Since Angular avoids page reloads: Navigation is instant, API data loads dynamically, No flash, no white screen, no reload time
+
+5) REST API + Angular = Perfect SPA architecture
+
+Angular consumes backend APIs (ASP.NET Core, Node, Java, etc.).
+All UI logic happens on the frontend, making the app behave like a native application.
+
+6️) Angular is stateful on client-side
+
+Angular can store:
+
+user data
+
+settings
+
+form values
+
+UI state
+
+Since the app is not reloaded, the state stays in memory.
+
+##################################################################################################################
+
+What are components in Angular?
+
+A component in Angular is a TypeScript class that controls:
+
+	View (HTML template)
+	Logic (TypeScript code)
+	Styles (CSS)
+	Metadata (decorator @Component)
+	
+		A component is responsible for:
+
+			Displaying data on the UI
+			Handling user actions (click, input, submit)
+			Communicating with other components
+			Working with services to fetch data
+			Maintaining the UI state
+			
+	The root component is AppComponent, loaded first by Angular
+
+##################################################################################################################
+
+What is a module in Angular?
+
+##################################################################################################################
+
+Explain the role of decorators (@Component, @NgModule, etc.).
+
+	Decorator					Purpose
+	--------------------------------------------------------------
+	@Component					Defines a component + metadata
+	@NgModule					Defines a module and dependencies
+	@Injectable					Marks class as a DI service
+	@Input						Receive data from parent
+	@Output						Emit data to parent
+	@Directive					Create a custom directive
+	@Pipe						Create a custom pipe
+	@HostListener				Listen to DOM events
+	@ViewChild					Get element or component reference
+	
+	1. @Component — Defines a Component - Turns a TypeScript class into an Angular component.
+	
+	@Component({
+	  selector: 'app-hello',
+	  templateUrl: './hello.component.html',
+	  styleUrls: ['./hello.component.css']
+	})
+	export class HelloComponent {}
+
+	✔ What it does
+
+	Declares the selector (HTML tag)
+	Links the template
+	Applies styles
+	Registers component metadata
+	
+	---------------------------------------------------------------------------------
+	
+	2. @NgModule — Defines an Angular Module, Groups related components, directives, pipes, and services.
+	
+	@NgModule({
+		  declarations: [AppComponent, HomeComponent],
+		  imports: [BrowserModule, FormsModule],
+		  providers: [UserService],
+		  bootstrap: [AppComponent]
+	})
+	export class AppModule {}
+
+	✔ What it does
+	
+	Defines module boundaries
+	Declares components & pipes
+	Imports other modules
+	Provides services
+	Defines startup component (bootstrap)
+	
+	---------------------------------------------------------------------------------	
+	
+	3. @Injectable — Marks a Class as a Service, Tells Angular that this class can be injected via dependency injection
+	
+	@Injectable({
+	  providedIn: 'root'   // Singleton service
+	})
+	export class UserService {}
+	
+	✔ What it does
+
+	Makes class eligible for DI
+	Controls service lifetime (root, platform, any)
+	
+	---------------------------------------------------------------------------------	
+	
+	4. @Input — Pass Data Into a Component- Used in child components to receive values from parent.
+
+	@Input() title: string;
+	
+	---------------------------------------------------------------------------------	
+	
+	5. @Output — Send Events Out of a Component- Used for child → parent communication.
+
+	@Output() clicked = new EventEmitter<string>();
+	
+	---------------------------------------------------------------------------------	
+
+	6. @Directive — Defines a Directive - Turns a class into a directive (attribute behavior).
+
+	@Directive({
+	  selector: '[highlight]'
+	})
+	export class HighlightDirective {}
+	
+	---------------------------------------------------------------------------------	
+	
+	7. @Pipe — Defines a Custom Pipe
+	
+	@Pipe({ name: 'capitalize' })
+	export class CapitalizePipe {}
+	
+	---------------------------------------------------------------------------------	
+	
+	8. @HostListener — Listens to DOM Events
+	
+	@HostListener('click')
+	onClick() { }
+
+	---------------------------------------------------------------------------------	
+
+	9. @ViewChild / @ViewChildren — Access Template Elements
+	
+	@ViewChild('inputRef') inputEl: ElementRef;
+	
+##################################################################################################################
+
+What is data binding in Angular, and what types does Angular support?
+
+##################################################################################################################
+
+What is the purpose of ngOnInit()?
+
+ngOnInit(): is one of Angular’s component lifecycle hooks.Its main purpose is to run initialization logic after Angular has set up the component and its @Input properties.
+
+✅ Purpose of ngOnInit()
+
+1) Initialize component data -use it to load data, call APIs, or set default values.
+2) Runs after Angular sets @Input values - Unlike the constructor, ngOnInit() guarantees that @Input() values from the parent component are already available.
+3) Best place to start component logic
+
+	Ideal for:
+
+	HTTP calls
+	Setting up subscriptions
+	Initializing variables
+	Preparing UI states
+
+##################################################################################################################
+
+How does Angular’s two-way data binding work?
+
+Angular’s two-way data binding allows synchronization between the UI (view) and the component class (model).
+
+1) When the user updates the UI → component property updates.
+2) When the component property changes → UI updates automatically.
+
+This is done using [(ngModel)], which is a combination of property binding + event binding.
+
+✅ How Two-Way Binding Actually Works Internally
+
+[(ngModel)]="value" is just a shorthand for:
+
+	✔ Property Binding (from component → view)
+	[value]="value"
+
+	✔ Event Binding (from view → component)
+	(input)="value = $event.target.value"
+
+	So Angular expands:
+	[(ngModel)]="value"
+
+	into:
+
+	[value]="value" 
+	(input)="value = $event"
+	
+🧪 Example
+
+	component.ts
+	name: string = "";
+
+	component.html
+	<input [(ngModel)]="name">
+	<p>You typed: {{ name }}</p>
+
+	Typing into the input updates name, and changing name updates the input.
+	
+🎯 Requirements
+
+	Two-way binding using ngModel works only when:
+
+	✔ FormsModule is imported
+	import { FormsModule } from '@angular/forms';
+
+##################################################################################################################
+
+Explain the concept of directives.
+
+##################################################################################################################
+
+What is the difference between structural directives and attribute directives?
+
+##################################################################################################################
+
+What is the Angular CLI? Why should we use it?
+
+##################################################################################################################
+
+How do you communicate between parent and child components?
+
+In Angular, parent–child communication happens through There are four main ways to communicate between parent and child components.
+
+🔵 1. Parent → Child (Using @Input)
+
+	Used when the parent wants to send data to the child.
+
+	Parent Component HTML:
+		<child-component [userName]="name"></child-component>
+
+	Child Component:
+	@Input() userName: string = '';
+
+
+	✔ Whenever the parent updates name, the child automatically receives it.
+
+
+🔴 2. Child → Parent (Using @Output + EventEmitter)
+
+	Used when the child wants to send data or events back to the parent.
+
+	Child Component:
+	@Output() notify = new EventEmitter<string>();
+
+	sendMsg() {
+	  this.notify.emit("Hello Parent!");
+	}
+
+	Parent Component HTML:
+	<child-component (notify)="handleMessage($event)"></child-component>
+
+	Parent TS:
+	handleMessage(msg: string) {
+	  console.log(msg); // "Hello Parent!"
+	}
+
+	✔ Best for button clicks, form submissions, selecting items, etc.
+	
+🟡 3. Parent ↔ Child: via @ViewChild
+
+	Parent gets access to child component instance to call its methods.
+
+	Parent TS:
+	@ViewChild(ChildComponent) child!: ChildComponent;
+
+	ngAfterViewInit() {
+	  console.log(this.child); // access child properties/methods
+	}
+
+
+	✔ Useful when parent needs to trigger child methods.
+	
+🟢 4. Unrelated Components → Using Services (Shared Service + Observables)
+
+	When two components are NOT parent/child, or multiple components must sync state.
+
+	shared.service.ts
+	private messageSource = new Subject<string>();
+	message$ = this.messageSource.asObservable();
+
+	sendMessage(msg: string) {
+	  this.messageSource.next(msg);
+	}
+
+	Sender Component
+	service.sendMessage("Hello!");
+
+	Receiver Component
+	service.message$.subscribe(msg => console.log(msg));
+
+
+✔ Best for cross-component communication
+✔ Works even when components are in different routess
+
+##################################################################################################################
+
+What are services in Angular?
+
+In Angular, services are  TypeScript classes designed to provide business logic, data access, shared functionality that can be used across multiple components. 
+They help keep your application loosly coupled, logic organized, reusable, testable, and maintainable.
+
+🏗️ How to Create a Service using CLI
+
+	ng generate service user
+
+
+	by manually:
+
+	import { Injectable } from '@angular/core';
+
+	@Injectable({
+	  providedIn: 'root'
+	})
+	export class UserService {
+	  constructor() { }
+	}
+
+🔧 Injecting a Service into a Component
+
+	Angular DI injects the service into a component via the constructor:
+
+	constructor(private userService: UserService) {}
+
+	ngOnInit() {
+	  console.log(this.userService.getUser());
+	}
+	
+🌳 Angular Services Use Hierarchical Injection
+
+	Services can be registered at:
+
+	1) Root (global)
+	2) Module level
+	3) Component level
+	
+	
+🧩 Service ProvidedIn Options
+
+	1. providedIn: 'root' (Singleton)
+
+		✔ One instance for entire app
+		✔ Most common
+
+	2. Component-level provider
+		@Component({
+		  providers: [UserService]
+		})
+
+
+		✔ New instance for each component
+		✔ Useful for isolated state
+
+	3. Module-level provider
+	
+		@NgModule({
+		  providers: [UserService]
+		})
+
+In Angular, providedIn controls where a service is registered in Angular’s Dependency Injection (DI) system.
+This determines:
+
+✔ Service lifetime
+✔ Service scope
+✔ Whether it becomes a singleton or gets multiple instances
+
+##################################################################################################################
+
+
+🔥 All providedIn Options with Explanation
+
+There are 4 major options:
+
+1️) providedIn: 'root' (Most common)
+
+	@Injectable({
+	  providedIn: 'root'
+	})
+
+✔ Meaning:
+
+	1) The service is registered in the root injector.
+	2) Angular creates one single instance for the entire application.
+	3) Shared across all modules and components.
+
+✔ Advantages:
+
+	1) Singleton → consistent shared state.
+	2) Automatically tree-shakeable (removes unused services from bundle).
+
+2️) providedIn: 'platform'
+	
+	@Injectable({
+	  providedIn: 'platform'
+	})
+
+	✔ Meaning:
+
+	Created once per browser platform.
+
+	If multiple Angular apps (Micro frontend setups, Multi-app pages) run on the same page, they share this single instance.
+	
+3) providedIn: 'any'
+
+	@Injectable({
+	  providedIn: 'any'
+	})
+
+	✔ Meaning:
+
+	A new instance is created for each lazy-loaded module.
+	But only one instance for the entire eagerly-loaded app.
+
+##################################################################################################################
+
+Explain dependency injection in Angular.
+
+Dependency Injection (DI) in Angular is a design pattern where a class receives (or is “injected” them from a dependency container) with the objects it depends on, instead of creating them itself.
+Angular has a powerful built-in DI framework that automatically creates, manages, and provides services wherever they are needed.
+Angular creates and provides services automatically to components, making your application more modular, testable, and maintainable.
+
+📌 Benefits of Angular DI
+
+	Loose coupling--->	Classes don't create their own dependencies
+	Easier testing--->	You can mock injected services
+	Reusability--->	One service, many components
+	Automatic lifecycle management--->	Angular creates & destroys services
+	Scalability--->	Hierarchical injectors support large apps
+
+✅ Why Dependency Injection?
+
+	Without DI, you would create objects manually:
+
+	const service = new DataService();
+
+
+	❌ Hard to test
+	❌ Tight coupling
+	❌ Difficult to switch implementations
+
+	With DI, Angular does this automatically.
+
+
+	Example:
+
+	constructor(private dataService: DataService) { }
+
+	Angular sees this and:
+
+	Looks for a provider for DataService, Creates (or reuses) an instance, Injects it into the constructor
+
+🏛️ What Is a Provider?
+
+A provider tells Angular how to create or fetch a dependency.
+
+You register a service as a provider:
+
+Option 1: At the root level (singleton)
+
+	@Injectable({
+	  providedIn: 'root'
+	})
+	export class DataService { }
+
+
+	✔ One global instance shared everywhere
+	✔ Recommended
+
+Option 2: In a specific module
+
+	@NgModule({
+	  providers: [DataService]
+	})
+	export class AppModule { }
+
+Option 3: In a component (scoped instance)
+
+	@Component({
+	  providers: [DataService]
+	})
+	export class SomeComponent { }
+
+
+	✔ New instance for each component
+	✔ Useful when service state must be isolated
+
+🧠 How Angular DI Works Internally
+
+Angular has a hierarchical injector system:
+
+				Root Injector
+				Module Injector
+				Component Injector
+                Directive Injector
+
+
+Meaning:
+
+If a component asks for a service: ---> Angular first checks its own injector, If not found, it checks parent injector, Continues up to root injector
+
+This is why:
+
+Services provided in root are available everywhere
+
+Services provided in components create new instances
+
+🧪 Example: Injecting a Service
+1. Create a Service
+@Injectable({
+  providedIn: 'root'
+})
+export class LoggerService {
+  log(msg: string) {
+    console.log(msg);
+  }
+}
+
+2. Inject it into a Component
+constructor(private logger: LoggerService) {}
+
+ngOnInit() {
+  this.logger.log("Hello from component");
+}
+
+
+##################################################################################################################
+
+What is a pipe in Angular?
+
+A pipe in Angular is a feature that allows you to transform data directly in the template.
+It is used to format or modify values before displaying them in the UI.
+A pipe is a simple function that takes a value, transforms it, and returns the new value.
+Pipes are written using the | (pipe) symbol in templates.
+
+⭐ Example (Built-in Pipe)
+
+<p>{{ today | date:'dd/MM/yyyy' }}</p>
+
+Here:
+
+today → input value
+date → pipe
+'dd/MM/yyyy' → argument
+Output: formatted date
+
+🔧 Creating a Custom Pipe
+
+	import { Pipe, PipeTransform } from '@angular/core';
+
+	@Pipe({
+	  name: 'reverse'
+	})
+	export class ReversePipe implements PipeTransform {
+	  transform(value: string): string {
+		return value.split('').reverse().join('');
+	  }
+	}
+
+
+	Using it:
+
+	<p>{{ 'Hello' | reverse }}</p>   <!-- Output: 'olleH' -->
+	
+🧠  To create a pipe in Angular using the CLI, use:
+
+	ng generate pipe pipe-name
+	ng g p pipe-name
+
+##################################################################################################################
+
+pure pipe vs impure pipe angular
+
+1. Pure Pipe (default)
+
+	A pure pipe is executed only when Angular detects a pure change to the input value.
+
+	✔ Pure changes include:
+
+	Changing primitive values (string, number, boolean)
+	Changing object/array reference (new object)
+
+	❌ Not triggered when:
+
+	Mutating an existing array or object
+	(e.g., push(), pop(), splice(), modifying properties)
+
+	✔ Performance
+
+	Much more efficient
+	Called fewer times
+	Recommended for most use cases
+
+	✔ How to use
+
+	By default, all pipes are pure = true:
+
+	@Pipe({
+	  name: 'myPipe',
+	  pure: true
+	})
+	export class MyPipe { }
+
+2. Impure Pipe
+
+	An impure pipe is executed on every change detection cycle, even if:
+	The input value reference has NOT changed
+	Array/object is mutated
+	Any event triggers change detection
+
+	✔ Use cases:
+
+	When data changes frequently without reference change
+	(e.g., pushing items into an array)
+
+	Pipes depending on external values
+	(e.g., time-based pipes, random values)
+
+	❌ Disadvantages:
+
+	Expensive → runs many times
+	Can impact performance
+
+	✔ How to use
+
+	Set pure: false:
+
+	@Pipe({
+	  name: 'myPipe',
+	  pure: false
+	})
+	export class MyImpurePipe { }
+##################################################################################################################
+
+How do you handle forms in Angular? What is the difference between template-driven and reactive forms?
+
+##################################################################################################################

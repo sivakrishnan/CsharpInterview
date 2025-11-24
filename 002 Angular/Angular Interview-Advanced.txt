@@ -1,0 +1,30 @@
+✅ Advanced Angular Interview Questions
+Explain Angular’s change detection strategy (Default vs OnPush).
+
+How does the Angular Ivy compiler work?
+
+What is tree shaking in Angular, and why is it important?
+
+Can you explain zone.js?
+
+How does Angular handle cross-site scripting (XSS) prevention?
+
+How would you create a custom structural directive?
+
+How would you optimize the performance of a large Angular app?
+
+How would you share data between unrelated components?
+
+Explain Angular module federation (micro-frontends with Angular).
+
+How do you write unit tests in Angular? Which tools are typically used?
+
+How do you test asynchronous code in Angular?
+
+What is the purpose of Renderer2?
+
+What is the difference between ng-template and ng-container?
+
+How does Angular Universal work for server-side rendering?
+
+Describe the Angular injector hierarchy.

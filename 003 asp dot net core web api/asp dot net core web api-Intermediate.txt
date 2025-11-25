@@ -1,0 +1,185 @@
+
+✅ Intermediate ASP.NET Core Web API Interview Questions
+
+##################################################################################################################
+
+
+###1) What is model binding?
+
+	[FromRoute] → bind from route
+	[FromQuery] → bind from query string
+	[FromBody] → bind from request body  --------------> Content Type=application/json
+	[FromForm] → bind from form data --------------> Content Type= multipart/form-data or application/x-www-form-urlencoded
+
+	[FromHeader] → bind from headers
+
+	X-Correlation-Id: 12345
+	public IActionResult GetOrders([FromHeader(Name = "X-Correlation-Id")] string correlationId)
+	
+##################################################################################################################
+
+###2) What is model validation?
+
+##################################################################################################################
+
+###3) How do you implement attribute routing?
+
+[ApiController]
+[Route("api/[controller]")]
+public class OrdersController : ControllerBase
+{
+    [HttpGet]
+    public IActionResult GetAllOrders()
+    {
+        return Ok("All orders");
+    }
+
+	✔ Route Parameters with Named Parameters & Constraints
+    [HttpGet("{id:int}")]
+    public IActionResult GetOrder(int id)
+    {
+        return Ok($"Order ID: {id}");
+    }
+
+    [HttpPost("create")]
+    public IActionResult CreateOrder([FromBody] Order order)
+    {
+        return Ok("Order created");
+    }
+	
+	✔ Multiple Routes for an Action
+	[HttpGet("all")]
+	[HttpGet("list")]
+	public IActionResult GetAll()
+	{
+		return Ok("List of products");
+	}
+	
+	GET /api/Orders/all
+	GET /api/Orders/list
+}
+
+##################################################################################################################
+
+###4) What is the difference between IActionResult and ActionResult<T>?
+
+	IActionResult is a flexible interface that lets you return any type of HTTP response, 
+	while ActionResult<T> combines type safety with flexibility. With ActionResult<T> you can return either a strongly typed object (which automatically becomes a 200 OK response) 
+	or other HTTP responses like NotFound() or BadRequest(). It also improves Swagger/OpenAPI documentation by clearly showing the response type.
+
+
+	[HttpGet("{id}")]
+	public IActionResult GetProduct(int id)
+	{
+		var product = _repository.GetById(id);
+
+		if (product == null)
+			return NotFound();
+
+		return Ok(product);
+	}
+	
+	[HttpGet("{id}")]
+	public ActionResult<Product> GetProduct(int id)
+	{
+		var product = _repository.GetById(id);
+
+		if (product == null)
+			return NotFound();
+
+		return product; // automatically wrapped in Ok(product)
+	}
+	
+##################################################################################################################
+
+###5) How do you use filters in ASP.NET Core (action filters, exception filters)?
+
+##################################################################################################################
+
+###6) What is the purpose of ApiController attribute?
+
+##################################################################################################################
+
+###7) What is Swagger (OpenAPI), and how do you integrate it?
+
+##################################################################################################################
+
+###8) How do you secure a Web API using JWT (JSON Web Token)?
+
+##################################################################################################################
+
+###9) What is middleware pipeline ordering and why does it matter?
+
+##################################################################################################################
+
+###10) Explain environment-based configuration in ASP.NET Core.
+
+##################################################################################################################
+
+###11) What is asynchronous programming and why is it important in Web APIs?
+
+##################################################################################################################
+
+###12) What is content negotiation?
+
+	Content negotiation is the process where the server and the client agree on the best format for the response data.
+	in short server and client agree on data format dynamically.
+	
+	If a client sends:
+	Accept: application/json
+	the server responds with JSON.
+	example: 
+	
+		{
+		  "id": 1,
+		  "name": "Phone"
+		}
+	
+	If a client sends:
+	Accept: application/xml
+	the server responds with XML
+	example: 
+		<Product>
+		  <Id>1</Id>
+		  <Name>Phone</Name>
+		</Product>
+	
+	in program.cs
+	
+	builder.Services.AddControllers().AddXmlSerializerFormatters();
+	
+##################################################################################################################
+
+###13) How do you handle file uploads in Web API?
+
+##################################################################################################################
+
+###14) How do you inject a custom service into your controller?
+
+##################################################################################################################
+
+###15) Explain versioning of Web APIs.
+
+	1) URI versioning (most common)
+		/api/v1/products
+		/api/v2/products
+		
+	2) Query string versioning		
+		/api/products?api-version=1.0
+		
+	3) Header versioning
+		api-version: 1.0
+	
+	4) Media type versioning 
+		Accept: application/vnd.myapp.v1+json
+		
+	Microsoft provides a great NuGet package:Microsoft.AspNetCore.Mvc.Versioning
+	
+	in program.cs file
+	
+		builder.Services.AddApiVersioning(options =>
+		{
+			options.DefaultApiVersion = new ApiVersion(1, 0);
+			options.AssumeDefaultVersionWhenUnspecified = true;
+			options.ReportApiVersions = true;
+		});

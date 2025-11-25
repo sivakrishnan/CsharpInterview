@@ -1,60 +1,65 @@
-✅ Advanced Angular Interview Questions
-Explain Angular’s change detection strategy (Default vs OnPush).
 
 ##################################################################################################################
 
-How does the Angular Ivy compiler work?
+
+✅ Advanced ASP.NET Core Web API Interview Questions
 
 ##################################################################################################################
 
-What is tree shaking in Angular, and why is it important?
+How does dependency injection work under the hood in ASP.NET Core?
 
 ##################################################################################################################
 
-Can you explain zone.js?
+How does Kestrel work in ASP.NET Core?
 
 ##################################################################################################################
 
-How does Angular handle cross-site scripting (XSS) prevention?
+What is the difference between synchronous and asynchronous middleware?
 
 ##################################################################################################################
 
-How would you create a custom structural directive?
+How does ASP.NET Core manage application configuration internally?
 
 ##################################################################################################################
 
-How would you optimize the performance of a large Angular app?
+Explain policy-based vs role-based authorization.
 
 ##################################################################################################################
 
-How would you share data between unrelated components?
+How would you implement rate limiting in ASP.NET Core Web API?
 
 ##################################################################################################################
 
-Explain Angular module federation (micro-frontends with Angular).
+What is HATEOAS? How would you implement it?
 
 ##################################################################################################################
 
-How do you write unit tests in Angular? Which tools are typically used?
+What is a custom middleware, and how do you build one?
 
 ##################################################################################################################
 
-How do you test asynchronous code in Angular?
+Explain the pipeline for a request in ASP.NET Core.
 
 ##################################################################################################################
 
-What is the purpose of Renderer2?
+How would you implement global error handling using ExceptionHandlerMiddleware?
 
 ##################################################################################################################
 
-What is the difference between ng-template and ng-container?
+Describe custom model binders.
 
 ##################################################################################################################
 
-How does Angular Universal work for server-side rendering?
+How does model validation work internally?
 
 ##################################################################################################################
 
-Describe the Angular injector hierarchy.
+What is the role of the Program.cs file in .NET 6/7 minimal hosting?
 
 ##################################################################################################################
+
+How would you deploy an ASP.NET Core Web API to Docker?
+
+##################################################################################################################
+
+Explain the differences between API Gateway and a Web API.

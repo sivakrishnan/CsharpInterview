@@ -20,7 +20,6 @@ using CsharpInterview.WorkOutOverriding;
 using CsharpInterview.WorkOutRefKeyword;
 using CsharpInterview.WorkOutStaticConstructor;
 using CsharpInterview.WorkOutThread;
-using static System.Net.Mime.MediaTypeNames;
 
 Console.WriteLine("Hello, World!");
 
@@ -196,8 +195,8 @@ foreach (var number in query)
 
 int[] arrayNumbersCheck = { 1, 2, 3, 4, 5 };
 var queryCheckFinal = from num in arrayNumbersCheck
-            where num % 2 == 0
-            select num;
+                      where num % 2 == 0
+                      select num;
 arrayNumbersCheck[1] = 100;
 Console.WriteLine("After filter and append one value count={0}", queryCheckFinal.Count());
 

@@ -76,3 +76,189 @@ optionsBuilder.LogTo(Console.WriteLine);
 20. What is Split Query vs Single Query?
 
 Controls how EF loads related entities.
+
+
+##################################################################################################################
+
+What is the difference between Eager loading, Explicit loading and Lazy loading in EF Core?
+
+##################################################################################################################
+How does EF Core Handle cascade delete behavior?
+
+Behavior						Meaning
+Cascade							Child rows are deleted automatically
+ClientCascade					EF deletes child rows in memory; DB won’t handle it
+SetNull							Foreign key is set to NULL
+ClientSetNull					EF sets FK to null in memory; DB does nothing
+Restrict / NoAction				Prevents delete if children exist (throws exception)
+
+
+modelBuilder.Entity<Order>()
+    .HasOne(o => o.Customer)  //parent entity
+    .WithMany(c => c.Orders)  // child entity
+    .OnDelete(DeleteBehavior.Cascade);
+	
+	.OnDelete(DeleteBehavior.NoAction);
+	
+	.OnDelete(DeleteBehavior.SetNull);
+	
+ClientCascade / ClientSetNull (Handled by EF, Not Database)-Used when the database cannot enforce cascade or null set.
+
+##################################################################################################################
+How does EF Core handle concurrency conflicts?
+
+##################################################################################################################
+What is the purpose of AsSplitQuery?
+
+##################################################################################################################
+How does EF Core translate LINQ expressions into SQL?
+
+	Step						Description
+1. Build Expression Tree		LINQ captured as an expression; not executed yet
+
+2. Query Compilation			EF Core validates & optimizes- identify the supported methods like Where(), Select(), OrderBy(), Join(), GroupBy() etc
+
+3. SQL Translation				Expression tree → SQL
+
+4. Parameterization				Safe SQL with parameters - To prevent SQL injection and improve performance:
+								.Where(a => a.Status == "Active") 
+								SELECT * FROM Assets WHERE Status = @__Status_0
+								
+5. Query Execution				Database runs the SQL - Execution happens only when you call: .ToList(), .First(), .FirstOrDefault(), .Count(), await ToListAsync()
+
+6. Materialization				Rows returned → C# objects - The database returns rows → EF Core maps them to your C# model objects.
+								SELECT asset_id, name FROM Assets
+								new Asset { AssetId = 30, Name = "Laptop" }
+
+
+Example:
+
+var results = context.Employees
+    .Where(e => e.DepartmentId == 2)
+    .OrderBy(e => e.Name)
+    .Select(e => new { e.Id, e.Name })
+    .ToList();
+	
+SELECT e.Id, e.Name
+FROM Employees AS e
+WHERE e.DepartmentId = @__depId_0
+ORDER BY e.Name;
+
+##################################################################################################################
+What are global query filter and when they are used?
+
+##################################################################################################################
+What are owned type in EF Core?
+
+##################################################################################################################
+How do you execute raw sql query in EF Core?
+
+##################################################################################################################
+How do you optimize EF Core queries for high traffice read workloads?
+
+1. Use AsNoTracking() for Read-Only Queries
+
+	var data = await _context.Users
+    .AsNoTracking()
+    .ToListAsync();
+	
+	---> Avoids change-tracking overhead
+	---> Essential for high-traffic APIs
+	---> Query becomes faster and uses less memory
+	
+2. Use Compiled Queries (EF Core CompiledQuery)
+
+	Great for queries executed thousands of times.
+
+	static readonly Func<MyDb, int, Task<User>> _getUser =
+		EF.CompileAsyncQuery((MyDb db, int id) =>
+			db.Users.AsNoTracking().FirstOrDefault(u => u.Id == id)
+		);
+
+	var user = await _getUser(_context, id);
+
+	---> Removes query translation overhead
+	---> Big performance boost in high-load scenarios
+	
+3. Add Proper Indexes
+
+Your DB must match your query patterns.
+
+Examples:
+
+CREATE INDEX IX_Users_Email ON Users(Email);
+CREATE INDEX IX_Orders_UserId ON Orders(UserId);
+
+
+✔ Indexes are the #1 factor for speed
+✔ Without indexes, EF Core becomes slow no matter what
+	
+4. Use Projections (Select) Instead of Returning Full Entities
+
+Instead of:
+
+var users = await _context.Users.ToListAsync();
+
+
+Use:
+
+var users = await _context.Users
+    .Select(x => new UserDTO { Id = x.Id, Name = x.Name })
+    .AsNoTracking()
+    .ToListAsync();
+
+
+	---> Reduces network traffic
+	---> Reduces memory usage
+	---> Faster materialization
+	
+
+5. Use Database-Level Caching or In-Memory Cache for Repeated Reads
+
+For frequently accessed reference data:
+
+In-Memory Cache
+
+	var data = await _memoryCache.GetOrCreateAsync("locations", entry =>
+	{
+		entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+		return _context.Locations.AsNoTracking().ToListAsync();
+	});
+
+Redis Cache
+
+Use Redis for large-scale read-heavy applications.
+
+✔ Reduces DB hits
+✔ Much faster response times
+
+##################################################################################################################
+How do complied query improve performance in EF Core?
+
+##################################################################################################################
+How do you implement soft delete in EF Core? interlocked
+
+##################################################################################################################
+What is the difference between Table-per-Hierarchy, Table-per-Type and Table-per-Concrete-Type inheritance in EF Core?
+
+##################################################################################################################
+How do you apply EF Core migration in production?
+
+Option 1: Generate SQL script (Manual Execution)
+
+	dotnet ef migrations script -o migration.sql
+	OR
+	dotnet ef migrations script PreviousMigration LatestMigration -o migration.sql
+	
+Option 2: For Cloud Platform (Pipline Execution)
+
+Add migration step in pipeline:
+
+	dotnet ef database update --project YourProject.csproj
+	
+	
+
+##################################################################################################################
+How does connection pooling behave in EF Core?
+
+##################################################################################################################

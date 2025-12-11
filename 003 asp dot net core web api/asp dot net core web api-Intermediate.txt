@@ -94,6 +94,46 @@ public class OrdersController : ControllerBase
 
 ###5) How do you use filters in ASP.NET Core (action filters, exception filters)?
 
+✅ Types of Filters in ASP.NET Core
+
+Filter Type					Runs When									Purpose
+	
+Authorization Filter		Before anything								Authorize the request
+Resource Filter				Before & after the whole pipeline			Caching, short-circuit
+Action Filter				Before & after action method				Logging, validation
+Exception Filter			When an exception occurs					Custom error handling
+Result Filter				Before & after returning the response		Modify or log results
+
+
+
+1️) Create a Custom Resource Filter
+public class CustomResourceFilter : IResourceFilter
+{
+    public void OnResourceExecuting(ResourceExecutingContext context)
+    {
+        Console.WriteLine("Before the rest of the pipeline");
+    }
+
+    public void OnResourceExecuted(ResourceExecutedContext context)
+    {
+        Console.WriteLine("After the rest of the pipeline");
+    }
+}
+
+2️) Register Filter in DI
+
+builder.Services.AddScoped<CustomResourceFilter>();
+
+3️) Apply to a Controller or Action
+
+[ServiceFilter(typeof(CustomResourceFilter))]
+public class ProductsController : ControllerBase
+{
+    [HttpGet("all")]
+    public IActionResult GetAll() => Ok("Products");
+}
+
+
 ##################################################################################################################
 
 ###6) What is the purpose of ApiController attribute?

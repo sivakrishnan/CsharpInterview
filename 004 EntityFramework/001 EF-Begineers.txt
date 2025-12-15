@@ -76,9 +76,6 @@ Using: optionsBuilder.LogTo(Console.WriteLine);
 20. Controls how EF loads related entities.
 
 
-##################################################################################################################
-
-What is the difference between Eager loading, Explicit loading and Lazy loading in EF Core?
 
 ##################################################################################################################
 How does EF Core Handle cascade delete behavior?
@@ -126,7 +123,7 @@ select o.OrderId, o.OrderName, c.CustomerId, c.CustomerName, i.ItemId from Order
 inner join Customer c on c.CustomerId = O.CustomerId
 inner join Items i on i.OrderId = o.OrderId
 
-in this query "o.OrderId, o.OrderName, c.CustomerId, c.CustomerName" these colums are duplicated this is called "Cartesian explosion"
+in this query "o.OrderId, o.OrderName, c.CustomerId, c.CustomerName" these colums are duplicated. this is called "Cartesian explosion"
 
 
 2) Convert this Linq to Split Query
@@ -200,11 +197,8 @@ static readonly Func<AppDbContext, int, Task<User>> GetUserById =
 
 // usage
 var user = await GetUserById(_context, 10);
-##################################################################################################################
-What are global query filter and when they are used?
 
-##################################################################################################################
-What are owned type in EF Core?
+
 
 ##################################################################################################################
 How do you execute raw sql query in EF Core?
@@ -451,9 +445,123 @@ Use PostgreSQL / SQL Server read replicas:
 
 ##################################################################################################################
 How do you implement soft delete in EF Core? interlocked
+What are global query filter and when they are used?
 
-##################################################################################################################
-What is the difference between Table-per-Hierarchy, Table-per-Type and Table-per-Concrete-Type inheritance in EF Core?
+In EF Core, soft delete means you don’t physically delete a row. Instead, 
+you mark it as deleted (e.g., IsDeleted = true) and automatically exclude it from queries.
+
+What are global query filter and when they are used?
+
+✅ Common Use Cases-Global Filter
+
+1️) Soft Delete
+
+Exclude logically deleted rows
+
+modelBuilder.Entity<Asset>()
+    .HasQueryFilter(e => !e.IsDeleted);
+
+_context.Assets.ToList(); // returns only non-deleted records
+
+2️) Multi-Tenancy
+
+Restrict data per tenant
+
+modelBuilder.Entity<Order>()
+    .HasQueryFilter(o => o.TenantId == _tenantProvider.TenantId);
+
+3️) Active / Inactive Records
+
+Filter active rows only
+
+modelBuilder.Entity<User>()
+    .HasQueryFilter(u => u.IsActive);
+
+4️) Security / Data Isolation
+
+Hide unauthorized data automatically
+
+modelBuilder.Entity<Document>()
+    .HasQueryFilter(d => d.OwnerId == _currentUser.Id);
+
+✅ How to Define a Global Query Filter
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Asset>()
+        .HasQueryFilter(x => !x.IsDeleted);
+}
+
+✅ 1. Add Soft Delete Columns to Entity
+public abstract class BaseEntity
+{
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
+}
+
+
+Example entity:
+
+public class Asset : BaseEntity
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+
+✅ 2. Global Query Filter (Most Important Step)
+
+This ensures all queries automatically ignore deleted records.
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Asset>()
+        .HasQueryFilter(e => !e.IsDeleted);
+}
+
+
+🔹 Now:
+
+_context.Assets.ToList(); // Only non-deleted rows
+
+✅ 3. Override SaveChanges() to Convert Delete → Soft Delete
+public override int SaveChanges()
+{
+    SoftDelete();
+    return base.SaveChanges();
+}
+
+public override async Task<int> SaveChangesAsync(
+    CancellationToken cancellationToken = default)
+{
+    SoftDelete();
+    return await base.SaveChangesAsync(cancellationToken);
+}
+
+private void SoftDelete()
+{
+    foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+    {
+        if (entry.State == EntityState.Deleted)
+        {
+            entry.State = EntityState.Modified;
+            entry.Entity.IsDeleted = true;
+            entry.Entity.DeletedAt = DateTime.UtcNow;
+        }
+    }
+}
+
+
+✔ Calling _context.Remove(entity) now performs a soft delete
+
+✅ 4. Querying Deleted Data (When Needed)
+
+var allAssets = _context.Assets.IgnoreQueryFilters().ToList();
+
+✅ 5. Hard Delete (Optional)
+
+	_context.Assets.IgnoreQueryFilters()
+		.Where(x => x.IsDeleted)
+		.ExecuteDelete();
+
 
 ##################################################################################################################
 How do you apply EF Core migration in production?
@@ -474,5 +582,15 @@ Add migration step in pipeline:
 
 ##################################################################################################################
 How does connection pooling behave in EF Core?
+
+##################################################################################################################
+What is the difference between Table-per-Hierarchy, Table-per-Type and Table-per-Concrete-Type inheritance in EF Core?
+
+##################################################################################################################
+What are owned type in EF Core?
+
+##################################################################################################################
+
+What is the difference between Eager loading, Explicit loading and Lazy loading in EF Core?
 
 ##################################################################################################################

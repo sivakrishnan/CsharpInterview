@@ -48,6 +48,7 @@ bOverride.print();
 
 MethodOverridingBaseClass bOverride1 = new MethodOverridingDerivedClass();
 ((MethodOverridingDerivedClass)bOverride1).print();
+((MethodOverridingBaseClass)bOverride1).print();
 
 
 
@@ -246,6 +247,12 @@ StaticConstructor sc1 = new StaticConstructor();
 StaticConstructor sc2 = new StaticConstructor();
 
 Console.WriteLine("----------------var vs dynamic--------------");
+
+//var ab = null; //can not assign null to implicity type variable
+dynamic jb = null;
+jb = 5;
+object kb = null;
+kb = 5;
 
 var i = 0;
 //i = "test"; //compile time error 

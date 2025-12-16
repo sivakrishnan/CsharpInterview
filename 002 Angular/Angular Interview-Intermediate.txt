@@ -12,6 +12,7 @@ Explain lazy loading in Angular.
 
 What is Ahead-of-Time (AOT) compilation?
 
+
 How does Angular handle HTTP requests?
 
 What is an observable? How is it different from a promise?

@@ -265,13 +265,30 @@ This is done using [(ngModel)], which is a combination of property binding + eve
 	✔ FormsModule is imported
 	import { FormsModule } from '@angular/forms';
 
-##################################################################################################################
 
+##################################################################################################################
 Explain the concept of directives.
-
-##################################################################################################################
-
 What is the difference between structural directives and attribute directives?
+
+In Angular, directives are instructions that modify the DOM
+
+	Structural Directives( * prefix )--->Change/Modify the structure of the DOM Layout by adding, removing, or replacing elements.Work by manipulating <ng-template>
+										example: *ngIf, *ngFor, *ngSwitch
+										
+	Attribute Directives---> Change the appearance or behavior of an existing element without changing DOM structure.
+	
+	
+Example- Structural Directives
+
+<div *ngIf="isLoggedIn">
+  Welcome User
+</div>
+
+What Angular actually does
+
+<ng-template [ngIf]="isLoggedIn">
+  <div>Welcome User</div>
+</ng-template>
 
 ##################################################################################################################
 

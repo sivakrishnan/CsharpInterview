@@ -297,34 +297,3 @@ builder.Services.AddControllers(options =>
 ##################################################################################################################
 
 
-✅ Advanced ASP.NET Core Web API Interview Questions
-
-How does dependency injection work under the hood in ASP.NET Core?
-
-How does Kestrel work in ASP.NET Core?
-
-What is the difference between synchronous and asynchronous middleware?
-
-How does ASP.NET Core manage application configuration internally?
-
-Explain policy-based vs role-based authorization.
-
-How would you implement rate limiting in ASP.NET Core Web API?
-
-What is HATEOAS? How would you implement it?
-
-What is a custom middleware, and how do you build one?
-
-Explain the pipeline for a request in ASP.NET Core.
-
-How would you implement global error handling using ExceptionHandlerMiddleware?
-
-Describe custom model binders.
-
-How does model validation work internally?
-
-What is the role of the Program.cs file in .NET 6/7 minimal hosting?
-
-How would you deploy an ASP.NET Core Web API to Docker?
-
-Explain the differences between API Gateway and a Web API.

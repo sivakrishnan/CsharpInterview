@@ -31,7 +31,7 @@ Console.WriteLine("----------------------------------------");
 
 
 FirstChildAbstractClass objFirstChildAbstractClass = new FirstChildAbstractClass();
-
+SecondChildAbstractClass objChildAbstractClass1 = new SecondChildAbstractClass();
 
 Console.WriteLine("----------------Method Overriding------------------------");
 

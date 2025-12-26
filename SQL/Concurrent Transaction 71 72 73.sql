@@ -1,4 +1,4 @@
---video 70: Concurrency Problems:
+--video 70: Duration: 07:33 Concurrency Problems:
 
 --1) Dirty Reads
 --2) Lost Updates
@@ -13,7 +13,25 @@
 --4) Snapshot
 --5) Serializable
 
---video 71: Dirty Reads:
+
+--Isolation Level	|   Dirty Reads |  Lost Update |  Nonrepeatable Reads |  Phantom Reads
+--------------------------------------------------------------------------------------------
+-- Read Uncommitted |		Yes            Yes               Yes                Yes
+--------------------------------------------------------------------------------------------
+-- Read Committed   |		No             Yes               Yes                Yes
+--------------------------------------------------------------------------------------------
+-- Repeatable Read  |		No              No               No                 Yes
+--------------------------------------------------------------------------------------------
+-- Snapshot			|		No              No               No                  No
+--------------------------------------------------------------------------------------------
+-- Serializable     |		No              No               No                  No
+--------------------------------------------------------------------------------------------
+
+-- lower Isolation Level (Read Uncommitted) ----> increase no of concurrent transaction to be executed but possible to all type of cocurrencry problems
+-- Higher Isolation Level (Serializable)	----> decrease no of concurrent transaction to be executed but sort out all type of cocurrencry problems
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--video 71: Duration: 08:49 Dirty Reads:
 
 Create table tblInventory
 (
@@ -34,13 +52,16 @@ update tblInventory set ItemsInStock=9 where Id=1
 waitfor delay '00:00:15'
 rollback transaction
 
+--problem
+select * from tblInventory with (nolock)   -- give the ItemInStock=9 (Dirty Reads)
+
 --Transaction-2 some time it will show as 9 after the transaction-1 rolledback it will show as 10
 set transaction isolation level read uncommitted
 select * from tblInventory
 
 
 
---video 72: Lost Update:
+--video 72: Duration: 08:28 Lost Update:
 --select * from tblInventory
 --update tblInventory set ItemsInStock=10 where id=1
 --transaction 1
@@ -49,7 +70,7 @@ declare @ItemsInStock int
 
 select @ItemsInStock=ItemsInStock from tblInventory where id=1
 
-waitfor delay '00:00:15'
+waitfor delay '00:00:10'
 set @ItemsInStock=@ItemsInStock-1
 
 update tblInventory set ItemsInStock=@ItemsInStock where id=1
@@ -64,16 +85,20 @@ declare @ItemsInStock int
 
 select @ItemsInStock=ItemsInStock from tblInventory where id=1
 
-waitfor delay '00:00:15'
-set @ItemsInStock=@ItemsInStock-1
+waitfor delay '00:00:1'
+set @ItemsInStock=@ItemsInStock-2
 
 update tblInventory set ItemsInStock=@ItemsInStock where id=1
 
 print(@ItemsInStock)
 commit transaction
 
+-- if you make two transaction as 
+-- set transaction isolation level repeatable read
+-- Transaction (Process ID 52) was deadlocked on lock resources with another process and has been chosen as the deadlock victim. Return the transaction.
 
---video 73 Non-Repeatable read
+
+--video 73: Duration: 05:44 Non-Repeatable read
 --select * from tblInventory
 --update tblInventory set ItemsInStock=10 where id=1
 --Transaction-1
@@ -87,3 +112,33 @@ Commit transaction
 --Transaction-2
 
 update tblInventory set ItemsInStock=5 where id=1
+
+
+--video 74: Duration: 06:37 Phantom read
+
+-- Phantom read happens when one transaction executes a query twice and it gets a different number of rows in the result set each time.
+
+
+Create table tblEmployees
+(
+    Id int primary key,
+    Name nvarchar(50)
+)
+Go
+
+
+Insert into tblEmployees values(1,'Mark')
+Insert into tblEmployees values(3, 'Sara')
+Insert into tblEmployees values(100, 'Mary')
+
+
+-- Transaction 1
+Begin Transaction
+Select * from tblEmployees where Id between 1 and 3
+-- Do Some work
+waitfor delay '00:00:10'
+Select * from tblEmployees where Id between 1 and 3
+Commit Transaction
+
+-- Transaction 2
+Insert into tblEmployees values(2, 'Marcus')

@@ -33,11 +33,13 @@ set @ID=7;
 
 with EmployeeCTE as
 (
+	-- Anchor
 	select EmployeeID, EmployeeName, ManagerID from tbl002Employees
 	where EmployeeID=@ID
 
      UNION ALL
     
+	-- Recursive Member
      Select tbl002Employees.EmployeeId , tbl002Employees.EmployeeName,
              tbl002Employees.ManagerID
      From tbl002Employees

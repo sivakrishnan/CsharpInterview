@@ -2,24 +2,71 @@
 
 What is Angular’s change detection mechanism?
 
-	Angular’s change detection is a system that checks component data for changes and updates the DOM automatically.
+	Angular’s change detection is the mechanism that keeps the view (HTML) in sync with the model (component data).
+	Whenever application data changes, Angular automatically updates the UI.
+	
+🧠 Important Concept: Change Detection Tree
+
+		Each component has a Change Detector
+
+		Angular starts from the root component
+
+		Checks all child components recursively
+
+		This is called a change detection cycle
+		
+🟢 Default Change Detection Strategy (Every async event (User events, HTTP responses, Timers, Promises / Observables) triggers a full tree check)
+		
+	import { ChangeDetectionStrategy } from '@angular/core';
+
+	@Component({
+	  selector: 'app-example',
+	  changeDetection: ChangeDetectionStrategy.Default
+	})
+	export class ExampleComponent {}
+	
+🟢 OnPush Change Detection Strategy (Input reference changes, Observable emits via async pipe, DOM event inside the component)
+
+	@Component({
+	  selector: 'app-example',
+	  changeDetection: ChangeDetectionStrategy.OnPush
+	})
+	export class ExampleComponent {}
+	
+##################################################################################################################
 
 How does Angular handle routing?
 
+##################################################################################################################
+
 What are route guards, and how do you use them?
+
+##################################################################################################################
 
 Explain lazy loading in Angular.
 
+##################################################################################################################
+
 What is Ahead-of-Time (AOT) compilation?
+
+##################################################################################################################
 
 
 How does Angular handle HTTP requests?
 
+##################################################################################################################
+
 What is an observable? How is it different from a promise?
+
+##################################################################################################################
 
 How do you unsubscribe from an observable? Why is it important?
 
+##################################################################################################################
+
 What is NgZone, and why might you use it?
+
+##################################################################################################################
 
 Explain the difference between ngOnInit and constructor.
 
@@ -48,12 +95,22 @@ What are lifecycle hooks in Angular?
 	ngAfterViewChecked()
 
 	ngDestroy()  ----> unsubscribe from observable
+	
+##################################################################################################################
 
 What is the difference between ViewChild and ContentChild?
 
+##################################################################################################################
+
 What is ng-content, and how does content projection work?
+
+##################################################################################################################
 
 How do you use trackBy in *ngFor, and why?
 
+##################################################################################################################
+
 What are Angular interceptors? How would you use them?
+
+##################################################################################################################
 

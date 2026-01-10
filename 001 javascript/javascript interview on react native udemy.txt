@@ -106,6 +106,10 @@ person.greet();
 
 //output : Hi, I am undefined
 
+Reason
+Arrow functions do NOT have their own this.
+They inherit this from the surrounding (lexical) scope.
+
 
 ################## Array & Array Method ######################
 
@@ -134,13 +138,16 @@ console.log(hobbies);
 ################## spread operator & rset Parameters ######################
 
 const hobbies = ['Sports', 'Cooking'];
-
 const copiedArray1 = hobbies; //shallow copy
-console.log(copiedArray1);
 hobbies.push('test');
+console.log(hobbies);
 console.log(copiedArray1);
 
+const hobbies = ['Sports', 'Cooking'];
 const copiedArray = [...hobbies]; // actually copy
+console.log(copiedArray);
+hobbies.push('test');
+console.log(hobbies);
 console.log(copiedArray);
 
 const copiedArray2 = hobbies.slice(); // actually copy

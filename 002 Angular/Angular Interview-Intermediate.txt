@@ -100,13 +100,126 @@ What are lifecycle hooks in Angular?
 
 What is the difference between ViewChild and ContentChild?
 
+| Feature        | `@ViewChild`                               | `@ContentChild`                        |
+| -------------- | ------------------------------------------ | -------------------------------------- |
+| Where it looks | **Component’s own template**               | **Projected content (`ng-content`)**   |
+| Used for       | Elements **declared inside** the component | Elements **passed into** the component |
+| Lifecycle hook | `ngAfterViewInit()`                        | `ngAfterContentInit()`                 |
+
+📌 @ViewChild (View DOM)
+
+Looks inside the component’s own HTML template.
+
+Example
+@Component({
+  selector: 'app-child',
+  template: `
+    <input #myInput />
+  `
+})
+export class ChildComponent {
+  @ViewChild('myInput') input!: ElementRef;
+
+  ngAfterViewInit() {
+    console.log(this.input.nativeElement);
+  }
+}
+
+
+✔️ Accesses elements declared inside ChildComponent
+
+
+📌 @ContentChild (Content DOM)
+
+Looks inside the content projected into the component via `<ng-content>`.
+Example
+
+Child component
+
+@Component({
+  selector: 'app-wrapper',
+  template: `
+    <ng-content></ng-content>
+  `
+})
+export class WrapperComponent {
+  @ContentChild('projected') content!: ElementRef;
+
+  ngAfterContentInit() {
+    console.log(this.content.nativeElement);
+  }
+}
+
+Parent component
+
+<app-wrapper>
+  <p #projected>Hello World</p>
+</app-wrapper>
+
+
+✔️ Accesses elements passed from parent to child
 ##################################################################################################################
 
 What is ng-content, and how does content projection work?
 
+ng-content is a placeholder in a child component’s template that tells Angular:
+
+“Insert whatever content the parent puts between my component tags here.”
+
+📌 Basic Example (Single-slot projection)
+Child component
+@Component({
+  selector: 'app-card',
+  template: `
+    <div class="card">
+      <ng-content></ng-content>
+    </div>
+  `
+})
+export class CardComponent {}
+
+Parent component
+<app-card>
+  <h2>Title</h2>
+  <p>This is projected content</p>
+</app-card>
+
+Resulting DOM
+<div class="card">
+  <h2>Title</h2>
+  <p>This is projected content</p>
+</div>
+
+
+✔ The parent’s HTML is rendered inside the child
+
+🎯 Why use content projection?
+
+Build reusable UI components
+
+Create wrappers (cards, modals, layouts)
+
+Let parent control content, child control layout
+
+
+
 ##################################################################################################################
 
 How do you use trackBy in *ngFor, and why?
+
+In Angular, trackBy is used with *ngFor to tell Angular how to uniquely identify each item in a list.
+This helps Angular optimize DOM rendering and avoid unnecessary re-creation of elements.
+
+🔍 Why trackBy is needed
+
+By default, Angular tracks list items by object reference.
+
+this.users = [...this.users]; // new array, same data
+
+
+➡️ Angular thinks all items changed
+➡️ Destroys & recreates all DOM nodes
+➡️ Poor performance + UI flicker (loss of focus, scroll reset)
 
 ##################################################################################################################
 

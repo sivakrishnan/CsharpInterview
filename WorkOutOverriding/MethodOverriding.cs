@@ -19,4 +19,20 @@ namespace CsharpInterview.WorkOutOverriding
             Console.WriteLine("Derived class print method");
         }
     }
+
+    class Payment
+    {
+        public virtual decimal CalculateFee(decimal amount)
+        {
+            return amount * 0.02m; 
+        }
+    }
+
+    class CreditCardPayment : Payment
+    {
+        public override decimal CalculateFee(decimal amount)
+        {
+            return amount * 0.03m; 
+        }
+    }
 }

@@ -3,7 +3,7 @@
 
     public class MethodHidingBaseClass
     {
-        public virtual void print()
+        public  void print()
         {
             Console.WriteLine("Base class print method");
         }

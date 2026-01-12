@@ -33,7 +33,7 @@ Console.WriteLine("----------------------------------------");
 FirstChildAbstractClass objFirstChildAbstractClass = new FirstChildAbstractClass();
 SecondChildAbstractClass objChildAbstractClass1 = new SecondChildAbstractClass();
 
-Console.WriteLine("----------------Method Overriding------------------------");
+Console.WriteLine("----------------Method Overriding (Method call is decided at runtime)------------------------");
 
 MethodOverridingBaseClass b = new MethodOverridingBaseClass();
 b.print();
@@ -49,6 +49,18 @@ bOverride.print();
 MethodOverridingBaseClass bOverride1 = new MethodOverridingDerivedClass();
 ((MethodOverridingDerivedClass)bOverride1).print();
 ((MethodOverridingBaseClass)bOverride1).print();
+
+Payment payment = new CreditCardPayment();
+decimal fee = payment.CalculateFee(1000); // method overriding in action
+Console.WriteLine(fee);
+
+
+Payment payment1 = new Payment();
+decimal fee1 = payment1.CalculateFee(1000);
+Console.WriteLine(fee1);
+
+// Mr.Cooper
+// MethodOverridingDerivedClass derivedClass = new MethodOverridingBaseClass(); //Cannot implicitly convert type 'type1' to 'type2'. An explicit conversion exists (are you missing a cast?)
 
 
 

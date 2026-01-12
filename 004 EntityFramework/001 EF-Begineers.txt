@@ -594,3 +594,69 @@ What are owned type in EF Core?
 What is the difference between Eager loading, Explicit loading and Lazy loading in EF Core?
 
 ##################################################################################################################
+
+lazy loading vs eager loading in entity framework
+
+Eager Loading - Eager loading loads related data immediately along with the main entity in a single query.                                                                                                                                                                                                                                  
+Uses: Include() / ThenInclude()
+
+var orders = _context.Orders
+    .Include(o => o.Customer)
+    .ToList();
+
+
+Lazy Loading - Lazy loading loads related data only when you access it. Data is loaded on demand
+
+Install package: Microsoft.EntityFrameworkCore.Proxies
+
+Enable proxies:
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseLazyLoadingProxies()
+           .UseSqlServer(connString));
+
+Navigation properties must be virtual
+
+Entity
+class Order
+{
+    public int Id { get; set; }
+    public int CustomerId { get; set; }
+
+    public virtual Customer Customer { get; set; }
+}
+
+🔹 Usage
+var orders = _context.Orders.ToList(); // No customer yet
+
+foreach (var order in orders)
+{
+    Console.WriteLine(order.Customer.Name); // DB call happens HERE
+}
+
+
+📌 Each access to Customer triggers a query.
+
+❌ N+1 Problem (Very Important)
+var orders = _context.Orders.ToList(); // 1 query
+
+foreach (var order in orders)
+{
+    Console.WriteLine(order.Customer.Name); // N queries
+}
+
+
+👉 1 + N database calls = performance issue
+
+Explicit Loading (Bonus – Interview Favorite) - You manually load related data only when required.
+
+Example
+var order = _context.Orders.First();
+
+_context.Entry(order)
+    .Reference(o => o.Customer)
+    .Load();
+
+
+✔ Full control
+✔ Avoids lazy loading surprises

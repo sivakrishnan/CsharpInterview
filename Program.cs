@@ -374,6 +374,11 @@ Console.WriteLine("static class static field-{0}", StaticClassTest.i.ToString())
 
 Console.WriteLine("----------------Convert tightly coupled to loosely coupled wipro--------------");
 
+Console.WriteLine("static data: " + StaticClassTest.staticData);
+StaticClassTest.staticData = 40;
+Console.WriteLine("static data: " + StaticClassTest.staticData);
+//StaticClassTest.staticReadOnlyData = 50; //readonly can not be changed                                                                                                                                                                                                                                              
+
 //using System;
 
 //public class Client

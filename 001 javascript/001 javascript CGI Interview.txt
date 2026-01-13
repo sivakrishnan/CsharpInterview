@@ -1,0 +1,89 @@
+
+################# 01) Serialization and Deserialization json in javascript
+
+Serialization (Object → JSON) ---> using JSON.stringify()
+Deserialization (JSON → Object) ---> using JSON.parse()
+
+Important Notes:
+
+1) remove the undefined
+2) remove the function
+
+const employee = { 
+empId: 101, 
+role: "Developer",
+age: null,
+address: undefined,
+calculateAge:function(){
+	console.log("Age Calculation")
+	}
+};
+
+// Serialize
+const jsonData = JSON.stringify(employee);
+console.log(jsonData); 
+
+// Deserialize
+const parsedData = JSON.parse(jsonData);
+
+console.log(parsedData.role); 
+
+
+################# 02) Remove Duplication in javascript
+
+✅ 1. Using Set (BEST & MOST USED)
+
+const arr = [1, 2, 2, 3, 4, 4, 5];
+const uniqueArr = [...new Set(arr)];
+console.log(uniqueArr);
+
+
+✅ 2. Using filter() + indexOf()
+
+const arr = [1, 2, 2, 3, 3, 4];
+const uniqueArr = arr.filter(
+  (value, index) => arr.indexOf(value) === index
+);
+console.log(uniqueArr);
+
+
+✅ 3. Using reduce()
+
+const arr = [1, 1, 2, 3, 3];
+const uniqueArr = arr.reduce((acc, curr) => {
+  if (!acc.includes(curr)) {
+    acc.push(curr);
+  }
+  return acc;
+}, []);
+
+console.log(uniqueArr);
+
+
+✅ 4. Remove duplicates from array of objects
+🔹 Based on a property (id)
+
+const users = [
+  { id: 1, name: "A" },
+  { id: 2, name: "B" },
+  { id: 1, name: "A" }
+];
+
+const uniqueUsers = [
+  ...new Map(users.map(user => [user.id, user])).values()
+];
+
+console.log(uniqueUsers);
+
+✅ 5. Using for loop (Classic / Interview Safe)
+
+const arr = [1, 2, 2, 3];
+const uniqueArr = [];
+
+for (let i = 0; i < arr.length; i++) {
+  if (!uniqueArr.includes(arr[i])) {
+    uniqueArr.push(arr[i]);
+  }
+}
+
+console.log(uniqueArr);

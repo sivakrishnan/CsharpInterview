@@ -18,6 +18,7 @@ using CsharpInterview.WorkOutMethodHiding;
 using CsharpInterview.WorkOutOutKeyword;
 using CsharpInterview.WorkOutOverriding;
 using CsharpInterview.WorkOutRefKeyword;
+using CsharpInterview.WorkOutStatic;
 using CsharpInterview.WorkOutStaticConstructor;
 using CsharpInterview.WorkOutThread;
 
@@ -365,6 +366,11 @@ var secondHighestSalary = emp.employees
     .FirstOrDefault();
 
 Console.WriteLine("Second Highest Salary: " + secondHighestSalary);
+
+Console.WriteLine("----------------Static Class--------------");
+
+Console.WriteLine("static class static field-{0}", StaticClassTest.i.ToString());
+
 
 Console.WriteLine("----------------Convert tightly coupled to loosely coupled wipro--------------");
 

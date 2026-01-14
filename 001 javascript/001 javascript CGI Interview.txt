@@ -1,5 +1,5 @@
 
-################# 01) Serialization and Deserialization json in javascript
+################# 01) Serialization and Deserialization json in javascript  #################
 
 Serialization (Object → JSON) ---> using JSON.stringify()
 Deserialization (JSON → Object) ---> using JSON.parse()
@@ -29,7 +29,7 @@ const parsedData = JSON.parse(jsonData);
 console.log(parsedData.role); 
 
 
-################# 02) Remove Duplication in javascript
+################# 02) Remove Duplication in javascript  #################
 
 ✅ 1. Using Set (BEST & MOST USED)
 
@@ -87,3 +87,66 @@ for (let i = 0; i < arr.length; i++) {
 }
 
 console.log(uniqueArr);
+
+
+################# 02) Remove Duplication in javascript  #################
+
+
+✅ Copy an array (shallow copy)
+
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1];
+const arr3=arr1;
+
+console.log(arr2); 	// [1, 2, 3]
+console.log(arr3);	// [1, 2, 3]
+
+console.log(arr3===arr1);  // true
+console.log(arr2===arr1);  // false
+
+arr3.push(111);
+console.log(arr1); //[1, 2, 3, 111]
+console.log(arr3===arr1); //true
+
+arr2.push(999);
+console.log(arr1); // [1, 2, 3, 111] not added 999
+
+✅ Merge arrays
+
+const a = [1, 2];
+const b = [3, 4];
+
+const result = [...a, ...b];
+console.log(result);
+
+✅ Add elements while copying
+
+const nums = [2, 3];
+const newNums = [1, ...nums, 4];
+console.log(newNums);
+
+✅ Copy object
+
+const obj1 = { name: "Siva", age: 30 };
+const obj2 = { ...obj1 };
+console.log(obj2);
+
+✅ Merge objects
+
+const a = { x: 1, y: 2 };
+const b = { y: 3, z: 4 };
+
+const merged = { ...a, ...b };
+console.log(merged); // { x: 1, y: 3, z: 4 }  ← later overrides earlier
+
+✅ Add or override properties
+
+const user = { name: "Siva", role: "User" };
+const admin = { ...user, role: "Admin" };
+console.log(admin);
+
+✅ Pass array elements as arguments
+
+const numbers = [5, 10, 15];
+Math.max(...numbers); // 15 
+Math.max(numbers); // ❌ NaN

@@ -88,8 +88,39 @@ for (let i = 0; i < arr.length; i++) {
 
 console.log(uniqueArr);
 
+################# 02) Object equality Operators in javascript  #################
 
-################# 02) Remove Duplication in javascript  #################
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1];
+const arr3=arr1;
+
+console.log(arr2===arr1);  // false
+console.log(arr3===arr1);  // true
+console.log(arr2==arr1);   // false  Because for objects/array/functions, both: == (loose equality), === (strict equality), compare reference only, not values.
+						   // There is no value comparison for objects/arrays in JS equality operators.
+console.log(arr3==arr1);   // true
+
+
+
+let isEqual=JSON.stringify(arr1) === JSON.stringify(arr2);
+console.log('Using JSON.stringify: ', isEqual);
+
+let isEqual1=arr1.every((v, i)=> v==arr2[i]);
+console.log('Using Every Function: ', isEqual1);
+
+⚠ while using  "JSON.stringify" and "every"  Not safe if:
+
+object property order differs
+functions / undefined exist
+
+<script src="https://cdn.jsdelivr.net/npm/lodash/lodash.min.js"></script>
+or
+import _ from "lodash";
+
+let isEqual2=_.isEqual(arr1, arr2);
+console.log('Using Lodash: ', isEqual2);
+
+################# 02) Spread Operators in javascript  #################
 
 
 ✅ Copy an array (shallow copy)
@@ -100,9 +131,6 @@ const arr3=arr1;
 
 console.log(arr2); 	// [1, 2, 3]
 console.log(arr3);	// [1, 2, 3]
-
-console.log(arr3===arr1);  // true
-console.log(arr2===arr1);  // false
 
 arr3.push(111);
 console.log(arr1); //[1, 2, 3, 111]

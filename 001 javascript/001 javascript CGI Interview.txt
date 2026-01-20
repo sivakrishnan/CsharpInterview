@@ -88,7 +88,7 @@ for (let i = 0; i < arr.length; i++) {
 
 console.log(uniqueArr);
 
-################# 02) Object equality Operators in javascript  #################
+################# 03) Object equality Operators in javascript  #################
 
 const arr1 = [1, 2, 3];
 const arr2 = [...arr1];
@@ -120,7 +120,7 @@ import _ from "lodash";
 let isEqual2=_.isEqual(arr1, arr2);
 console.log('Using Lodash: ', isEqual2);
 
-################# 02) Spread Operators in javascript  #################
+################# 04) Spread Operators (expands values) in javascript  #################
 
 
 ✅ Copy an array (shallow copy)
@@ -178,3 +178,54 @@ console.log(admin);
 const numbers = [5, 10, 15];
 Math.max(...numbers); // 15 
 Math.max(numbers); // ❌ NaN
+
+################# 05) Rest Operators (collects values) in javascript  #################
+
+function sum(a, b, ...rest) {
+  console.log(rest); // [3, 4, 5]
+  return a + b + rest.reduce((x, y) => x + y, 0);
+}
+
+sum(1, 2, 3, 4, 5); // 15
+
+Here:
+
+	a = 1
+	b = 2
+	rest = [3, 4, 5]
+	
+✅ Rest Operator in Destructuring
+
+▶ Array Destructuring
+const nums = [10, 20, 30, 40];
+
+const [first, second, ...others] = nums;
+
+console.log(first);   // 10
+console.log(second);  // 20
+console.log(others);  // [30, 40]
+
+
+▶ Object Destructuring
+const user = { id: 1, name: "Siva", role: "Admin", active: true };
+
+const { id, name, ...restProps } = user;
+
+console.log(restProps); 
+
+
+✅ Rules of Rest Operator
+
+✔ Must be last parameter
+✔ Only one rest parameter allowed
+
+✅ Real-Time Use Cases
+
+✅ Wrapper Functions / Middleware
+
+function logAndCall(fn, ...args) {
+  console.log("Calling with:", args);
+  return fn(...args);
+}
+
+logAndCall(Math.max, 5, 10, 20);

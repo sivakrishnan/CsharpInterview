@@ -24,7 +24,7 @@ Update tbl043Employee set Name = 'Tods', Salary = 2000,
 Gender = 'Female' where Id = 4
 
 
-Alter trigger tr_tblEmployee_ForUpdate
+create trigger tr_tbl043Employee_ForUpdate
 on tbl043Employee
 for Update
 as
@@ -86,3 +86,6 @@ update tbl043Employee set Gender='Male' where Id>=10
 
 select * from tbl043Employee where Id>=10
 select * from tbl043EmployeeAudit
+
+
+drop trigger tr_tblEmployee_ForUpdate

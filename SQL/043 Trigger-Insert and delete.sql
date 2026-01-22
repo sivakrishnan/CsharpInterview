@@ -30,7 +30,7 @@ CREATE TABLE tbl043EmployeeAudit
 )
 
 
-alter TRIGGER tr_tbl043Employee_ForInsert 
+create TRIGGER tr_tbl043Employee_ForInsert 
 ON tbl043Employee
 FOR INSERT
 AS
@@ -59,10 +59,12 @@ select 12 as Id,'Pam-12' as Name, 6000 as Salary, 'Female' as Gender, 1 as Depar
 union
 select 13 as Id,'Pam-13' as Name, 6000 as Salary, 'Female' as Gender, 1 as DepartmentId
 
+drop trigger tr_tbl043Employee_ForInsert
+
 --------------------------------------------------------------------------------------------------------------------------------------
+drop trigger tr_tblEMployee_ForDelete
 
-
-alter TRIGGER tr_tblEMployee_ForDelete
+create TRIGGER tr_tbl043EMployee_ForDelete
 ON tbl043Employee
 FOR DELETE
 AS

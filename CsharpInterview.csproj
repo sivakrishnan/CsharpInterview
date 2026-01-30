@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="006 AI-ML\" />
     <Folder Include="WorkOutAWS\AWSCloudWatch\" />
   </ItemGroup>
 

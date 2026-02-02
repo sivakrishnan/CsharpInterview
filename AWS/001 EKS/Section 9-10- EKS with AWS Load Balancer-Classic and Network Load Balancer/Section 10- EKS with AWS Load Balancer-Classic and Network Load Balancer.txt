@@ -1,12 +1,12 @@
 
-77. Step-01: AWS Load Balancers Introduction ###### Duration:     9 mins
+77-80. Step-01: AWS Load Balancers Introduction ###### Duration:     9 mins
 
 AWS Load Balancer Types
 	Classic Load Balancer
 	Network Load Balancer
 	Application Load Balancer (k8s Ingress)
 
-78. Step-02: Create EKS Private Node Group ###### Duration:     6 mins
+78-81. Step-02: Create EKS Private Node Group ###### Duration:     6 mins
 
 Step-01: Introduction
 
@@ -70,7 +70,7 @@ Click on Route Table Tab.
 
 We should see that internet route via NAT Gateway (0.0.0.0/0 -> nat-xxxxxxxx)
 
-79. Step-03: EKS with Classic Load Balancers Demo ###### Duration:     10 mins
+79-82. Step-03: EKS with Classic Load Balancers Demo ###### Duration:     10 mins
 
 Step-01: Create AWS Classic Load Balancer Kubernetes Manifest & Deploy
 
@@ -114,7 +114,7 @@ Access Application
 http://<CLB-DNS-NAME>/usermgmt/health-status
 
 
-80. Step-04: EKS with Network Load Balancers Demo ###### Duration:     7 mins
+80-83. Step-04: EKS with Network Load Balancers Demo ###### Duration:     7 mins
 
 Step-01: Create AWS Network Load Balancer Kubernetes Manifest & Deploy
 
@@ -170,4 +170,4 @@ kubectl delete -f kube-manifests/
 # Verify current Kubernetes Objects
 kubectl get all
 
-81. Connect with Me !!! 1min
+81-84. Connect with Me !!! 1min

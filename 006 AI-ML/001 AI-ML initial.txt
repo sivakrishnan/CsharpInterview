@@ -1,0 +1,89 @@
+Linear Algebra Roadmap for AI / ML Beginners
+1️) Scalars, Vectors, Matrices 🔥 - All data, weights, images, embeddings = vectors & matrices
+
+
+Scalar vs Vector vs Matrix
+Row vector vs Column vector
+Matrix dimensions (shape)
+Matrix notation
+
+
+2️) Vector Operations 🔥 - Dot product = similarity, predictions, neuron output
+
+Vector addition
+Scalar multiplication
+Dot product ⭐⭐⭐
+Vector length (magnitude)
+Unit vectors
+
+
+3️) Matrix Operations 🔥🔥 - Neural networks are just matrix multiplications
+
+Matrix addition
+Scalar × matrix
+Matrix × vector
+Matrix × matrix ⭐⭐⭐
+Matrix transpose
+
+4️) Systems of Linear Equations 🔥 - Regression = solving linear equations
+
+Linear equations
+Matrix form: Ax = b
+Solution intuition (no heavy proofs)
+
+5️) Linear Transformations 🔥 - Neural layers transform input data
+
+What a transformation is
+Rotation, scaling, translation
+How matrices represent transformations
+
+
+6️) dentity, Inverse & Rank 🔥 - Optimization & stability in ML models
+
+Identity matrix
+Inverse of a matrix (intuition only)
+Rank of a matrix
+
+
+7️) Determinant ⚪ - Helps understand invertibility
+
+What determinant means
+Zero determinant = no inverse
+
+
+8️) Eigenvalues & Eigenvectors 🔥🔥🔥
+
+What eigenvectors mean (direction unchanged)
+Eigenvalues intuition
+Relation to matrix transformation
+PCA (dimensionality reduction)
+Covariance matrices
+Stability in deep learning
+
+9️) Orthogonality & Projections 🔥 - Similarity search, Embeddings (NLP, recommender systems)
+
+Orthogonal vectors
+Projection of vector onto another
+Cosine similarity
+
+10) Norms & Distance Measures 🔥 - Loss functions, Regularization
+
+L1 norm
+L2 norm
+Euclidean distance
+ 
+ 
+1️1) Singular Value Decomposition (SVD) ⚪→🔥  - Dimensionality reduction, Image compression, Recommendation systems
+
+Concept (not math proof)
+What SVD decomposes into
+
+
+1️2) Matrix Calculus (Preview Only) 🔥 - Training ML models = gradient descent
+
+
+Gradient intuition
+Partial derivatives (idea)
+
+
+

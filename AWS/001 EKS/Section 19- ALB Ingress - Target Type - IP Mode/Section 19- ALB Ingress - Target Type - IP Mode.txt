@@ -1,0 +1,2 @@
+123. Step-01: Introduction to Ingress Target Type IP     ###### Duration:     3 mins
+124. Step-02: Implement Ingress Target Type IP Mode      ###### Duration:     11 mins

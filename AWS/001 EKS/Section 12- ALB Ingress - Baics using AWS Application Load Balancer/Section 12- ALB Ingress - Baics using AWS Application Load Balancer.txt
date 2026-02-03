@@ -1,0 +1,5 @@
+96. Step-01: Introduction to Ingress Basics                                 ###### Duration:     12 mins
+97. Step-02: Review Kubernetes Deployment and NodePort Service manifest     ###### Duration:     4 mins
+98. Step-03: Create Ingress k8s manifest with default backend               ###### Duration:     13 mins
+99. Step-04: Deploy Ingress default backend and verify and clean-up   		###### Duration:     12 mins
+100. Step-05: Create, Deploy Ingress Rules and verify and clean-up		    ###### Duration:     15 mins

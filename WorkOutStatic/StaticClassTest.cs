@@ -16,8 +16,13 @@
 
         static StaticClassTest()
         {
-            i=10;
+            i = 10;
         }
+
+        //void StaticClassTestInterface.addNumber()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 
 }

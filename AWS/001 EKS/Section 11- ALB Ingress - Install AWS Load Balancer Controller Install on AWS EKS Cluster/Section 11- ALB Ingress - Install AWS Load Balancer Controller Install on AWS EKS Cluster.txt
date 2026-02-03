@@ -1,0 +1,11 @@
+85. EKS-08-00-LBC-01-What-are-we-going-to-learn-AWS-LBC-Ingress ###### Duration:     4 mins
+86. Step-00-02: Ingress Introduction Part 2						###### Duration:     11 mins
+87. Step-01: Introduction to AWS Load Balancer Controller		###### Duration:     8 mins
+88. Step-02: Verify Pre-requisites							    ###### Duration:     11 mins
+89. Step-03: Create IAM Policy, IAM Role, k8s service account and annotate it with I    ###### Duration:     16 mins
+90. Step-04: Install AWS Load Balancer Controller using HELM	 ###### Duration:     9 mins
+91. Step-05: Verify AWS LBC Deployment and WebHook Service       ###### Duration:     8 mins
+92. Step-06: LBC Service Account and TLS Cert Internals          ###### Duration:     17 mins
+93. Step-06-02: Uninstall Load Balancer Controller Command SHOULD NOT BE EXECUTED	    ###### Duration:     1 mins
+94. Step-07: Introduction to Kubernetes Ingress Class Resource		 ###### Duration:  7 mins
+95. Step-08: Deploy Ingress and Verify		                      ###### Duration:     4 mins

@@ -180,6 +180,16 @@ objLogical4.SumOfDigitFindOut();
 LogicalPrograms objLogical5 = new LogicalPrograms();
 objLogical5.Test();
 
+string output=objLogical5.RemoveDuplicatesFromString(); 
+Console.WriteLine("After removing duplicates string is={0}", output);
+// output: After removing duplicates string is=progamin
+
+string input = "test";
+Console.WriteLine("just test---->{0}", input[0]);
+
+string output1 = objLogical5.RemoveDuplicatesFromStringUsingLinq();
+Console.WriteLine("After removing duplicates character from string is={0}", output1);
+// output: After removing duplicates string is=progamin
 
 
 
@@ -369,14 +379,14 @@ Console.WriteLine("Second Highest Salary: " + secondHighestSalary);
 
 Console.WriteLine("----------------Static Class--------------");
 
-Console.WriteLine("static class static field-{0}", StaticClassTest.i.ToString());
+Console.WriteLine("static class static field-{0}", CsharpInterview.WorkOutStatic.StaticClassTest.i.ToString());
 
 
 Console.WriteLine("----------------Convert tightly coupled to loosely coupled wipro--------------");
 
-Console.WriteLine("static data: " + StaticClassTest.staticData);
-StaticClassTest.staticData = 40;
-Console.WriteLine("static data: " + StaticClassTest.staticData);
+Console.WriteLine("static data: " + CsharpInterview.WorkOutStaticConstructor.StaticClassTest.staticData);
+CsharpInterview.WorkOutStaticConstructor.StaticClassTest.staticData = 40;
+Console.WriteLine("static data: " + CsharpInterview.WorkOutStaticConstructor.StaticClassTest.staticData);
 //StaticClassTest.staticReadOnlyData = 50; //readonly can not be changed                                                                                                                                                                                                                                              
 
 //using System;

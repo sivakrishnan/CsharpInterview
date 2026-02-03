@@ -140,5 +140,28 @@ namespace CsharpInterview.LogicalProgam
                 }
             }
         }
+
+        public string RemoveDuplicatesFromString()
+        {
+            string input1 = "programming";
+            char[] charArray = input1.ToCharArray();
+            List<char> lstChar = new List<char>();
+
+            foreach (char c in charArray)
+            {
+                if (!lstChar.Contains(c))
+                {
+                    lstChar.Add(c);
+                }
+            }
+            return new string(lstChar.ToArray());
+        }
+
+        public string RemoveDuplicatesFromStringUsingLinq()
+        {
+            string input2 = "programming";
+
+           return new string(input2.Distinct().ToArray());
+        }
     }
 }

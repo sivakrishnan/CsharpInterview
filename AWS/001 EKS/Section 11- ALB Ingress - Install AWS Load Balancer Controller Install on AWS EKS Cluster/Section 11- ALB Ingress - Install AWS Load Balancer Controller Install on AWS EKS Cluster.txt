@@ -1,6 +1,61 @@
 85. EKS-08-00-LBC-01-What-are-we-going-to-learn-AWS-LBC-Ingress ###### Duration:     4 mins
+
+1)AWS Load Balancer Controller Install						    8) k8s Service + External DNS
+3) Ingress Context Path Routing								    9) Ingress Name Based Virtual Host Routing	
+2) Ingress Basics												10) SSL Discovery - Host
+4) Ingress SSL													11) SSL Discovery - TLS
+5) Ingress SSL Redirect											12) Ingress Groups
+6) External DNS Install											13) Ingress Target Type - IP
+7) Ingress + External DNS										14) Ingress Internal ALB
+
+
 86. Step-00-02: Ingress Introduction Part 2						###### Duration:     11 mins
+
+What is AWS ALB?
+
+---> ALB is a super advanced, next generation Load Balancer in AWS
+---> Support for Path-based Routing (/app1, /app2, /usermgmt)
+---> Support for Host-based Routing (apps.kubeoncloud.com, users.kubeoncloud.com)
+---> Support for routing based on fields in the request (http headers, http methods, Query parameters and source IP address)
+---> Support for redirecting requests from one URL to another
+---> Support for returning a custom http response.
+---> Support for registering Lambda functions as targets
+
+---> Support for the Load balancer to authenticate users of your applications through their corporate or social identities before routing requests
+---> Support for containerized applications (AWS ECS)
+---> Support for monitoring the health of each service independently, as health checks are defined at the target group level.
+---> Support for registering targets by IP address, including targets outside the VPC for the load balancer.
+
+ALB Ingress Controller - ALBIC
+
+---> ALBIC triggers the creation of an Application Load Balancer (ALB) and the necessary supporting AWS resources whenever an Ingress resources is created on the cluster with the "kubernetes.io/ingress.class:alb" annotation.
+---> ALB Ingress Controller supports two traffic modes
+		---> Instance
+		---> IP
+		
+--->  Instance Mode
+
+	---> Register worker nodes within your cluster as targets for the ALB.
+	---> Traffic reaching the ALB is routed to Node port for your service and then proxied to your pods
+	---> This is the default traffic mode.
+	---> You can also explicitly specify it with the "alb.ingress.kubernetes.io/target-type:instance" annotation
+	
+---> IP Mode
+
+	---> Registers pods as targets for the ALB.
+	---> Traffic reaching the ALB is directly routed to pods for your service.
+	---> You must specify the "alb.ingress.kubernetes.io/target-type:ip" annotation to use this traffic mode.
+
 87. Step-01: Introduction to AWS Load Balancer Controller		###### Duration:     8 mins
+
+ AWS ALB Ingress Controller ---> ---> ---> AWS Load Balancer Controller
+ AWS Application Load Balancer only ---> ---> --->  AWS Application and Network Load Balancer
+									---> ---> --->  k8s Ingress Resource --->  AWS Application Load Balancer
+									---> ---> --->  k8s Service Resource --->  AWS Network Load Balancer
+ No Developement releases, soon
+ it will be deprecated.
+ 
+ 
 88. Step-02: Verify Pre-requisites							    ###### Duration:     11 mins
 89. Step-03: Create IAM Policy, IAM Role, k8s service account and annotate it with I    ###### Duration:     16 mins
 90. Step-04: Install AWS Load Balancer Controller using HELM	 ###### Duration:     9 mins

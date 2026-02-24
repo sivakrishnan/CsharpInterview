@@ -109,7 +109,7 @@ This improves performance.
 
 ##################################################################################################################
 
-9️) fference Between Props and State?
+9️) Difference Between Props and State?
 Props	State
 Passed from parent	Managed inside component
 Read-only	Mutable
@@ -151,14 +151,59 @@ Input field controlled by React state.
 
 1️3) What is useRef?
 
-Used to:
+useRef is a React Hook that Stores a mutable value that persists across renders without causing re-render when updated.
 
-Access DOM directly
+✅ Syntax
 
-Persist values without re-render
+		const myRef = useRef(initialValue);
 
-const inputRef = useRef();
+It returns an object like:
 
+		{
+		  current: initialValue
+		}
+
+You access value using:
+
+		myRef.current
+
+🔥 Two Main Uses of useRef
+
+1️) Accessing DOM Elements (Most Common)
+2️) Storing Values Without Re-rendering
+
+1️) Accessing DOM Elements (Most Common) Example: 
+
+import { useRef } from "react";
+
+function Example() {
+  const inputRef = useRef(null);
+
+  const focusInput = () => {
+    inputRef.current.focus();
+  };
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>Focus</button>
+    </>
+  );
+}
+
+2️) Storing Values Without Re-rendering
+
+function Example() {
+  const renderCount = useRef(0);
+
+  renderCount.current++;
+
+  console.log("Rendered:", renderCount.current);
+
+  return <div>Hello</div>;
+}
+
+Even though renderCount.current changes, it does NOT cause re-render.
 
 ##################################################################################################################
 
@@ -203,6 +248,8 @@ const code = searchParams.get("code");
 
 When two components need same data, move state to their common parent.
 
+Lifting state up is the process of moving shared state to the nearest common parent component so multiple child components can access and stay synchronized with the same data.
+
 
 ##################################################################################################################
 
@@ -229,6 +276,56 @@ Recalculates only when dependencies change
 1️7) What is useCallback?
 
 Memoizes a function to prevent unnecessary re-renders.
+
+useCallback is a React Hook that memoizes a function and returns the same function reference unless its dependencies change, 
+helping prevent unnecessary re-renders in child components.
+
+With useCallback (Correct Way)
+
+Modify Parent:
+
+import React, { useState, useCallback } from "react";
+import Child from "./Child";
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log("Button clicked");
+  }, []);
+
+  console.log("Parent rendered");
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
+
+      <Child onClick={handleClick} />
+    </div>
+  );
+}
+
+export default Parent;
+
+
+Child Component: 
+
+import React from "react";
+
+function Child({ onClick }) {
+  console.log("Child rendered");
+
+  return (
+    <button onClick={onClick}>
+      Child Button
+    </button>
+  );
+}
+
+export default React.memo(Child);
 
 
 ##################################################################################################################

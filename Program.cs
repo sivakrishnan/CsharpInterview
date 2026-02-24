@@ -18,7 +18,6 @@ using CsharpInterview.WorkOutMethodHiding;
 using CsharpInterview.WorkOutOutKeyword;
 using CsharpInterview.WorkOutOverriding;
 using CsharpInterview.WorkOutRefKeyword;
-using CsharpInterview.WorkOutStatic;
 using CsharpInterview.WorkOutStaticConstructor;
 using CsharpInterview.WorkOutThread;
 
@@ -122,6 +121,7 @@ Console.WriteLine("----------------Extension Method------------------------");
 
 string strExtension = "first second third";
 
+Console.WriteLine($"Extension Method Output- {"test".FirstWord()}"); // tcs interview
 Console.WriteLine($"Extension Method Output- {strExtension.FirstWord()}");
 
 Console.WriteLine("----------------Liskov substituion Principle------------------------");
@@ -180,7 +180,7 @@ objLogical4.SumOfDigitFindOut();
 LogicalPrograms objLogical5 = new LogicalPrograms();
 objLogical5.Test();
 
-string output=objLogical5.RemoveDuplicatesFromString(); 
+string output = objLogical5.RemoveDuplicatesFromString();
 Console.WriteLine("After removing duplicates string is={0}", output);
 // output: After removing duplicates string is=progamin
 

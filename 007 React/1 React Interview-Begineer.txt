@@ -462,6 +462,20 @@ Re-render has 2 phases:
 ##################################################################################################################
 
 
+Why child component re-renders even when props didn’t change?
+
+	Child re-renders because React re-renders children whenever parent re-renders. Also, React compares props by reference, 
+	so new object/function references trigger re-render. We can prevent unnecessary re-renders using React.memo, useMemo, and useCallback.
+
+How to prevent unnecessary API calls in useEffect?
+
+Why useEffect runs twice in development?
+
+How to share state between sibling components?
+
+How to handle large lists (10,000+ rows)?
+
+
 React lifecycle
 
 Performance optimization

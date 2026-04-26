@@ -1,0 +1,487 @@
+Beginner Angular Interview Questions
+
+##################################################################################################################
+
+1️) What is React?
+
+React is a JavaScript library developed by Meta Platforms for building user interfaces using a component-based architecture and virtual DOM.
+
+##################################################################################################################
+
+2️) What is JSX?
+
+JSX stands for JavaScript XML.
+It allows writing HTML inside JavaScript.
+
+const element = <h1>Hello</h1>;
+
+JSX gets compiled to:
+
+React.createElement(...)
+
+
+##################################################################################################################
+
+3️) What is a Component?
+
+A component is a reusable UI block.
+
+Two types:
+
+Functional Component ✅ (modern)
+
+Class Component (older)
+
+function Welcome() {
+  return <h1>Hello</h1>;
+}
+
+##################################################################################################################
+
+4️) What are Props?
+
+Props = Inputs to a component.
+
+They are:
+
+Read-only
+
+Passed from parent to child
+
+function Welcome({ name }) {
+  return <h1>Hello {name}</h1>;
+}
+
+
+##################################################################################################################
+5️) What is State?
+
+State is local data inside a component.
+
+const [count, setCount] = useState(0);
+
+Unlike props, state can change.
+
+
+##################################################################################################################
+
+6️) What is useState?
+
+useState is a Hook that allows functional components to manage state.
+
+import { useState } from "react";
+
+
+##################################################################################################################
+7️) What is useEffect?
+
+useEffect handles side effects:
+
+API calls
+
+Timers
+
+Subscriptions
+
+useEffect(() => {
+  fetchData();
+}, []);
+
+[] = runs only once (component mount).
+
+
+##################################################################################################################
+
+8️) What is Virtual DOM?
+
+React creates a Virtual DOM in memory.
+
+Instead of updating the real DOM directly:
+
+React updates Virtual DOM
+
+Compares with previous version (Diffing)
+
+Updates only changed parts
+
+This improves performance.
+
+
+##################################################################################################################
+
+9️) Difference Between Props and State?
+Props	State
+Passed from parent	Managed inside component
+Read-only	Mutable
+External data	Internal data
+
+
+##################################################################################################################
+10)  What is Key in React?
+
+Keys help React identify list items efficiently.
+
+{items.map(item => (
+  <li key={item.id}>{item.name}</li>
+))}
+
+
+##################################################################################################################
+
+1️1) What is Conditional Rendering?
+
+Rendering UI based on condition.
+
+{isLoggedIn ? <Dashboard /> : <Login />}
+
+
+##################################################################################################################
+
+1️2) What is Controlled Component?
+
+Input field controlled by React state.
+
+<input 
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+/>
+
+
+##################################################################################################################
+
+1️3) What is useRef?
+
+useRef is a React Hook that Stores a mutable value that persists across renders without causing re-render when updated.
+
+✅ Syntax
+
+		const myRef = useRef(initialValue);
+
+It returns an object like:
+
+		{
+		  current: initialValue
+		}
+
+You access value using:
+
+		myRef.current
+
+🔥 Two Main Uses of useRef
+
+1️) Accessing DOM Elements (Most Common)
+2️) Storing Values Without Re-rendering
+
+1️) Accessing DOM Elements (Most Common) Example: 
+
+import { useRef } from "react";
+
+function Example() {
+  const inputRef = useRef(null);
+
+  const focusInput = () => {
+    inputRef.current.focus();
+  };
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>Focus</button>
+    </>
+  );
+}
+
+2️) Storing Values Without Re-rendering
+
+function Example() {
+  const renderCount = useRef(0);
+
+  renderCount.current++;
+
+  console.log("Rendered:", renderCount.current);
+
+  return <div>Hello</div>;
+}
+
+Even though renderCount.current changes, it does NOT cause re-render.
+
+##################################################################################################################
+
+1️4)  What is React Router?
+
+Library used for routing in React apps.
+
+Popular package:
+
+react-router-dom
+
+Example:
+
+<Route path="/home" element={<Home />} />
+
+<Route path='/assethome/:assetId/:pageType' element={<OperAssetHome></OperAssetHome>}></Route>
+
+
+in OperAssetHome functional component: 
+
+import { useLocation, useNavigate } from "react-router-dom";
+
+
+ const { assetId, pageType } = useParams();
+
+Redirect: 
+
+     const navigate = useNavigate();
+	 navigate(`/ssoexception?resMsg=${error}`);
+	 
+Read Data from query string:
+
+
+import { useSearchParams, useNavigate } from "react-router-dom";
+
+const [searchParams] = useSearchParams();
+const code = searchParams.get("code");
+
+##################################################################################################################
+
+1️5) What is Lifting State Up?
+
+When two components need same data, move state to their common parent.
+
+Lifting state up is the process of moving shared state to the nearest common parent component so multiple child components can access and stay synchronized with the same data.
+
+
+##################################################################################################################
+
+1️6) What is useMemo?
+
+Used to optimize performance by memoizing values.useMemo is a React Hook used to memoize (cache) a computed value so that it is not recalculated on every render.
+
+---> Heavy calculations
+---> Large array filtering/ Sorting
+
+✅ Syntax
+
+const memoizedValue = useMemo(() => {
+  return expensiveCalculation();
+}, [dependencies]);
+
+First parameter → function
+Second parameter → dependency array
+Recalculates only when dependencies change
+
+
+##################################################################################################################
+
+1️7) What is useCallback?
+
+Memoizes a function to prevent unnecessary re-renders.
+
+useCallback is a React Hook that memoizes a function and returns the same function reference unless its dependencies change, 
+helping prevent unnecessary re-renders in child components.
+
+With useCallback (Correct Way)
+
+Modify Parent:
+
+import React, { useState, useCallback } from "react";
+import Child from "./Child";
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log("Button clicked");
+  }, []);
+
+  console.log("Parent rendered");
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
+
+      <Child onClick={handleClick} />
+    </div>
+  );
+}
+
+export default Parent;
+
+
+Child Component: 
+
+import React from "react";
+
+function Child({ onClick }) {
+  console.log("Child rendered");
+
+  return (
+    <button onClick={onClick}>
+      Child Button
+    </button>
+  );
+}
+
+export default React.memo(Child);
+
+
+##################################################################################################################
+
+1️8) What is Fragment?
+
+Used to avoid extra div:
+
+<>
+  <h1>Hello</h1>
+</>
+
+
+##################################################################################################################
+
+1️9) What is SPA?
+
+React apps are Single Page Applications:
+Page does not reload
+Only components update
+
+
+##################################################################################################################
+
+2️0) What is Context API?
+
+---> Share data globally across components without passing props manually at every level (avoiding prop drilling).
+
+Step 1 — Create Context
+
+		commonContext.jsx:
+
+		import { createContext } from "react";
+
+		export const UserContext = createContext();
+
+Step 2 — Provide Context:
+
+		import { UserContext } from "./UserContext";
+
+		function App() {
+		  const user = { name: "Siva" };
+
+		  return (
+			<UserContext.Provider value={user}>
+			  <Layout />
+			</UserContext.Provider>
+		  );
+		}
+
+Step 3 — Consume Context:
+
+		import { useContext } from "react";
+		import { UserContext } from "./UserContext";
+
+		function Profile() {
+		  const user = useContext(UserContext);
+
+		  return <h1>Hello {user.name}</h1>;
+		}
+##################################################################################################################
+
+2️1)What is Re-rendering in React?
+
+React calling your component function again to calculate what the UI should look like.
+
+It means:
+
+	Component function runs again
+	New Virtual DOM is created
+	React compares old vs new (using Reconciliation Algorithm)
+	Only changed parts update in real DOM
+	
+🔥 What Actually Happens During Re-render?
+
+Let’s say you have:
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  console.log("Component Rendered");
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Increase
+      </button>
+    </div>
+  );
+}
+
+When you click button:
+
+setCount() updates state
+React calls Counter() again
+New Virtual DOM created
+React compares with previous version (using Reconciliation Algorithm)
+Only <p> text updates in real DOM
+
+🎯 When Does Re-render Happen?
+
+✅ 1️) State changes
+✅ 2️) Props change
+✅ 3️) Context value changes
+✅ 4️) Parent re-renders
+
+
+🧪 Important: Function Runs Again
+
+On every re-render:
+
+	All variables re-created
+	All calculations re-executed
+	Functions recreated
+
+That’s why performance optimization matters.
+
+🧠 Real Interview-Level Explanation
+
+Re-render has 2 phases:
+
+1️) Render Phase
+
+	Component function runs
+	Virtual DOM created
+	useMemo runs here
+
+2️) Commit Phase
+
+	React updates actual DOM
+	useEffect runs here
+
+##################################################################################################################
+
+
+Why child component re-renders even when props didn’t change?
+
+	Child re-renders because React re-renders children whenever parent re-renders. Also, React compares props by reference, 
+	so new object/function references trigger re-render. We can prevent unnecessary re-renders using React.memo, useMemo, and useCallback.
+
+How to prevent unnecessary API calls in useEffect?
+
+Why useEffect runs twice in development?
+
+How to share state between sibling components?
+
+How to handle large lists (10,000+ rows)?
+
+
+React lifecycle
+
+Performance optimization
+
+Hooks deep understanding
+
+API integration (Axios / Fetch)
+
+State management (Redux basics)

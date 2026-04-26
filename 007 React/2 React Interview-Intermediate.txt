@@ -1,0 +1,229 @@
+###########################✅ Intermediate Angular Interview Questions
+
+What is Angular’s change detection mechanism?
+
+	Angular’s change detection is the mechanism that keeps the view (HTML) in sync with the model (component data).
+	Whenever application data changes, Angular automatically updates the UI.
+	
+🧠 Important Concept: Change Detection Tree
+
+		Each component has a Change Detector
+
+		Angular starts from the root component
+
+		Checks all child components recursively
+
+		This is called a change detection cycle
+		
+🟢 Default Change Detection Strategy (Every async event (User events, HTTP responses, Timers, Promises / Observables) triggers a full tree check)
+		
+	import { ChangeDetectionStrategy } from '@angular/core';
+
+	@Component({
+	  selector: 'app-example',
+	  changeDetection: ChangeDetectionStrategy.Default
+	})
+	export class ExampleComponent {}
+	
+🟢 OnPush Change Detection Strategy (Input reference changes, Observable emits via async pipe, DOM event inside the component)
+
+	@Component({
+	  selector: 'app-example',
+	  changeDetection: ChangeDetectionStrategy.OnPush
+	})
+	export class ExampleComponent {}
+	
+##################################################################################################################
+
+How does Angular handle routing?
+
+##################################################################################################################
+
+What are route guards, and how do you use them?
+
+##################################################################################################################
+
+Explain lazy loading in Angular.
+
+##################################################################################################################
+
+What is Ahead-of-Time (AOT) compilation?
+
+##################################################################################################################
+
+
+How does Angular handle HTTP requests?
+
+##################################################################################################################
+
+What is an observable? How is it different from a promise?
+
+##################################################################################################################
+
+How do you unsubscribe from an observable? Why is it important?
+
+##################################################################################################################
+
+What is NgZone, and why might you use it?
+
+##################################################################################################################
+
+Explain the difference between ngOnInit and constructor.
+
+	constructor-> belongs to TypeScript class (not Angular lifecycle)
+	ngOnInit   -> belongs to Angular lifecycle hooks
+
+	Purpose ---> Initialize class members, inject dependencies
+	Purpose ---> Fetch data, call APIs, run initialization that depends on Angular bindings
+
+	runs ---> only one time. immediately when the class created
+	runs ---> only one time. after the ngOnchanges, in ngOnChanges the @input values are assigned, so some of the angular bindings are depend on @input values can initialized in ngOninit()
+
+	Execution Order  ---> constructor() → ngOnChanges() → ngOnInit()
+
+What are lifecycle hooks in Angular?
+
+	ngOnChange()  ----> @Input() properties are initialized
+
+	ngOnInit()  -----> initialize the compoent property
+	ngDoCheck()
+
+	ngAfterContentInit()
+	ngAfterContentChecked()
+
+	ngAfterViewInit()
+	ngAfterViewChecked()
+
+	ngDestroy()  ----> unsubscribe from observable
+	
+##################################################################################################################
+
+What is the difference between ViewChild and ContentChild?
+
+| Feature        | `@ViewChild`                               | `@ContentChild`                        |
+| -------------- | ------------------------------------------ | -------------------------------------- |
+| Where it looks | **Component’s own template**               | **Projected content (`ng-content`)**   |
+| Used for       | Elements **declared inside** the component | Elements **passed into** the component |
+| Lifecycle hook | `ngAfterViewInit()`                        | `ngAfterContentInit()`                 |
+
+📌 @ViewChild (View DOM)
+
+Looks inside the component’s own HTML template.
+
+Example
+@Component({
+  selector: 'app-child',
+  template: `
+    <input #myInput />
+  `
+})
+export class ChildComponent {
+  @ViewChild('myInput') input!: ElementRef;
+
+  ngAfterViewInit() {
+    console.log(this.input.nativeElement);
+  }
+}
+
+
+✔️ Accesses elements declared inside ChildComponent
+
+
+📌 @ContentChild (Content DOM)
+
+Looks inside the content projected into the component via `<ng-content>`.
+Example
+
+Child component
+
+@Component({
+  selector: 'app-wrapper',
+  template: `
+    <ng-content></ng-content>
+  `
+})
+export class WrapperComponent {
+  @ContentChild('projected') content!: ElementRef;
+
+  ngAfterContentInit() {
+    console.log(this.content.nativeElement);
+  }
+}
+
+Parent component
+
+<app-wrapper>
+  <p #projected>Hello World</p>
+</app-wrapper>
+
+
+✔️ Accesses elements passed from parent to child
+##################################################################################################################
+
+What is ng-content, and how does content projection work?
+
+ng-content is a placeholder in a child component’s template that tells Angular:
+
+“Insert whatever content the parent puts between my component tags here.”
+
+📌 Basic Example (Single-slot projection)
+Child component
+@Component({
+  selector: 'app-card',
+  template: `
+    <div class="card">
+      <ng-content></ng-content>
+    </div>
+  `
+})
+export class CardComponent {}
+
+Parent component
+<app-card>
+  <h2>Title</h2>
+  <p>This is projected content</p>
+</app-card>
+
+Resulting DOM
+<div class="card">
+  <h2>Title</h2>
+  <p>This is projected content</p>
+</div>
+
+
+✔ The parent’s HTML is rendered inside the child
+
+🎯 Why use content projection?
+
+Build reusable UI components
+
+Create wrappers (cards, modals, layouts)
+
+Let parent control content, child control layout
+
+
+
+##################################################################################################################
+
+How do you use trackBy in *ngFor, and why?
+
+In Angular, trackBy is used with *ngFor to tell Angular how to uniquely identify each item in a list.
+This helps Angular optimize DOM rendering and avoid unnecessary re-creation of elements.
+
+🔍 Why trackBy is needed
+
+By default, Angular tracks list items by object reference.
+
+this.users = [...this.users]; // new array, same data
+
+
+➡️ Angular thinks all items changed
+➡️ Destroys & recreates all DOM nodes
+➡️ Poor performance + UI flicker (loss of focus, scroll reset)
+
+##################################################################################################################
+
+What are Angular interceptors? How would you use them?
+
+##################################################################################################################
+

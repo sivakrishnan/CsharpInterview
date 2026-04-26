@@ -2,10 +2,10 @@
 {
     public class OutKeyword
     {
-        public void TestOutKeyword( out int a)
+        public void TestOutKeyword(out int a)
         {
-            a=0;
-            a =a+25;
+            int b = 100;
+            a =b+25;
 
         }
     }

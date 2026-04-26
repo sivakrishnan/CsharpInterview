@@ -63,4 +63,4 @@ ALB Ingress Controller - ALBIC
 92. Step-06: LBC Service Account and TLS Cert Internals          ###### Duration:     17 mins
 93. Step-06-02: Uninstall Load Balancer Controller Command SHOULD NOT BE EXECUTED	    ###### Duration:     1 mins
 94. Step-07: Introduction to Kubernetes Ingress Class Resource		 ###### Duration:  7 mins
-95. Step-08: Deploy Ingress and Verify		                      ###### Duration:     4 mins
+95. Step-08: Deploy Ingress and Verify		                      ###### Duration:     4 min

@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <Folder Include="006 AI-ML\" />
-    <Folder Include="007 TCS\" />
+    <Folder Include="007 React\" />
+	  <Folder Include="008 TCS\" />
     <Folder Include="WorkOutAWS\AWSCloudWatch\" />
   </ItemGroup>
 

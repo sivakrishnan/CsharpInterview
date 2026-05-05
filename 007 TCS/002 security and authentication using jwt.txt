@@ -1,0 +1,160 @@
+---> how does authentication differ from authorization?
+---> what are jwt tokens and how do they work?
+
+	JWT (JSON Web Tokens) are a compact, secure way to transmit information between parties (usually client ↔ server) as a JSON object. 
+	They’re widely used for authentication and authorization in web APIs—especially in ASP.NET Core.
+	
+	1. What is a JWT?
+
+A JWT is a string with 3 parts, separated by dots:
+
+xxxxx.yyyyy.zzzzz
+	Structure:
+		Header -Contains metadata
+		Payload - Contains user data:
+		Signature
+		
+		2. JWT Structure Breakdown
+🔹 Header
+
+Contains metadata:
+
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+alg → signing algorithm
+typ → token type
+🔹 Payload (Claims)
+
+Contains user data:
+
+{
+  "sub": "123",
+  "name": "Siva",
+  "role": "Admin",
+  "exp": 1712345678
+}
+sub → user ID
+role → authorization
+exp → expiry time
+
+⚠️ Payload is NOT encrypted, only encoded.
+
+🔹 Signature
+
+Created using:
+
+HMACSHA256(
+  base64UrlEncode(header) + "." + base64UrlEncode(payload),
+  secretKey
+)
+
+✔ Ensures token is not tampered
+	
+---> how do you configure authentication in asp.net core web api?
+
+
+Step 2: Configure Authentication
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = "yourIssuer",
+            ValidAudience = "yourAudience",
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes("your_secret_key"))
+        };
+    });
+	
+	Step 3: Enable Middleware
+app.UseAuthentication();
+app.UseAuthorization();
+
+Step 4: Protect APIs
+[Authorize]
+[HttpGet]
+public IActionResult GetData()
+{
+    return Ok("Secure data");
+}
+
+6. Creating a JWT Token
+var claims = new[]
+{
+    new Claim(ClaimTypes.Name, "Siva"),
+    new Claim(ClaimTypes.Role, "Admin")
+};
+
+var key = new SymmetricSecurityKey(
+    Encoding.UTF8.GetBytes("your_secret_key"));
+
+var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+var token = new JwtSecurityToken(
+    issuer: "yourIssuer",
+    audience: "yourAudience",
+    claims: claims,
+    expires: DateTime.Now.AddMinutes(30),
+    signingCredentials: creds);
+
+var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+
+---> how do you protect apis using role-based authorization?
+---> what is data protection api in .net core?
+
+1. Register Data Protection
+builder.Services.AddDataProtection();
+
+2. Inject IDataProtector
+public class MyService
+{
+    private readonly IDataProtector _protector;
+
+    public MyService(IDataProtectionProvider provider)
+    {
+        _protector = provider.CreateProtector("MyApp.MyPurpose");
+    }
+
+    public string Protect(string data)
+    {
+        return _protector.Protect(data);
+    }
+
+    public string Unprotect(string encryptedData)
+    {
+        return _protector.Unprotect(encryptedData);
+    }
+}
+
+🔄 Example
+var protectedData = _protector.Protect("UserId=123");
+
+var originalData = _protector.Unprotect(protectedData);
+
+🔐 Where are keys stored?
+
+By default:
+
+Stored in:
+
+C:\Users\<user>\AppData\Local\ASP.NET\DataProtection-Keys
+
+👉 In production, you should configure:
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"\\server\keys"))
+    .ProtectKeysWithDpapi();
+
+Other options:
+
+Azure Key Vault
+Redis
+Database

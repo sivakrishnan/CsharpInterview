@@ -1,0 +1,7 @@
+what is .net core and how is it different from .net framework?
+what are the main features of .net core?
+explain CLR (common language runtime) and its role.
+what iss the difference between SDK and Runtime in .net core?
+what is the dont CLI and what are some common commands?
+what is the use of program.cs and startup.cs files?
+how does dependency injection work in .net core?

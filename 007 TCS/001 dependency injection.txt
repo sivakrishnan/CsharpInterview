@@ -1,0 +1,107 @@
+
+Dependency Injection & Configuration
+
+--->How is dependency injection implemented in .net core?
+--->Difference between AddTransient, AddScoped, AddSingleton?
+
+	services.AddTransient<IMyService, MyService>();
+	services.AddScoped<IMyService, MyService>();
+	services.AddSingleton<IMyService, MyService>();
+	
+--->how do you read configuration values form appsettings.json?
+
+1. Example appsettings.json
+{
+  "AppSettings": {
+    "AppName": "MyApp",
+    "Version": "1.0"
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=.;Database=TestDb;Trusted_Connection=True;"
+  }
+}
+
+2. Access via IConfiguration (Quick & Direct)
+Inject IConfiguration
+public class HomeController : Controller
+{
+    private readonly IConfiguration _configuration;
+
+    public HomeController(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
+    public IActionResult Index()
+    {
+        var appName = _configuration["AppSettings:AppName"];
+        var version = _configuration["AppSettings:Version"];
+
+        return Content($"{appName} - {version}");
+    }
+}
+
+3. Strongly Typed Configuration (Best Practice)
+
+	Instead of string keys, map config to a class.
+
+	Step 1: Create a class
+	public class AppSettings
+	{
+		public string AppName { get; set; }
+		public string Version { get; set; }
+	}
+	
+	Step 2: Register in Program.cs
+	
+	builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+	
+	Step 3: Inject using IOptions<T>
+	
+	using Microsoft.Extensions.Options;
+
+	public class HomeController : Controller
+	{
+		private readonly AppSettings _appSettings;
+
+		public HomeController(IOptions<AppSettings> appSettings)
+		{
+			_appSettings = appSettings.Value;
+		}
+
+		public IActionResult Index()
+		{
+			return Content($"{_appSettings.AppName} - {_appSettings.Version}");
+		}
+	}
+	
+--->what is IOptions<T> and how do you use it?
+
+	IOptions<T> is part of the Options Pattern in .NET. 
+	It’s used to bind configuration (like appsettings.json) to a strongly typed class and access it in a clean, type-safe way via Dependency Injection.
+	
+---> How do you inject configuration or logger into service?
+
+2. Injecting Logger into a Service
+
+.NET Core provides built-in logging via ILogger<T>.
+
+Example:
+using Microsoft.Extensions.Logging;
+
+public class MyService
+{
+    private readonly ILogger<MyService> _logger;
+
+    public MyService(ILogger<MyService> logger)
+    {
+        _logger = logger;
+    }
+
+    public void DoWork()
+    {
+        _logger.LogInformation("Work started");
+        _logger.LogWarning("Something might be wrong");
+        _logger.LogError("Something failed");
+    }
+}

@@ -1,0 +1,105 @@
+1. What is NoSQL Understand the concept of NoSQL Not Only SQL - MongoDB  - Duration: 09:14
+
+NoSQL ---> Means Not Only SQL (some people think that noSQL means " Not SQL " but thats not true.
+SQL stands for "Structured Query Language"
+
+NoSQL ---> means we will definitely have Structured Query Language, but there are also other things/features which will 
+be also involved, along with sql.
+
+if we talk about Mongodb, we are going to use JSON and BSON in this database. Lot of people think that when we are using
+nosql that means we are not going to have a relational database, that is also not ture.
+
+In nosql, we will definitely have relation between various records, but it is not stored that way we think in a relational database
+
+Is MongoDB NoSQL?
+
+Yes, MongoDB is a NoSQL database. MongoDB is an open-source NoSQL database. MongoDB is a document-based database. MongoDB is one of the leading
+NoSQL database. NoSQL database is a type od non-relational database, and it is capable of processing structured, semi-structured and unstructured data.
+
+NoSQL database is a highly scalable and flexible database management system. NoSQL database allows the user to store and process unstructured data and
+semi-structured data. this feature is not possible in RDBMS tools.
+
+NoSQL database (not only SQL) are non-tabular database and store data differently than relational tables. NoSQL database come in a variety of types based on 
+their data model. The main types are document, key-value, wide-column and graph.
+
+Before understanding about the NoSQL and how NoSQL stores and what are the different types of NoSQL, first lets discuss about the CAP theorem.
+
+CAP theorem is the heart and soul of the NoSQL database.
+
+C---> Consistency
+A---> Availability
+P---> Partition tolerance
+ 
+##################################################################################################################
+
+2. Explain CAP Theorem Consistency, Availability and the Partition Tolerance  - Duration: 12 :45
+
+It is very important to understand the limitations of NoSQL database. NoSQL can not provide consistency and high availability together. This was first expressed 
+by Eric Brewer in CAP Theorem.
+
+CAP theorem or Eric Brewers theorem states that we can only achieve at most two out of three guarantees for a database: Consistency, Availability and Partition tolerance
+
+Consistency ---> means that all nodes in the network see the same data at the same time or the reader gets the most recently written data.
+Availability ---> is a guarantee that every request receives a response about whether it was successfull or failed. However it does not guarantee that a read
+request returns the most recent write. The more number of users a system can cater to better is the availability.
+Partition Tolerance ---> is a guarantee that the system continues to operate despite arbitrary message loss or failure of part of the system. In other words,
+even if there is a network outage, in the data center and some of the computers are unreachable, still the system continues to perform.
+
+out of these three guarantees, no system can provide more than 2 guarantees. Since in the case of a distributed systems, the partitioning of the network is must,
+the tradeoff is always between consistency and availability.
+
+
+Consistency ---> All clients see the same view of data, even right after update or delete.
+Availability ---> All clients ca n find a replica of data, even in case of partial node failures.
+Partition Tolerance ---> The system continues to work as expected, even in presence of partial network failure
+
+RDBMS ---> can provide only Consistency but not Partition Tolerance.
+MongoDB, HBase and Redis can provide Consistency and Partition Tolerance.
+
+CouchDB, Cassandra can provide only availability and Partition Tolerance but no consistency. Such database generally settle down for eventually consistency
+and settle down after some time. Means after while the system will provide consistent data.
+
+
+##################################################################################################################
+
+##################################################################################################################
+
+##################################################################################################################
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################
+
+
+##################################################################################################################

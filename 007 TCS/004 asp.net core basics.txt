@@ -1,0 +1,12 @@
+asp.net core (web api and MVC)
+
+what are middelware and their role in asp.net core?
+how do you register middleware in the request pipeline?
+what is the difference between Use, Run, and Map methos in middelware
+explain how roouting works in asp.net core
+what is the difference between conventional routing and attribute routing?
+how do you enable CORS in asp.net core?
+how do you handle exceptions globally? (use of UseExceptionHandler or ExceptionMiddelware)
+what are filters in asp.net core mvc?
+what are tag helpers and hwo are they different from html helpers?
+how do you secure a web api using jwt authentication?

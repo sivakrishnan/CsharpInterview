@@ -62,6 +62,42 @@ and settle down after some time. Means after while the system will provide consi
 
 ##################################################################################################################
 
+3. Different types of noSQL databases like Document, wide-column store, key-value   - Duration: 08 :51
+
+The popular  Relational database - SQL server, Oracle, MySQL, MariaDB, postgreSQL
+
+Document database ------------>
+Document database store data in document similar to JSON objects. JSON stands for Javascript Object Notation. Each document contains pair of fields and values
+and the values can have different data types like strings, numbers, arrays and even other objects. Document database is very popular because it can hold 
+structures and unstructured both the kind of data very easily. If you have a need to build a very complicated data structure where you want to retrieve data very
+quickly. Document database are usuall a good choice.
+
+The popular document databases are MongoDB, CouchDB
+
+Key Value database ------------>
+
+These are simpler type of databases where each item contains a key and a value. A value can typically only be retrieved by referencing only its key.
+So querying the key-value database is very simple. If your use case is simple where there is no need to store large amounts of data or you do not have to perform a very 
+complex query. Key Value database is a good choice. 
+
+The popular Key Value database are Redis and DynamoDB
+
+wide column stores database ------------>
+
+This is very similar to relational database because it stores data into tables and rows. however there is one aspect of the wide column store which is very
+different from relational database is dynamic columns. wide-column stores provide a lot of flexibility over relational database. because each row is not required
+to have the same columns. wide-column stores are great when you need to store a large amount of data and you can predict its query pattern.
+
+The popular Key Value database are cassandra and HBase.
+
+Graph database ------------>
+
+ These are store data into nodes and edges. Nodes typically store information about people, places or various things which are typically stored into relational databases.
+whereas edges store information about the relationship between those nodes. If you are storing people into graph databases, then the edges will contain information.
+Graph databases are great when you want to traverse relationships to look for pattern like fraud detections.
+
+The popular Key Value database are Neo4j  and JanusGraph
+
 ##################################################################################################################
 
 ##################################################################################################################

@@ -118,11 +118,14 @@ when you are using JSON you can work with all the JSON document or JSON objects 
 3) Query Language itselft---> The language to query the data in mongodb is one of the most feature-rich query language. as mongodb is using the JSON document it is very easy to modify a single document or
 multiple document altogether into different clusters. Dcoument database also supports very rich indexing so that we can retrieve data very efficiently from our document database.
 
-4) Distributed Scalable Database ---> Scaling means that when you reach to a point where you need to scale up the relational database, you add more resources like memory, CPU or I/O
-
+4) Distributed Scalable Database ---> Scaling means that when you reach to a point where you need to scale up the relational database, you add more resources like memory, CPU or I/O. In the document database
+you do not have to scale up vertically. You always do horizontal scaling what it means is that you can depend on the commodity hardware to host your document databases. Documents are independent units which
+makes it easier to distribute them across multiple server while we preserve data locally. It is very easy to maintain your data into multiple commodity hardware where you have feature-rich replication and self
+headline methodologies
+ 
 ##################################################################################################################
 
-3.    - Duration: 08 :51
+5. Why we need to use MongoDB over the document databases and its advantages    - Duration: 08 :16
 
 ##################################################################################################################
 

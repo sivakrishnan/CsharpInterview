@@ -100,19 +100,64 @@ The popular Key Value database are Neo4j  and JanusGraph
 
 ##################################################################################################################
 
-##################################################################################################################
+4. Advantages of using the Document Database - MongoDB    - Duration: 10:10
+
+1) Intuitive Data Model---> Documents mapped to the object in your code is more natural to work with. Every data which you need to retrieve, you will keep them into a single document. There is no need to
+have expensive joins or divide your data into multiple tables or multiple objects like relational database in case of document database. Data that is accessed together and is stored together so you
+have to write less code and you can retrieve data quickly and efficiently.
+
+2) Flexible Schema ---> The document database is dynamic and self describing. You can have any structured or unstructured data inside your documents. You can create a document which contains array and element
+of the array can further contain different arrays. There is no set of rules how you can build your schema that provides a lot of flexibility of how you want to store a data. For a dynamic business like
+ecommerce, of you want to add one particular attribute to one of your product, you just dont have to create a new column or new schema. In document database you can just go ahead and specify that one-time
+unique data just fine inside your document. The flexibility of schema, an intuitive data model is possible because of the JSON documents.
+
+Document database uses Javascript object Notation (JSON) to store all the data. JSON is a lightweight, language independent and human readable object.
+
+when you are using JSON you can work with all the JSON document or JSON objects using a single query language giving user a consistent development experience.
+
+3) Query Language itselft---> The language to query the data in mongodb is one of the most feature-rich query language. as mongodb is using the JSON document it is very easy to modify a single document or
+multiple document altogether into different clusters. Dcoument database also supports very rich indexing so that we can retrieve data very efficiently from our document database.
+
+4) Distributed Scalable Database ---> Scaling means that when you reach to a point where you need to scale up the relational database, you add more resources like memory, CPU or I/O
 
 ##################################################################################################################
 
+3.    - Duration: 08 :51
+
+##################################################################################################################
+
+3.    - Duration: 08 :51
+
+##################################################################################################################
+
+3.    - Duration: 08 :51
+
+##################################################################################################################
+
+3.    - Duration: 08 :51
 
 ##################################################################################################################
 
 
+3.    - Duration: 08 :51
+
 ##################################################################################################################
 
+3.    - Duration: 08 :51
 
 ##################################################################################################################
 
+3.    - Duration: 08 :51
+
+##################################################################################################################
+
+3.    - Duration: 08 :51
+
+##################################################################################################################
+
+3.    - Duration: 08 :51
+
+##################################################################################################################
 
 ##################################################################################################################
 

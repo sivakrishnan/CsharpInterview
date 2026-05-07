@@ -133,7 +133,23 @@ headline methodologies
 
 ##################################################################################################################
 
-3.    - Duration: 08 :51
+7. Install and run MongoDB Community Server in the Windows Local Machine - Mongo   - Duration: 10 :06
+
+download - MongoDB Community Edition 8.3.1
+
+C:\Program Files\MongoDB\Server\8.3\bin
+
+run the mongod file 
+
+commonds:
+
+show dbs;
+use shop (here shop is database name)
+show collections
+db.products.find() (here products is a collection (table))
+db.products.find().pretty()
+
+download - Mongo shell (mongosh) 2.8.3
 
 ##################################################################################################################
 

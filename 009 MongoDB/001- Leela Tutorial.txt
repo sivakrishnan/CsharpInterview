@@ -259,12 +259,225 @@ Find the product by id:
 
 ##################################################################################################################
 
-
 9. Update and Delete single and multiple documents in a collection - MongoDB   - Duration: 10:36
+
+mongo_skrish> db.categories.insertOne({title:'sample category-1', description:'sample category descritpion-1'})
+{
+  acknowledged: true,
+  insertedId: ObjectId('69ff401c6c0700bb5aabc116')
+}
+
+
+mongo_skrish> db.categories.find()
+[
+  {
+    _id: ObjectId('69ff3fcf6c0700bb5aabc115'),
+    title: 'sample category',
+    description: 'sample category descritpion'
+  },
+  {
+    _id: ObjectId('69ff401c6c0700bb5aabc116'),
+    title: 'sample category-1',
+    description: 'sample category descritpion-1'
+  },
+  {
+    _id: ObjectId('69ff40286c0700bb5aabc117'),
+    title: 'sample category-2',
+    description: 'sample category descritpion-2'
+  },
+  {
+    _id: ObjectId('69ff52d46c0700bb5aabc118'),
+    title: 'sample category-3',
+    description: 'sample category descritpion-3'
+  },
+  {
+    _id: ObjectId('69ff54056c0700bb5aabc119'),
+    title: 'sample category',
+    description: 'sample category descritpion-4'
+  }
+  
+delete one: by title 'sample category' but two occurance are there
+
+mongo_skrish> db.categories.deleteOne({title:'sample category'})
+{ acknowledged: true, deletedCount: 1 }
+
+
+mongo_skrish> db.categories.find()
+[
+  {
+    _id: ObjectId('69ff401c6c0700bb5aabc116'),
+    title: 'sample category-1',
+    description: 'sample category descritpion-1'
+  },
+  {
+    _id: ObjectId('69ff40286c0700bb5aabc117'),
+    title: 'sample category-2',
+    description: 'sample category descritpion-2'
+  },
+  {
+    _id: ObjectId('69ff52d46c0700bb5aabc118'),
+    title: 'sample category-3',
+    description: 'sample category descritpion-3'
+  },
+  {
+    _id: ObjectId('69ff54056c0700bb5aabc119'),
+    title: 'sample category',
+    description: 'sample category descritpion-4'
+  }
+]
+
+
+delete Many:
+
+mongo_skrish> db.categories.deleteMany({title:'sample category'})
+{ acknowledged: true, deletedCount: 2 }
+mongo_skrish>
+
+
+update One: Not matching with any one
+
+mongo_skrish> db.categories.updateOne({title:'sample category'}, {$set: {productsCount: 12}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+
+update One with matching
+
+mongo_skrish> db.categories.updateOne({title:'sample category-1'}, {$set: {productsCount: 12}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+mongo_skrish> db.categories.find()
+[
+  {
+    _id: ObjectId('69ff401c6c0700bb5aabc116'),
+    title: 'sample category-1',
+    description: 'sample category descritpion-1',
+    productsCount: 12  // updated
+  },
+  {
+    _id: ObjectId('69ff40286c0700bb5aabc117'),
+    title: 'sample category-2',
+    description: 'sample category descritpion-2'
+  },
+  {
+    _id: ObjectId('69ff52d46c0700bb5aabc118'),
+    title: 'sample category-3',
+    description: 'sample category descritpion-3'
+  }
+]
+mongo_skrish>
+
+update Many: 
+
+mongo_skrish> db.categories.updateMany({title:'sample category-2'}, {$set: {productsCount: 222}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+mongo_skrish>
+
+mongo_skrish> db.categories.find()
+[
+  {
+    _id: ObjectId('69ff401c6c0700bb5aabc116'),
+    title: 'sample category-1',
+    description: 'sample category descritpion-1',
+    productsCount: 12
+  },
+  {
+    _id: ObjectId('69ff40286c0700bb5aabc117'),
+    title: 'sample category-2',
+    description: 'sample category descritpion-2',
+    productsCount: 222
+  },
+  {
+    _id: ObjectId('69ff52d46c0700bb5aabc118'),
+    title: 'sample category-3',
+    description: 'sample category descritpion-3'
+  },
+  {
+    _id: ObjectId('69ff56826c0700bb5aabc11b'),
+    title: 'sample category-2',
+    description: 'sample category descritpion-2.2',
+    productsCount: 222
+  }
+]
+
+for update all:
+
+mongo_skrish> db.categories.updateMany({}, {$set:{productsCount:333}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 4, // all are updated
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+
+for delete all:
+
+mongo_skrish> db.categoies.deleteMany({})
+{ acknowledged: true, deletedCount: 0 }
+mongo_skrish>
+
+drop the collections:
+
+mongo_skrish> db.categories.drop()
+true
+
+
 
 ##################################################################################################################
 
 10. Difference between Update, UpdateOne, UpdateMany, replaceOne queries   - Duration: 14:20
+
+Insert Many:
+
+mongo_skrish> db.categories.insertMany([
+| {
+|       title:'sample category-1',
+|       description:'sample category descritpion-1',
+|       productCount: 50
+| },
+|
+| {
+|       title:'sample category-2',
+|       description:'sample category descritpion-2',
+|       productCount: 50
+| },
+| {
+|       title:'sample category-3',
+|       description:'sample category descritpion-3',
+|       productCount: 50
+| },
+| {
+|       title:'sample category-4',
+|       description:'sample category descritpion-4',
+|       productCount: 50
+| }
+| ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69ff5b696c0700bb5aabc11e'),
+    '1': ObjectId('69ff5b696c0700bb5aabc11f'),
+    '2': ObjectId('69ff5b696c0700bb5aabc120'),
+    '3': ObjectId('69ff5b696c0700bb5aabc121')
+  }
+}
 
 ##################################################################################################################
 

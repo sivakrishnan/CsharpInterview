@@ -260,48 +260,230 @@ Find the product by id:
 ##################################################################################################################
 
 
-3.    - Duration: 08 :51
+9. Update and Delete single and multiple documents in a collection - MongoDB   - Duration: 10:36
 
 ##################################################################################################################
 
-3.    - Duration: 08 :51
+10. Difference between Update, UpdateOne, UpdateMany, replaceOne queries   - Duration: 14:20
 
 ##################################################################################################################
 
-3.    - Duration: 08 :51
+11. Mongodb Cursor and how it is useful for iterating documents using find method   - Duration: 10:32
 
 ##################################################################################################################
 
-3.    - Duration: 08 :51
+12. Get specified fields in documents using projection and also adding embedded   - Duration: 09:28
 
 ##################################################################################################################
 
-3.    - Duration: 08 :51
+13. Different types of schema like Structured, Semi-Structured, Unstructured doc   - Duration: 12:13
 
 ##################################################################################################################
 
-##################################################################################################################
-
-
-##################################################################################################################
-
+14. Different types of Data types available in the mongodb for creating Document   - Duration: 09:49
 
 ##################################################################################################################
 
+15. Creating a Document in Collection using different Data Types like Date, stri   - Duration: 09:55
 
 ##################################################################################################################
 
+16. Understanding One to One Relationship and create Collection with example- Mo  - Duration: 11:13
 
 ##################################################################################################################
 
+17. Scenario when to use One to Many Relationship with Embedded Documents in bes  - Duration: 13:24
 
 ##################################################################################################################
 
+18. Implement Subset Pattern in the one to many Relationship for the documents -  - Duration: 12:55
 
 ##################################################################################################################
 
+19. Understand Model One to Many Relationship with Document References - MongoDB  - Duration: 08:39
 
 ##################################################################################################################
 
+20. Many to Many relationship with reference in Documents - MongoDB  - Duration: 13:56
+
+##################################################################################################################
+
+21. Implement Many to Many Relationship with Embedded Documents - MongoDB  - Duration: 08:25
+
+##################################################################################################################
+
+22. Join two collections using aggregate method lookup to get details - MongoDB  - Duration: 06:57
+
+##################################################################################################################
+
+23. Implement Schema Validation for a collection using $jsonSchema Validator - M   - Duration: 16:45
+
+##################################################################################################################
+
+24. Update the Schema Validation for an existing Collection using db.runCommand   - Duration: 11:24
+
+##################################################################################################################
+
+25. Working with the comparison operators like $eq, $ne, $gt, $gte, $lt, $lte   - Duration: 07:27
+
+##################################################################################################################
+
+26. Querying the embedded documents and also arrays using the $in and $nin opera   - Duration: 11:16
+
+##################################################################################################################
+
+27. Logical Operators $or and $nor operator for applying OR condition in the fin   - Duration: 10:35
+
+##################################################################################################################
+
+28. Understand And Operator, Not Operator Logical Operators for querying documen   - Duration: 10:17
+
+##################################################################################################################
+
+29. Learn Element Query Operators like $exists & $type Operator to find field in   - Duration: 09:42
+
+##################################################################################################################
+
+30. Evaluation Operator $expr and $regex operators for querying the documents -    - Duration: 08:32
+
+##################################################################################################################
+
+31. Use $expr operator with $cond to query the documents with condition - MongoD   - Duration: 10:05
+
+##################################################################################################################
+
+32. Querying the Arrays of embedded documents - MongoDB   - Duration: 06:07
+
+##################################################################################################################
+
+33. Array Query Operators like $size Operator and $all Operator for the array do   - Duration: 10:36
+
+##################################################################################################################
+
+34. $elemMatch Array Query Operator for querying the array of embedded Documents   - Duration: 14:15
+
+##################################################################################################################
+
+35. Find Query Cursor and its methods like Sort, Skip and Limit Methods - MongoD   - Duration: 07:51
+
+##################################################################################################################
+
+36. Using Projection to select Particular fields and also arrays using elemMatch   - Duration: 09:32
+
+##################################################################################################################
+
+37. updateOne and updateMany method to update the documents using $set - MongoDB   - Duration: 07:05
+
+##################################################################################################################
+
+38. Update Method Field Operators $inc and $min Operators - MongoDB   - Duration: 09:29
+
+##################################################################################################################
+
+39. Update Operators like $min, $max, $unset, $rename, $mul to update the docume   - Duration: 11:30
+
+##################################################################################################################
+
+40. Understanding Upsert parameter in UpdateOne Method to insert or update docum   - Duration: 06:23
+
+##################################################################################################################
+
+41. Updating only the matched Array Elements in the document - MongoDB   - Duration: 08:19
+
+##################################################################################################################
+
+42. Update all the elements in the array of a document field using $[] - MongoDB   - Duration: 06:10
+
+##################################################################################################################
+
+43. Update only the Specified fields in the Array Elements of the matched Docume   - Duration: 08:19
+
+##################################################################################################################
+
+44. Add Unique elements into the array document using $addToSet operator & $each   - Duration: 09:38
+
+##################################################################################################################
+
+45. Add Duplicate elements in the array using Push Operator with sort, slice mod   - Duration: 11:27
+
+##################################################################################################################
+
+46. Remove Particular elements in an Array of document using Pop and Pull operat   - Duration: 09:35
+
+##################################################################################################################
+
+47. MongoDB Indexes. Apply Single Field Index to the document to increase query    - Duration: 12:25
+
+##################################################################################################################
+
+48. Single Field Indexes, Its advantages & disadvantages of using it in document   - Duration: 09:17
+
+##################################################################################################################
+
+49. Create Compound Index and apply it for the multiple fields in the document -   - Duration: 09:43
+
+##################################################################################################################
+
+50. Create Unique Index for the documents to add the unique data for a field - M   - Duration: 06:08
+
+##################################################################################################################
+
+51. Understand and apply the Partial Filter Expression to the documents - MongoD   - Duration: 09:41
+
+##################################################################################################################
+
+52. Create TTL Indexes for deleting the expired documents using expireAfterSecon   - Duration: 05:27
+
+##################################################################################################################
+
+53. Multi Key Indexes. Create Index for arrays & embedded documents. Compound In   - Duration: 11:08
+
+##################################################################################################################
+
+54. Text Index. Apply Indexes for the Text field in the document - MongoDB   - Duration: 04:43
+
+##################################################################################################################
+
+55. Create Combined Text Indexes for multiple keys in document and excluding wor   - Duration: 07:16
+
+##################################################################################################################
+
+56. What is GeoJson Data. Adding Geo Spatial Data to store the places in the doc   - Duration: 08:57
+
+##################################################################################################################
+
+57. Run Geo Spatial Query using $near operator to get nearby locations. Add Inde   - Duration: 05:37
+
+##################################################################################################################
+
+58. Finding Places that are within certain area or Polygon using $geoWIthin oper   - Duration: 12:02
+
+##################################################################################################################
+
+59. Finding particular Point or coordinate is present in certain area using $geo   - Duration: 06:43
+
+##################################################################################################################
+
+60. Introduction to Aggregation Framework Operations to process multiple documen   - Duration: 08:52
+
+##################################################################################################################
+
+61. Aggregation Pipeline stages $match and $group operations to filter and group   - Duration: 12:21
+
+##################################################################################################################
+
+62. Working with $Project Aggregation Operator to pipeline the specific fields -   - Duration: 12:58
+
+##################################################################################################################
+
+63. Understand $unwind aggregation Pipeline to deconstruct the document array el   - Duration: 11:02
+
+##################################################################################################################
+
+64. Using $unwind aggregation pipeline to push the unique array elements from do   - Duration: 07:35
+
+##################################################################################################################
+
+65. Understand $bucket Aggregation Pipeline to add boundaries for grouping docum   - Duration: 07:29
 
 ##################################################################################################################

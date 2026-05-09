@@ -153,7 +153,109 @@ download - Mongo shell (mongosh) 2.8.3
 
 ##################################################################################################################
 
-3.    - Duration: 08 :51
+8. Create Database and insert the document in the collections by using insertOne  - Duration: 08 :58
+
+In MongoDB Terms vs SQL Server Terms
+---------------------------------------------
+1) Database       | Database
+2) Collection 	  | Tables
+3) Document       | Row
+4) Fiels or Element| Columns 
+
+
+in enviroment variable ----> System variable ---> select PATH ------> edit ----> add new path --->   C:\Program Files\MongoDB\Server\8.3\bin (this is the path where mongodb installed)
+
+win+run --->cmd ---> cd C:\Program Files\MongoDB\Server\8.3\bin
+
+mongod --version
+
+			db version v8.3.1
+			Build Info: {
+				"version": "8.3.1",
+				"gitVersion": "094e631246d5b5bee5bd5f20b12f882bc8e286ea",
+				"modules": [],
+				"allocator": "tcmalloc-gperf",
+				"environment": {
+					"distmod": "windows",
+					"distarch": "amd64",
+					"target_arch": "amd64"
+				}
+			}
+
+mongosh
+
+		Current Mongosh Log ID: 69ff28dc6c0700bb5aabc113
+		Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.8.3
+		Using MongoDB:          8.3.1
+		Using Mongosh:          2.8.3
+
+		For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+		------
+		   The server generated these startup warnings when booting
+		   2026-05-06T22:46:53.976+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+		------		
+
+create database
+
+	use mongodb_skrish
+
+create collection and insert one document:
+
+	mongo_skrish> db.products.insertOne({title:'test1', price:10.99, quantity:10, description : 'test product description'})
+	{
+	  acknowledged: true,
+	  insertedId: ObjectId('69ff29a06c0700bb5aabc114')
+	}
+
+mongo_skrish> db.products.find()
+			[
+			  {
+				_id: ObjectId('69ff29a06c0700bb5aabc114'),
+				title: 'test1',
+				price: 10.99,
+				quantity: 10,
+				description: 'test product description'
+			  }
+			]
+Insert another document:
+		
+mongo_skrish> db.products.insertOne({title:'test2', price:20.99, quantity:20, description : 'test product description-2', _id:'id2'})
+				{ acknowledged: true, insertedId: 'id2' }
+
+mongo_skrish> db.products.find()
+			[
+			  {
+				_id: ObjectId('69ff29a06c0700bb5aabc114'),
+				title: 'test1',
+				price: 10.99,
+				quantity: 10,
+				description: 'test product description'
+			  },
+			  {
+				_id: 'id2',
+				title: 'test2',
+				price: 20.99,
+				quantity: 20,
+				description: 'test product description-2'
+			  }
+			]
+Try to insert same id:
+			
+mongo_skrish> db.products.insertOne({title:'test2', price:20.99, quantity:20, description : 'test product description-2', _id:'id2'})
+MongoServerError: E11000 duplicate key error collection: mongo_skrish.products index: _id_ dup key: { _id: "id2" }
+
+Find the product by id:
+
+		mongo_skrish> db.products.findOne({_id:'id2'})
+		{
+		  _id: 'id2',
+		  title: 'test2',
+		  price: 20.99,
+		  quantity: 20,
+		  description: 'test product description-2'
+		}
+
 
 ##################################################################################################################
 

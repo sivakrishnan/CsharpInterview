@@ -1,0 +1,35 @@
+
+
+db.categories.findOne({title:'sample category-3'})
+db.categories.insertMany([ {}, {}, {}])
+db.categories.findOne({title:'sample category-3'})
+db.categories.find({'productCount':{$lt:30}})
+db.categories.find({'productCount':{$lte:30}})
+db.categories.find({'productCount':{$gt:30}})
+db.categories.find({'productCount':{$gte:30}})
+
+db.categories.findOne({'productCount':{$lt:30}})
+db.categories.findOne({'productCount':{$lte:30}})
+db.categories.findOne({'productCount':{$gt:30}})
+db.categories.findOne({'productCount':{$gte:30}})
+
+
+db.categories.updateMany({'productCount':{$gt:20}}, {$set:{'productCount':50}}) // must contain atomic operator "$set"
+db.categories.updateOne({'productCount':{$gt:20}}, {$set:{'productCount':60}}) // must contain atomic operator "$set"
+db.categories.update({'productCount':{$gt:20}}, {$set:{'productCount':70}}) // deprecated. automatically updateOne will be replaced
+
+
+db.categories.replaceOne({'productCount':{$gt:20}}, {'productCount':70, 'alias':'alias-1'})  // must NOT contain atomic operator "$set"
+Note: replace() and replaceMany() not a functions
+
+--------------Multiple Conditions---------------------
+
+db.categories.findOne({'productCount':10, 'title':'sample category-1'})
+both are same
+db.categories.find( {$and: [{'productCount':10, 'title':'sample category-1'}]})
+db.categories.find( {$and: [{'productCount': {$gte:10}, 'title':'sample category-1'}]})
+db.categories.find( {$and: [{'productCount': {$gt:10}, 'title':'sample category-1'}]})
+db.categories.find( {$and: [{'productCount': {$gt:10}, 'title':'sample category-2'}]})
+
+
+db.categories.find( {$and: [{'productCount': {$gt:10}}, {$or: [{'title':'sample category-2'}]}]})

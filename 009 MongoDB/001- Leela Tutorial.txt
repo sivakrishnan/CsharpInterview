@@ -447,28 +447,28 @@ true
 Insert Many:
 
 mongo_skrish> db.categories.insertMany([
-| {
-|       title:'sample category-1',
-|       description:'sample category descritpion-1',
-|       productCount: 50
-| },
-|
-| {
-|       title:'sample category-2',
-|       description:'sample category descritpion-2',
-|       productCount: 50
-| },
-| {
-|       title:'sample category-3',
-|       description:'sample category descritpion-3',
-|       productCount: 50
-| },
-| {
-|       title:'sample category-4',
-|       description:'sample category descritpion-4',
-|       productCount: 50
-| }
-| ])
+ {
+       title:'sample category-1',
+       description:'sample category descritpion-1',
+       productCount: 10
+ },
+
+ {
+       title:'sample category-2',
+       description:'sample category descritpion-2',
+       productCount: 20
+ },
+ {
+       title:'sample category-3',
+       description:'sample category descritpion-3',
+       productCount: 30
+ },
+ {
+       title:'sample category-4',
+       description:'sample category descritpion-4',
+       productCount: 40
+ }
+ ])
 {
   acknowledged: true,
   insertedIds: {
@@ -478,6 +478,92 @@ mongo_skrish> db.categories.insertMany([
     '3': ObjectId('69ff5b696c0700bb5aabc121')
   }
 }
+
+------------------------------------------------------------
+
+mongodb_skrish> db.categories.findOne({title:'sample category-3'})
+{
+  _id: ObjectId('6a03324853ea8052ababc116'),
+  title: 'sample category-3',
+  description: 'sample category descritpion-3',
+  productCount: 50
+}
+
+------------------------------------------------------------
+
+mongodb_skrish> db.categories.find({'productCount':{$lt:30}})
+[
+  {
+    _id: ObjectId('6a03333753ea8052ababc118'),
+    title: 'sample category-1',
+    description: 'sample category descritpion-1',
+    productCount: 10
+  },
+  {
+    _id: ObjectId('6a03333753ea8052ababc119'),
+    title: 'sample category-2',
+    description: 'sample category descritpion-2',
+    productCount: 20
+  }
+]
+
+------------------------------------------------------------
+
+db.categories.find({'productCount':{$lt:30}})
+db.categories.find({'productCount':{$lte:30}})
+db.categories.find({'productCount':{$gt:30}})
+db.categories.find({'productCount':{$gte:30}})
+
+db.categories.findOne({'productCount':{$lt:30}})
+db.categories.findOne({'productCount':{$lte:30}})
+db.categories.findOne({'productCount':{$gt:30}})
+db.categories.findOne({'productCount':{$gte:30}})
+
+-----------------UpdateMany-------------------------------------------
+
+mongodb_skrish> db.categories.updateMany({'productCount':{$gt:20}}, {$set:{'productCount':50}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+
+-----------------UpdateOne-------------------------------------------
+
+mongodb_skrish> db.categories.updateOne({'productCount':{$gt:20}}, {$set:{'productCount':60}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+-----------------Update-------------------------------------------
+
+mongodb_skrish> db.categories.update({'productCount':{$gt:20}}, {$set:{'productCount':70}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+-----------------replaceOne-------------------------------------------
+
+mongodb_skrish> db.categories.replaceOne({'productCount':{$gt:20}}, {'productCount':70, 'alias':'alias-1'})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
 
 ##################################################################################################################
 

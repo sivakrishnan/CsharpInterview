@@ -1,4 +1,4 @@
-
+maximum document size in a collection is 16MB
 
 db.categories.findOne({title:'sample category-3'})
 db.categories.insertMany([ {}, {}, {}])
@@ -33,3 +33,29 @@ db.categories.find( {$and: [{'productCount': {$gt:10}, 'title':'sample category-
 
 
 db.categories.find( {$and: [{'productCount': {$gt:10}}, {$or: [{'title':'sample category-2'}]}]})
+
+-------------------------------------------------------
+
+db.categories.find() // always return a cursor - and return ONLY 20 records want to more/or next 20 records Type "it"
+
+var cat=db.categories.find()
+
+cat // return only 20 records. this is default iteration of pointer
+
+var cat=db.categories.find()
+while(cat.hasNext()){print(tojson(cat.next()))} // will return all the records. this is manual iteration of pointer
+
+db.categories.find().forEach(c=> printjson(c)) // will return all the records. this is manual iteration of pointer
+
+var cat=db.categories.find()
+cat.toArray()
+
+db.categories.find().count() //4
+
+db.categories.find({}, {title:1}) // projection getting title with default id alone
+db.categories.find({}, {title:1, _id:0}) // projection with exclude the default id also
+
+example of embedded document:
+
+db.categories.updateMany({}, {$set:{details:{lastUpdated:'2 days ago', name:'skrish', status:'active'}}})	
+db.categories.updateMany({}, {$set:{hobbies:['sports', 'cooking', 'movies']}})

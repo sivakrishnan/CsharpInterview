@@ -569,17 +569,153 @@ mongodb_skrish> db.categories.replaceOne({'productCount':{$gt:20}}, {'productCou
 
 11. Mongodb Cursor and how it is useful for iterating documents using find method   - Duration: 10:32
 
+mongodb_skrish> var cat=db.categories.find()
+
+mongodb_skrish> cat // return only 20 records. this is default iteration of pointer
+
+mongodb_skrish> var cat=db.categories.find()
+mongodb_skrish> while(cat.hasNext()){print(tojson(cat.next()))} // will return all the records. this is manual iteration of pointer
+
+mongodb_skrish> db.categories.find().forEach(c=> printjson(c)) // will return all the records. this is manual iteration of pointer
+
+mongodb_skrish> var cat=db.categories.find()
+mongodb_skrish> cat.toArray()
+
+mongodb_skrish> db.categories.find().count()
+4
+mongodb_skrish>
+
 ##################################################################################################################
 
 12. Get specified fields in documents using projection and also adding embedded   - Duration: 09:28
 
+mongodb_skrish> db.categories.find({}, {title:1})
+[
+  {
+    _id: ObjectId('6a03333753ea8052ababc118'),
+    title: 'sample category-1'
+  },
+  {
+    _id: ObjectId('6a03333753ea8052ababc119'),
+    title: 'sample category-2'
+  },
+  { _id: ObjectId('6a03333753ea8052ababc11a') },
+  {
+    _id: ObjectId('6a03333753ea8052ababc11b'),
+    title: 'sample category-4'
+  }
+]
+mongodb_skrish>
+mongodb_skrish> db.categories.find({}, {title:1, _id:0})
+[
+  { title: 'sample category-1' },
+  { title: 'sample category-2' },
+  {},
+  { title: 'sample category-4' }
+]
+mongodb_skrish>
+
+mongodb_skrish> db.categories.updateMany({}, {$set:{details:{lastUpdated:'2 days ago', name:'skrish', status:'active'}}})
+|
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 4,
+  modifiedCount: 4,
+  upsertedCount: 0
+}
+
+mongodb_skrish> db.categories.updateMany({}, {$set:{hobbies:['sports', 'cooking', 'movies']}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 4,
+  modifiedCount: 4,
+  upsertedCount: 0
+}
 ##################################################################################################################
 
 13. Different types of schema like Structured, Semi-Structured, Unstructured doc   - Duration: 12:13
 
+
+-------------------------------------------unstructed data:
+
+mongodb_skrish> db.products.find()
+[
+  {
+    _id: ObjectId('6a041d56fade9f5415abc114'),
+    title: 'Product 1',
+    price: 20
+  },
+  {
+    _id: ObjectId('6a041d77fade9f5415abc115'),
+    name: 'Product 1',
+    status: 'active'
+  }
+]
+mongodb_skrish>
+
+-------------------------------------------semi - structed data:
+
+mongodb_skrish> db.products.find()
+[
+  {
+    _id: ObjectId('6a041debfade9f5415abc116'),
+    title: 'Product 1',
+    price: 20
+  },
+  {
+    _id: ObjectId('6a041e1ffade9f5415abc117'),
+    title: 'Product 1',
+    price: 20,
+    details: { status: 'active', description: 'description 1' }
+  }
+]
+mongodb_skrish>
+
+------------------------------------------- structed data.
+
+mongodb_skrish> db.products.find()
+[
+  {
+    _id: ObjectId('6a041debfade9f5415abc116'),
+    title: 'Product 1',
+    price: 20,
+	details:null,
+  },
+  {
+    _id: ObjectId('6a041e1ffade9f5415abc117'),
+    title: 'Product 1',
+    price: 20,
+    details: { status: 'active', description: 'description 1' }
+  }
+]
+mongodb_skrish>
+
 ##################################################################################################################
 
 14. Different types of Data types available in the mongodb for creating Document   - Duration: 09:49
+
+Data types:
+
+	string
+	integer
+	double : floating values
+	boolean : true or false
+	null : null value
+	array: set of values []
+	object: {}
+	objectId: hexadecimal format. 12 bytes 
+				4 bytes ---> time stamp
+				5 bytes ---> random values
+				3 bytes ---> counter
+	undefined
+	binary
+	date
+	regular expression
+	javascript 
+	time stamp
+	decimal: newly introduced for floating values
 
 ##################################################################################################################
 

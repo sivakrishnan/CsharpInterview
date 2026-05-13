@@ -59,3 +59,10 @@ example of embedded document:
 
 db.categories.updateMany({}, {$set:{details:{lastUpdated:'2 days ago', name:'skrish', status:'active'}}})	
 db.categories.updateMany({}, {$set:{hobbies:['sports', 'cooking', 'movies']}})
+
+------------------------------------------------------------------
+
+db.products.insertOne({title:'product 2', price: 50}) // default is floating datatype will occupied
+db.products.insertOne({title:'product 2', price: NumberInt(200)})
+db.products.insertOne({title:'product 2', price: NumberLong(2050)})
+db.products.insertOne({title:'product 2', price: NumberDecimal(2050)})

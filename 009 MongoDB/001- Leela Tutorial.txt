@@ -721,9 +721,142 @@ Data types:
 
 15. Creating a Document in Collection using different Data Types like Date, stri   - Duration: 09:55
 
+mongodb_skrish> db.products.insertOne({title:'product 1', price: 12, isAvailable:true, quantity:12345678901234567890, details:{status:'active'}, reviews:['review 1', 'review 2'], reviewAt:new Date(), createdAt: new Timestamp()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a042299fade9f5415abc118')
+}
+mongodb_skrish> db.products.find()
+[
+  {
+    _id: ObjectId('6a042299fade9f5415abc118'),
+    title: 'product 1',
+    price: 12,
+    isAvailable: true,
+    quantity: 12345678901234567000,
+    details: { status: 'active' },
+    reviews: [ 'review 1', 'review 2' ],
+    reviewAt: ISODate('2026-05-13T07:04:57.235Z'),
+    createdAt: Timestamp({ t: 1778655897, i: 1 })
+  }
+] 
+
+db.products.insertOne({title:'product 2', price: 50}) // default is floating datatype will occupied
+db.products.insertOne({title:'product 2', price: NumberInt(200)})
+db.products.insertOne({title:'product 2', price: NumberLong(2050)})
+
+mongodb_skrish> db.products.find()
+[
+  {
+    _id: ObjectId('6a042299fade9f5415abc118'),
+    title: 'product 1',
+    price: 12,
+    isAvailable: true,
+    quantity: 12345678901234567000,
+    details: { status: 'active' },
+    reviews: [ 'review 1', 'review 2' ],
+    reviewAt: ISODate('2026-05-13T07:04:57.235Z'),
+    createdAt: Timestamp({ t: 1778655897, i: 1 })
+  },
+  {
+    _id: ObjectId('6a04239efade9f5415abc119'),
+    title: 'product 2',
+    price: 200
+  },
+  {
+    _id: ObjectId('6a0423aafade9f5415abc11a'),
+    title: 'product 2',
+    price: Long('2050')
+  },
+  {
+    _id: ObjectId('6a0423c2fade9f5415abc11b'),
+    title: 'product 2',
+    price: 50
+  },
+  {
+    _id: ObjectId('6a042445fade9f5415abc11c'),
+    title: 'product 2',
+    price: Decimal128('2050')
+  }
+]
+mongodb_skrish>
+
 ##################################################################################################################
 
 16. Understanding One to One Relationship and create Collection with example- Mo  - Duration: 11:13
+
+---------- passport---------------
+mongodb_skrish> db.passports.insertOne({country:'india', paaportNo:'1'})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a042a10bfd18cb39eabc114')
+}
+mongodb_skrish> db.passports.findOne()
+{
+  _id: ObjectId('6a042a10bfd18cb39eabc114'),
+  country: 'india',
+  paaportNo: '1'
+}
+
+---------- persons---------------
+
+mongodb_skrish> db.persons.insertOne({name:'person1', age:30, country:'india', passportId:  ObjectId('6a042a10bfd18cb39eabc114')})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a042a7cbfd18cb39eabc115')
+}
+mongodb_skrish> db.persons.findOne()
+{
+  _id: ObjectId('6a042a7cbfd18cb39eabc115'),
+  name: 'person1',
+  age: 30,
+  country: 'india',
+  passportId: ObjectId('6a042a10bfd18cb39eabc114')
+}
+
+----------while fetching persons get details with passportnumber---- with performance issue-----------
+
+mongodb_skrish>  var passportId=db.persons.findOne({name:'person1'}).passportId
+
+mongodb_skrish> db.passports.findOne({_id:passportId})
+{
+  _id: ObjectId('6a042a10bfd18cb39eabc114'),
+  country: 'india',
+  paaportNo: '1'
+}
+mongodb_skrish>
+
+--------over come the performance issue go with one to one relationship
+
+
+mongodb_skrish> db.persons.insertOne({name:'person2', age:36, country:'india', passportDetails:{passportNumber:'P1'}})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a042c7fbfd18cb39eabc116')
+}
+
+mongodb_skrish> db.persons.find()
+[
+  {
+    _id: ObjectId('6a042a7cbfd18cb39eabc115'),
+    name: 'person1',
+    age: 30,
+    country: 'india',
+    passportId: ObjectId('6a042a10bfd18cb39eabc114')
+  },
+  {
+    _id: ObjectId('6a042c7fbfd18cb39eabc116'),
+    name: 'person2',
+    age: 36,
+    country: 'india',
+    passportDetails: { passportNumber: 'P1' }
+  }
+]
+
+----------while fetching persons get details with passportnumber
+
+mongodb_skrish> db.persons.findOne({name:'person2'}).passportDetails.passportNumber
+P1
 
 ##################################################################################################################
 

@@ -289,20 +289,66 @@ console.log("end of program");
 ################# 18) JavaScript pre defined functions	
 
 1. push() – Add item to end of array
-let arr = [1, 2];
-arr.push(3);  //Output: [1, 2, 3]
 
-2. pop() – Remove last item
-let arr = [1, 2, 3];
-arr.pop();  //Output: [1, 2]
+let arr=[3, 4, 1, 7, 5];
+let chkPush=arr.push(8);
+console.log(chkPush); //Output: 6 -->showing length of array
+console.log(arr);     //Output: [3, 4, 1, 7, 5, 8]
+------------------------------------------------------------
+let arr=[3, 4, 1, 7, 5];
+let chkPush=arr.push(2, 6, 8);
+console.log(chkPush);  //Output: 8 -->showing length of array
+console.log(arr);	   //Output: [3, 4, 1, 7, 5, 2, 6, 8]	
 
-3. shift() – Remove first item
-let arr = [1, 2, 3];
-arr.shift();  // [2, 3]
+-----------------------------------------------------------
+let arr=[3, 4, 1, 7, 5];
+let chkPush=arr.push([2, 6, 8]);
+console.log(chkPush);   //Output: 6 -->showing length of array
+console.log(arr);		//Output: [3, 4, 1, 7, 5, Array(3)]
+
+-----------------------------------------------------------
+2. pop() – give the last element in the array
+
+let arr=[3, 4, 1, 7, 5];
+let chkPop=arr.pop();
+console.log(chkPop); //Output: 5 ---> get the last element in the array
+console.log(arr);    // Output: [3, 4, 1, 7]
+
+-------------------------------------------------------------
+
+let arr=[3, 4, 1, 7, 5];
+arr.push([2, 5, 8]);
+let chkPop=arr.pop();
+console.log(chkPop);  //Output: [2, 5, 8]
+console.log(arr);	  // Output: [3, 4, 1, 7, 5]	
+
+-------------------------------------------------------------
+
+3. shift() – get first item in the array and remove the first element in that array
+
+let arr=[3, 4, 1, 7, 5];
+let chkShift=arr.shift();
+console.log(chkShift);   //Output: 3
+console.log(arr);		 //Output: [4, 1, 7, 5]
+
+--------------------------------------------------------
 
 4. unshift() – Add item at the beginning
-let arr = [2, 3];
-arr.unshift(1);  // [1, 2, 3]
+
+let arr=[3, 4, 1, 7, 5];
+let chkUnshift=arr.unshift(2, 6, 9);
+console.log(chkUnshift);   //Output: 8
+console.log(arr);		   //Output:	[2, 6, 9, 3, 4, 1, 7, 5]  
+
+-----------------------------------------------------------
+
+let arr=[3, 4, 1, 7, 5];
+let chkUnshift=arr.unshift([2, 6, 9]);
+console.log(chkUnshift);     //Output: 6
+console.log(arr);            //Output: [Array(3), 3, 4, 1, 7, 5]
+let chkShift=arr.shift();
+console.log(chkShift);       //Output: [2, 6, 9]
+console.log(arr);			 //Output: [3, 4, 1, 7, 5]
 
 5. map() – Loop through array & return a new array
 let arr = [1, 2, 3];

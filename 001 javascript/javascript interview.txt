@@ -16,7 +16,7 @@
 15) Object creation in javascript
 16) setTimeout vs SetInterval
 17) Wipro interviewer asked
-18) JavaScript pre defined functions
+18) JavaScript pre defined functions (created as seperate file)
 19) MSC Technology Interview
 
 ################# 2) promises
@@ -286,207 +286,25 @@ while(true)
  
 console.log("end of program");
 
-################# 18) JavaScript pre defined functions	
 
-1. push() – Add item to end of array
+Execution flow
+"start of program" prints.
+setTimeout() registers its callback for approximately 4 seconds later.
+The while(true) loop starts and blocks the JavaScript main thread.
+"while loop called." keeps printing forever.
+After 4 seconds, the timer callback becomes ready, but it cannot execute because the call stack is never free.
+"end of program" never executes.
 
-let arr=[3, 4, 1, 7, 5];
-let chkPush=arr.push(8);
-console.log(chkPush); //Output: 6 -->showing length of array
-console.log(arr);     //Output: [3, 4, 1, 7, 5, 8]
-------------------------------------------------------------
-let arr=[3, 4, 1, 7, 5];
-let chkPush=arr.push(2, 6, 8);
-console.log(chkPush);  //Output: 8 -->showing length of array
-console.log(arr);	   //Output: [3, 4, 1, 7, 5, 2, 6, 8]	
+Important: setTimeout(..., 4000) does not guarantee execution exactly after 4 seconds. It means the callback can execute after at least 4 seconds, once the JavaScript thread/event loop is available.
 
------------------------------------------------------------
-let arr=[3, 4, 1, 7, 5];
-let chkPush=arr.push([2, 6, 8]);
-console.log(chkPush);   //Output: 6 -->showing length of array
-console.log(arr);		//Output: [3, 4, 1, 7, 5, Array(3)]
+So the actual output is conceptually:
 
------------------------------------------------------------
-2. pop() – give the last element in the array
+start of program
+while loop called.
+while loop called.
+while loop called.
+...
 
-let arr=[3, 4, 1, 7, 5];
-let chkPop=arr.pop();
-console.log(chkPop); //Output: 5 ---> get the last element in the array
-console.log(arr);    // Output: [3, 4, 1, 7]
-
--------------------------------------------------------------
-
-let arr=[3, 4, 1, 7, 5];
-arr.push([2, 5, 8]);
-let chkPop=arr.pop();
-console.log(chkPop);  //Output: [2, 5, 8]
-console.log(arr);	  // Output: [3, 4, 1, 7, 5]	
-
--------------------------------------------------------------
-
-3. shift() – get first item in the array and remove the first element in that array
-
-let arr=[3, 4, 1, 7, 5];
-let chkShift=arr.shift();
-console.log(chkShift);   //Output: 3
-console.log(arr);		 //Output: [4, 1, 7, 5]
-
---------------------------------------------------------
-
-4. unshift() – Add item at the beginning
-
-let arr=[3, 4, 1, 7, 5];
-let chkUnshift=arr.unshift(2, 6, 9);
-console.log(chkUnshift);   //Output: 8
-console.log(arr);		   //Output:	[2, 6, 9, 3, 4, 1, 7, 5]  
-
------------------------------------------------------------
-
-let arr=[3, 4, 1, 7, 5];
-let chkUnshift=arr.unshift([2, 6, 9]);
-console.log(chkUnshift);     //Output: 6
-console.log(arr);            //Output: [Array(3), 3, 4, 1, 7, 5]
-let chkShift=arr.shift();
-console.log(chkShift);       //Output: [2, 6, 9]
-console.log(arr);			 //Output: [3, 4, 1, 7, 5]
-
--------------------------------------------------------------
-
-5. find() – Get first matching item (condition based search)
-let arr = [10, 20, 30];
-let result = arr.find(x=>x>4); // 7 only comes. only first matching
-
-6. findIndex() – Get index of first match - (condition based search)
-let arr = [3, 4, 1, 7, 5, 2, 4, 5];
-let index = arr.findIndex(x=>x>4); // 3
-
-7. findLastIndex() – Get index of Last match - (condition based search)
-let arr = [3, 4, 1, 7, 5, 2, 4, 5, 2]
-let chkLastIndex=arr.findLastIndex(x=>x>4);  //short form of callback function
-console.log(chkLastIndex);  // 7
-
-7.1 detailed callback function 
-
-let arr=[3, 4, 1, 7, 5, 2, 4, 5, 2];
-let chkFind= arr.find(function (x)
-                      {
-                          return x>4;
-                      });
-console.log(chkFind);
-
-8. indexOf() - Get index of first match - (exact value based search)
-let arr = [3, 4, 1, 7, 5, 2, 4, 5, 2]
-let chkIndexOf=arr.indexOf(2);
-console.log(chkIndexOf); // 5
-
-9) IndexOf() vs findIndex();
-
-let users=[
-    {id:1, name:'siva'}, 
-    {id:2, name:'krish'},
-    {id: 3, name: 'sivakrish'}
-];
-let chkIndexOf=users.indexOf({id:2, name:'krish'});
-console.log(chkIndexOf);  // -1 not working for object type (exact value based search)
-let chkFindIndex=users.findIndex(x=>x.id==2);
-console.log(chkFindIndex); // 1 working perfectly for object type (condition based search)
-
-let users=[
-    {id:1, name:'siva'}, 
-    {id:2, name:'krish'},
-    {id: 3, name: 'sivakrish'}
-];
-let chkIndexOf=users.indexOf({id:2, name:'krish'});
-console.log(chkIndexOf);
-let refer=users[1];
-let chkIndexOf1=users.indexOf(refer);
-console.log(chkIndexOf1);
------------------------------------------------------------------
-
-10. some  – At least one element satisfies condition?
-
-let arr=[3, 4, 1, 7, 5, 2, 4, 5, 2];
-let chkSome= arr.some(x=>x>8);
-console.log(chkSome); 					 //false
-let chkSome1=arr.some(x=>x>5);
-console.log(chkSome1); 					//true
-
-11. every() – All elements satisfy condition?
-
-let arr=[3, 4, 1, 7, 5, 2, 4, 5, 2];
-let chkEvery= arr.every(x=>x>2);
-console.log(chkEvery);             //false
-let chkEvery1=arr.every(x=>x>0);
-console.log(chkEvery1);				//true
-
-12. includes() – Check if element exists
-let arr=[3, 4, 1, 7, 5, 2, 4, 5, 2];
-let chkIncludes= arr.includes(2);
-console.log(chkIncludes);
-
-let users=[
-    {id:1, name:'siva'}, 
-    {id:2, name:'krish'},
-    {id: 3, name: 'sivakrish'}
-];
-
-users.includes( {id:2, name:'krish'}); //false
-
-let users=[
-    {id:1, name:'siva'}, 
-    {id:2, name:'krish'},
-    {id: 3, name: 'sivakrish'}
-];
-
-let chkIncludes1=users.includes( {id:2, name:'krish'});
-let refer=users[0];  // get the object reference
-let chkIncludes2=users.includes(refer);  //searching the object reference 
-console.log(chkIncludes1);  //false 
-console.log(chkIncludes2);  // true
----------------------------------------------------------------------------
-
-5. map() – Loop through array & return a new array
-let arr = [1, 2, 3];
-let result = arr.map(x => x * 2); // [2, 4, 6]
-
-6. filter() – Filter array elements
-let arr = [1, 2, 3, 4];
-let result = arr.filter(x => x % 2 === 0); // [2, 4]
-
-
-
-
-11. reduce() – Combine all values into one
-let arr = [1, 2, 3];
-let sum = arr.reduce((a, b) => a + b, 0); // 6
-
-12. slice() – Copy part of array (non-destructive)
-let arr = [1, 2, 3, 4, 5, 6, 7, 8];
-let part = arr.slice(2, 4); // [3, 4]
-
-13. splice() – Add/remove elements (destructive)
-let arr = [1, 2, 3, 4, 5, 6, 7, 8];
-arr.splice(1, 3); // [ 1, 5, 6, 7, 8 ]
-
-14. concat() – Merge arrays
-let arr1 = [1, 2];
-let arr2 = [3, 4];
-let result = arr1.concat(arr2); // [1, 2, 3, 4]
-
-15. sort() – Sort values
-let arr = [3, 1, 2];
-arr.sort();   // [1, 2, 3]
-
-16. reverse()
-let arr = [1, 2, 3];
-arr.reverse(); // [3, 2, 1]
-
-17. join() – Convert array → string
-["a", "b", "c"].join("-"); // "a-b-c"
-
-20. flat() – Flatten nested arrays
-
-[1, [2, [3]]].flat(2); // [1, 2, 3]
 
 ################# 19) MSC Technology Interview	
 

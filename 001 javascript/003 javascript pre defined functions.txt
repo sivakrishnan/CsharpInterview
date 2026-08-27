@@ -157,13 +157,67 @@ console.log(chkIncludes1);  //false
 console.log(chkIncludes2);  // true
 ---------------------------------------------------------------------------
 
-5. map() – Loop through array & return a new array
-let arr = [1, 2, 3];
-let result = arr.map(x => x * 2); // [2, 4, 6]
+13. map() – Loop through array & return a new array
+let arr=[3, 4, 1, 7, 5, 2, 4, 5, 2];
+let result=arr.map(x=>x+10);
+console.log(result); // [13, 14, 11, 17, 15, 12, 14, 15, 12]
 
-6. filter() – Filter array elements
-let arr = [1, 2, 3, 4];
-let result = arr.filter(x => x % 2 === 0); // [2, 4]
+14. filter() – Filter array elements
+let arr=[3, 4, 1, 7, 5, 2, 4, 5, 2];
+let resFilter=arr.filter(x=>x>4);
+console.log(resFilter); // [7, 5, 5]
+
+15. join() – Convert array → string
+
+let users=[
+    {id:1, name:'siva'}, 
+    {id:2, name:'krish'},
+    {id: 3, name: 'sivakrish'}
+];
+
+let chkJoin=users.map(x=>x.name).join("-");
+console.log(chkJoin);   //siva-krish-sivakrish
+
+-----------------------{} vs [] with spread operator----------------------------------------
+
+let users1=[
+    {id:1, name:'siva1'}, 
+    {id:2, name:'krish1'},
+    {id: 3, name: 'sivakrish1', city:'chennai'}
+];
+let users2=[
+    {id:1, name:'siva'}, 
+    {id:2, name:'krish'},
+    {id: 31, name: 'sivakrish'}
+];
+let merged={...users1, ...users2}
+console.log(merged);
+VM1671:12 {0: {…}, 1: {…}, 2: {…}}
+0: {id: 1, name: 'siva'}
+1: {id: 2, name: 'krish'}
+2: {id: 31, name: 'sivakrish'}
+
+------------------------------------------------------
+
+let users1=[
+    {id:1, name:'siva1'}, 
+    {id:2, name:'krish1'},
+    {id: 3, name: 'sivakrish1', city:'chennai'}
+];
+let users2=[
+    {id:1, name:'siva'}, 
+    {id:2, name:'krish'},
+    {id: 31, name: 'sivakrish'}
+];
+let merged=[...users1, ...users2]
+console.log(merged);
+VM1688:12 (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+0: {id: 1, name: 'siva1'}
+1: {id: 2, name: 'krish1'}
+2: {id: 3, name: 'sivakrish1', city: 'chennai'}
+3: {id: 1, name: 'siva'}
+4: {id: 2, name: 'krish'}
+5: {id: 31, name: 'sivakrish'}	
 
 
 
@@ -193,8 +247,6 @@ arr.sort();   // [1, 2, 3]
 let arr = [1, 2, 3];
 arr.reverse(); // [3, 2, 1]
 
-17. join() – Convert array → string
-["a", "b", "c"].join("-"); // "a-b-c"
 
 20. flat() – Flatten nested arrays
 

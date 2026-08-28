@@ -1,0 +1,18 @@
+008 Section:08 - AZ-204 Data Encryption with Storage Accounts and SQL Database
+
+################################################################################################################
+
+
+73. Secure App Configuration - 11min
+
+
+74. Data Encryption and Storage Accounts - 6min
+
+
+75. Data Encryption and SQL Databases - 7min
+
+
+76. Configuring Customer-Managed Key (CMK) with Azure Key Vault - 6min
+
+
+77. Code Samples: Azure Key Vault - 1min

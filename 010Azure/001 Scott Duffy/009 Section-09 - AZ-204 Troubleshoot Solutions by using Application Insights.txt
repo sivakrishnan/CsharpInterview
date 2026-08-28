@@ -1,0 +1,10 @@
+
+009 Section:09 - AZ-204 Troubleshoot Solutions by using Application Insights
+
+################################################################################################################
+
+
+78. Configure an app to use Application Insights - 7min
+
+
+79. Monitor and analyze metrics, logs, and traces - 6min

@@ -1,0 +1,11 @@
+001 Section:01 - AZ-204 Course Welcome
+################################################################################################################
+1. Overview of the Azure Developer Exam - 6min
+2. Azure Home and Dashboard - 5min
+3. Frequently Asked Questions - 1min
+4. Udemy Video Player - 1min
+5. Amazing Microsoft Resources - 1min
+6. Hands On Labs for AZ-204 - 1min
+7. Azure Cloud Shell - 4min
+8. Installing PowerShell - 6min
+

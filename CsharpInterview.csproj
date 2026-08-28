@@ -12,6 +12,7 @@
     <Folder Include="007 React\" />
 	  <Folder Include="008 TCS\" />
 	  <Folder Include="009 MongoDB\" />
+	  <Folder Include="010Azure\001 Scott Duffy\" />
     <Folder Include="WorkOutAWS\AWSCloudWatch\" />
   </ItemGroup>
 

@@ -1,0 +1,10 @@
+011 Section:11 - AZ-204 Develop Event Based Soutions
+
+################################################################################################################
+
+
+
+86. Implement solutions that use Azure Event Grid - 8min
+
+
+87. Implement solutions that use Azure Event Hub - 4min

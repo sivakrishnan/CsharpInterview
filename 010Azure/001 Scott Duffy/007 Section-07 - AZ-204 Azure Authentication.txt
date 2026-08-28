@@ -1,0 +1,33 @@
+007 Section:07 - AZ-204 Azure Authentication
+
+################################################################################################################
+
+
+
+63. Introduction to Entra ID (Azure AD) - 7min
+
+
+64. What is an Entra ID (Azure AD) Tenant? - 6min
+
+
+65. Create an Entra ID (Azure AD) Tenant - 5min
+
+
+66. Microsoft Identity Platform - 5min
+
+
+67. Create Users in Entra ID (Azure AD) - 3min
+
+
+68. Register an Application for Entra ID (Azure AD) - 4min
+
+69. Use Application Quickstart to Code an Application - 6min
+
+
+70. Overview of Microsoft Graph API - 3min
+
+
+71. Using Microsoft Graph API to Query Entra ID (Azure AD) - 8min
+
+
+72. Code Samples: Microsoft Entra (Azure Active Directory) - 1min

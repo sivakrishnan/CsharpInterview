@@ -1,0 +1,24 @@
+003 Section:03 - AZ-204 Containers
+
+################################################################################################################
+
+
+23. Overview of Containers in Azure - 8min
+
+
+24. What is an Azure Container Instance (ACI)? - 7min
+
+
+25. Azure Container Registry (ACR) - 4min
+
+
+26. Install WSL 2 on Windows and Docker Desktop - 5min
+
+
+27. Use Visual Studio 2022 to Create a Containerized Web App - 5min
+
+
+28. Deploy an ACI App From Azure Container Registry - 5min
+
+
+29. Deploy an Azure Web App From Azure Container Registry - 4min

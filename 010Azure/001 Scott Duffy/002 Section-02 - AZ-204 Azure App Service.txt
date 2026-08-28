@@ -1,0 +1,47 @@
+002 Section:02 - AZ-204 Azure App Service
+
+################################################################################################################
+
+9. Introduction to Web Apps (Platform as a Service, PaaS - 5min
+
+
+10. Create an Azure Web App - 6min
+
+
+11. App Service Plan - 4min
+
+
+12. App Service Deployment Options - 5min
+
+
+13. Manual Scaling an App Service  - 4min
+
+
+14. Publishing an App Service  - 5min
+
+
+15. Deployment Slots - 10min
+
+
+16. App Service General Settings - 9min
+
+
+17. Add a Custom Domain to an App Service - 5min
+
+
+18. App Service SSL Settings - 5min
+
+
+19. Autoscaling an App Service - 7min
+
+
+20. Enable Diagnostic Logs - 7min
+
+
+21. DEMO: Create a Web App in PowerShell - 6min
+
+
+22. DEMO: Create a Web App in CLI - 3min
+
+
+Quiz 1: Azure App Service Model Quiz

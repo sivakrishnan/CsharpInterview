@@ -1,0 +1,20 @@
+010 Section:10 - AZ-204 Consuming Azure Services
+
+################################################################################################################
+
+
+80. API Management - 8min
+
+
+81. Configure API Management - 8min
+
+82. Test the API - 7min
+
+
+83. Add a New API to API Management - 4min
+
+
+84. *NEW* Swagger / OpenAPI - 3min
+
+
+85. API Management Developer Portal - 4min

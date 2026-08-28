@@ -1,0 +1,39 @@
+004 Section:04 - AZ-204 Function App
+
+################################################################################################################
+
+
+30. Overview of Function Apps - 10min
+
+
+31. Creating a Function App - 6min
+
+
+32. Creating Our First Function - 4min
+
+
+33. HTTP Trigger Function - 6min
+
+
+34. Monitoring Function Events and Errors - 2min
+
+
+35. Adding a Blob Output Binding - 7min
+
+
+36. Timer Trigger Function - 7min
+
+
+37. Function Core Tools - 8min
+
+
+38. Visual Studio and Functions - 8min
+
+
+Quiz 2: Function App Quiz 
+
+
+39. INSTRUCTIONS: How to Use Microsoft Learn Exercises and Sandboxes - 5min
+
+
+40. HANDS-ON LABS: Create a Function App - 1min

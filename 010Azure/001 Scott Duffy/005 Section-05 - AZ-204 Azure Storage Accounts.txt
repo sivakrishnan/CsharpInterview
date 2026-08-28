@@ -1,0 +1,40 @@
+005 Section:05 - AZ-204 Azure Storage Accounts
+
+################################################################################################################
+
+41. Understanding Storage Accounts - 5min
+
+
+42. Storage Account Settings - 5min
+
+
+43. Storage Account Networking and Data Protection - 5min
+
+
+44. Storage Account Encryption - 3min
+
+
+45. Upload Files to a Storage Account - 5min
+
+
+46. Access Keys and SAS Tokens - 3min
+
+
+47. AzCopy V10 - 4min
+
+
+48. StartCopyFromUri Method - 7min
+
+
+49. SetMetadata Method - 5min
+
+
+50. Storage Policies - 8min
+
+
+51. Storage Account Lifecycle Management - 3min
+
+
+Quiz 3: Storage Account Quiz
+
+52. Code Samples: Azure Blobs - 1min

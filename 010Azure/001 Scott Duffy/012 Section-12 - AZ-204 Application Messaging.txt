@@ -1,0 +1,11 @@
+
+012 Section:12 - AZ-204 Application Messaging
+
+################################################################################################################
+
+
+
+88. Azure Storage Queues - 8min
+
+
+89. Service Bus Queue - 8min

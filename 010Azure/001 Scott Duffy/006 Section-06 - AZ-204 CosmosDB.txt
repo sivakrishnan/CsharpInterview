@@ -1,0 +1,35 @@
+006 Section:06 - AZ-204 CosmosDB
+
+################################################################################################################
+
+
+53. Introduction to CosmosDB - 8min
+
+
+54. Create a CosmosDB Account - 5min
+
+
+55. Global Replication Options - 8min
+
+56. CosmosDB Keys and Security - 6min
+
+
+57. Create a CosmosDB Container - 6min
+
+
+58. Add Documents to CosmosDB - 4min
+
+
+59. Setting Data Consistency Options - 9min
+
+
+60. Managing Change Feed Notifications - 5min
+
+
+Quiz 4: CosmosDB Quiz
+
+
+61. Code Samples: Cosmos DB Sample Code - 1min
+
+
+62. Review CosmosDB Sample App Code - 5min

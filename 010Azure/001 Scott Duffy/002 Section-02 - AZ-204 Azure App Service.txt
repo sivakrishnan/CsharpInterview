@@ -4,44 +4,85 @@
 
 9. Introduction to Web Apps (Platform as a Service, PaaS - 5min
 
+1) Implement Azure App Service Web Apps
+
+	Create an Azure App Service Web App
+
+	Configure and implement diagnostics and logging
+
+	Deploy code and containers
+
+	Configure settings including Transport Layer Security (TLS), API settings, and service connections
+
+	Implement autoscaling
+
+	Configure deployment slots
+	
+**Running a Web Application in a VM**
+
+	It's entirely possible to run a web application in a virtual machine
+	Install IIS on that VM
+	Deploy your web app to that environment
+
+	You are responsible for:
+
+	* the OS, keeping it updated
+	* Whatever apps / DLLs you install on that machine
+	* Open ports, virtual network settings, etc.
+
+**The new App Service Paradigm**
+
+	Azure runs the servers
+	You don't have control over the underlying OS or choose the hardware
+	You pay for performance
+	You upload your code and data
+	And Azure runs it
+	Easy to scale, lots of developer bells and whistles, less worries
+	Similar price
+
+################################################################################################################
 
 10. Create an Azure Web App - 6min
 
+################################################################################################################
 
 11. App Service Plan - 4min
 
+################################################################################################################
 
 12. App Service Deployment Options - 5min
 
-
+################################################################################################################
 13. Manual Scaling an App Service  - 4min
 
-
+################################################################################################################
 14. Publishing an App Service  - 5min
 
-
+################################################################################################################
 15. Deployment Slots - 10min
 
-
+################################################################################################################
 16. App Service General Settings - 9min
 
-
+################################################################################################################
 17. Add a Custom Domain to an App Service - 5min
 
-
+################################################################################################################
 18. App Service SSL Settings - 5min
 
-
+################################################################################################################
 19. Autoscaling an App Service - 7min
 
-
+################################################################################################################
 20. Enable Diagnostic Logs - 7min
 
-
+################################################################################################################
 21. DEMO: Create a Web App in PowerShell - 6min
 
-
+################################################################################################################
 22. DEMO: Create a Web App in CLI - 3min
 
-
+################################################################################################################
 Quiz 1: Azure App Service Model Quiz
+
+################################################################################################################

@@ -30,3 +30,8 @@ select FirstName, LastName, Gender, Salary
 , LEAD(salary, 2, 0)over(order by salary) as LeadSalary
 , LAG(salary, 1, 0)over(order by salary) as LeadSalary
 from Employees
+
+select FirstName, LastName, Gender, Salary
+, LEAD(salary, 2, 0)over(partition by gender order by salary) as LeadSalary
+, LAG(salary, 1, 0)over(partition by gender order by salary) as LeadSalary
+from Employees

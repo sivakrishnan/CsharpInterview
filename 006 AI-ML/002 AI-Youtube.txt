@@ -1,0 +1,178 @@
+
+
+70 to 80 %									20 to 25 %
+SOFTWARE ENGINEERING						AI ENGINEERING
+
+APPLICATION DEVELOPMENT						LLM INTEGRATION
+BUILDING A SECURE API						MODEL FINE-TUNING
+DATABASE INTEGRATION						PROMPT ENGINEERING
+DATA SECURITY								MODEL DEPLOYMENT
+SCALING AN APPLICATION						RAG PIPELINE
+
+################# Weeks 0-2
+
+Weeks	Details	
+0-2		Python 			variables and Datatypes
+						Conditional Statements
+						Looping Constructs
+						Functions
+						Data Structures (Collections)
+						List
+						Tuples
+						Dictionaries
+						
+################# Weeks 3
+						
+**BUILD SIMPLE PYTHON APPS**
+
+**STUDENT REPORT CARD GENERATOR**
+
+* INPUT STUDENT ID, NAME & MARKS FOR EACH SUBJECTS
+* STORE MARKS IN A DICTIONARY
+* CALCULATE AVERAGE & GRADE FOR EACH STUDENT
+* PRINT A FORMATTED REPORT CARD FOR EACH STUDENT
+
+---
+
+**PERSONAL EXPENSE TRACKER**
+
+* USER CAN ADD DAILY EXPENSES (CATEGORY + AMOUNT)
+* STORE EXPENSES IN A LIST OF DICTIONARIES
+* FUNCTION TO CALCULATE TOTAL SPENT, HIGHEST EXPENSE, ETC
+* OPTION TO VIEW EXPENSES BY CATEGORY
+
+################# Weeks 4-5
+
+**API**
+**APPLICATION PROGRAMMING INTERFACE**
+
+UNDERSTAND REQUEST & RESPONSE
+UNDERSTAND JSON STRUCTURE
+
+[https://restful-api.dev/](https://restful-api.dev/)
+(visit this site to use all their apis)
+
+* HIT THE API USING COMMAND LINE
+* HIT THE API USING PYTHON
+* DEVELOP YOUR OWN API
+
+FASTAPI
+
+
+################# Weeks 6
+
+**BUILD YOUR FIRST API POWERED APP**
+
+**PERSONAL EXPENSE TRACKER – API VERSION**
+
+* Setup a python with fastapi app in vscode
+* Implement Add Expense API & Test with Postman.
+* Implement Get All Expenses API. Test again.
+* implement an API to get the highest expense.
+
+################# Weeks 7-8
+
+**DATABASE**
+**STRUCTURED QUERY LANGUAGE (SQL)**
+
+INSTALL POSTGRES OR MYSQL
+
+* CREATE A DATABASE
+* CREATE A TABLE TO STORE STUDENT DATA
+* INSERT 10 STUDENTS DATA
+* SELECT ALL STUDENTS DATA FROM DATABASE
+* SELECT STUDENTS WHOSE GRADE IS > 80
+* SELECT STUDENTS WHOSE AVG IS < 25
+* SELECT STUDENTS WHO GOT 100% IN MATHS
+
+
+################# Weeks 9
+
+**BUILD YOU FIRST END TO END APP**
+
+**PERSONAL EXPENSE TRACKER – API + DB VERSION**
+
+* Setup the database configurations in the application.
+* Modify Add Expense API to store the details in database.
+* Modify Get All Expenses API to get data from database.
+* Modify highest expense API, to get data from database.
+
+User ---> API ---> Database
+
+
+################# Weeks 10-13
+
+**MACHINE LEARNING**
+
+					**ML CATEGORIES**
+
+**SUPERVISED LEARNING**				**UNSUPERVISED LEARNING**
+
+* REGRESSION							* CLUSTERING
+* CLASSIFICATION
+
+----------------------------------------------------------------------
+
+**MACHINE LEARNING**
+
+**PROJECT 1: STUDENT SCORE PREDICTOR (REGRESSION)**
+
+Build an application that predicts how well a student will score in exams based on the number of study hours (and other factors if available in the dataset).
+
+* Take input like hours studied (and optional attributes such as test preparation, parental education, etc.).
+* Train a regression model to predict the exam score.
+* Compare predicted vs. actual scores.
+* Provide a simple evaluation report (accuracy or error rate).
+
+---
+
+**DATA CLEANSING** 
+**SPLIT TRAINING & TESTING DATA**
+**MODEL TRAINING**
+**COST FUNCTION**
+**MEAN SQUARED ERROR**
+
+---
+
+**SCIKIT LEARN**
+--------------------------------------------------------------------------------
+
+**MACHINE LEARNING**
+
+**PROJECT 2: SPAM EMAIL CLASSIFIER (CLASSIFICATION)**
+
+Develop a model that can automatically classify text messages or emails as either spam or not spam.
+
+* Use a dataset of real SMS messages labeled as spam or ham (not spam).
+* Clean and preprocess the text messages.
+* Train a classification model to detect spam.
+* Test the model with new unseen messages to check if it classifies correctly.
+* Show performance metrics like accuracy or confusion matrix.
+
+---
+
+**TEXT PREPROCESSING**
+**TEXT VECTORIZATION**
+**MODEL TRAINING**
+
+**ACCURACY** | **PRECISION** | **RECALL**
+
+################# Weeks 3
+################# Weeks 3
+################# Weeks 3
+################# Weeks 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

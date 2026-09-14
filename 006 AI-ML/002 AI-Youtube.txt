@@ -9,7 +9,7 @@ DATABASE INTEGRATION						PROMPT ENGINEERING
 DATA SECURITY								MODEL DEPLOYMENT
 SCALING AN APPLICATION						RAG PIPELINE
 
-################# Weeks 0-2
+################################################### Weeks 0-2 ###################################################
 
 Weeks	Details	
 0-2		Python 			variables and Datatypes
@@ -21,7 +21,7 @@ Weeks	Details
 						Tuples
 						Dictionaries
 						
-################# Weeks 3
+################################################### Weeks 3 ###################################################
 						
 **BUILD SIMPLE PYTHON APPS**
 
@@ -41,7 +41,7 @@ Weeks	Details
 * FUNCTION TO CALCULATE TOTAL SPENT, HIGHEST EXPENSE, ETC
 * OPTION TO VIEW EXPENSES BY CATEGORY
 
-################# Weeks 4-5
+################################################### Weeks 4-5 ###################################################
 
 **API**
 **APPLICATION PROGRAMMING INTERFACE**
@@ -59,7 +59,7 @@ UNDERSTAND JSON STRUCTURE
 FASTAPI
 
 
-################# Weeks 6
+################################################### Weeks 6 ###################################################
 
 **BUILD YOUR FIRST API POWERED APP**
 
@@ -70,7 +70,7 @@ FASTAPI
 * Implement Get All Expenses API. Test again.
 * implement an API to get the highest expense.
 
-################# Weeks 7-8
+################################################### Weeks 7-8 ###################################################
 
 **DATABASE**
 **STRUCTURED QUERY LANGUAGE (SQL)**
@@ -86,7 +86,7 @@ INSTALL POSTGRES OR MYSQL
 * SELECT STUDENTS WHO GOT 100% IN MATHS
 
 
-################# Weeks 9
+################################################### Weeks 9 ###################################################
 
 **BUILD YOU FIRST END TO END APP**
 
@@ -100,7 +100,7 @@ INSTALL POSTGRES OR MYSQL
 User ---> API ---> Database
 
 
-################# Weeks 10-13
+################################################### Weeks 10-13 ###################################################
 
 **MACHINE LEARNING**
 
@@ -157,10 +157,164 @@ Develop a model that can automatically classify text messages or emails as eithe
 
 **ACCURACY** | **PRECISION** | **RECALL**
 
-################# Weeks 3
-################# Weeks 3
-################# Weeks 3
-################# Weeks 3
+------------------------------------------------------------------------
+
+**MACHINE LEARNING**
+
+**PROJECT 3: CUSTOMER SEGMENTATION (CLUSTERING)**
+
+Create a system that groups customers into clusters based on their spending habits and demographics.
+
+* Use customer details like Age, Income, and Spending Score.
+* Apply clustering to automatically group customers into segments (e.g., high-value, budget, or casual spenders).
+* Visualize the clusters on a chart to make insights clear.
+* Summarize each cluster with its key characteristics.
+
+---
+
+**K-MEANS CLUSTERING** | **ELBOW METHOD** | **DATA VISUALIZATION**
+
+**MATPLOTLIB** | **SEABORN**
+
+
+################################################### Weeks 14-17 ###################################################
+
+**DEEP LEARNING**
+
+**NEURAL NETWORK**
+
+**NEURONS** | **LAYERS** | **WEIGHTS** | **ACTIVATION FUNCTION**
+
+-----------------------------------------------------------------------------------
+
+**DEEP LEARNING**
+
+**PROJECT 1: HANDWRITTEN DIGIT RECOGNIZER (MNIST)**
+
+Build a Deep Learning model that can recognize handwritten digits from 0 to 9. This is one of the most famous beginner-friendly AI projects.
+
+* Train a simple neural network using the MNIST dataset of 70,000 handwritten digits.
+* Predict the correct digit when given a new handwritten image.
+* Measure how well the model performs by checking accuracy on unseen test data.
+* Aim for 90%+ accuracy to see how powerful neural networks can be in pattern recognition.
+
+---
+
+**LAYERS** | **ACTIVATION FUNCTION** | **TRAINING & TEST DATA**
+
+**LOSS FUNCTION / CROSS ENTROPY** | **MODEL EVALUATION**
+
+---
+
+**TENSOR FLOW**
+
+--------------------------------------------------------------------------------
+
+**DEEP LEARNING**
+
+**PROJECT 2: CATS VS DOGS CLASSIFIER (CNN)**
+
+Develop a Convolutional Neural Network (CNN) that can classify images as either a cat or a dog.
+
+* Train the CNN with thousands of cat and dog images.
+* Teach the model to learn image features like edges, shapes, and textures.
+* Test it on new images to see if it can correctly identify cats and dogs.
+* Learn how to prevent overfitting and improve results by using techniques like data augmentation and validation checks.
+
+Convolutional Neural Network (CNN)
+Overfitting
+Data Augmentation
+Model Evaluation
+
+
+--------------------------------------------------------------------------------
+
+**DEEP LEARNING**
+
+**PROJECT 3: SENTIMENT ANALYSIS ON TWEETS (TEXT CLASSIFICATION)**
+
+Build a Deep Learning model that can analyze tweets and classify them as positive or negative. This project introduces how neural networks can work with language data.
+
+* Train a model using a dataset of tweets labeled with sentiment (positive or negative).
+* Clean and preprocess the text (remove stopwords and unnecessary characters).
+* Convert words into embeddings (numerical vectors) so the network can understand them.
+* Use RNN/LSTM or even a simple dense network to capture word sequences and context.
+* Test the model on new tweets to see if it can correctly identify sentiment.
+
+---
+
+**TEXT PREPROCESSING** | **WORD EMBEDDINGS**
+
+**RECURRENT NEURAL NETWORK**
+
+
+################################################### Weeks 18-21 ###################################################
+
+**GENERATIVE AI - NON AGENTIC**
+
+**LARGE LANGUAGE MODEL BASICS** | **PRE TRAINING** | **FINE TUNING**
+
+**PROMPT ENGINEERING** | **ZERO SHOT PROMPTING** | **FEW SHOT PROMPTING** | **CHAIN OF THOUGHT**
+
+----------------------------------------------------------------------------------
+
+**RESUME SCREENING APPLICATION**
+
+**Diagram Flow:**
+
+* RESUME ------> [AI] ------> EXTRACTED RESUME DETAILS
+* JOB ------> [AI] ------> EXTRACTED JOB DETAILS
+* (EXTRACTED RESUME DETAILS + EXTRACTED JOB DETAILS) ------> [AI] ------> SELECT / REJECT CANDIDATE
+
+-------------------------------------------------------------------------
+
+**RAG - CHATBOT**
+
+**EMBEDDINGS** | **VECTORIZATION**
+
+**VECTOR DB** | **DATA CHUNKING**
+
+**SEMANTIC SEARCH** | **TOP-K CHUNKS**
+
+
+################################################### Weeks 22-25 ###################################################
+
+**GENERATIVE AI - AGENTIC**
+
+❌ LANGCHAIN | LANGGRAPH | LLAMA INDEX | AUTOGEN | CREW AI
+
+* DEVELOP USING PYTHON WITHOUT ANY AGENTIC FRAMEWORKS
+* DEVELOP THE SAME APPLICATION USING LANGGRAPH
+
+------------------------------------------------------------------------
+
+**GENERATIVE AI - AGENTIC**
+
+**PROJECT 1: INFORMATIONAL AGENT (WEATHER API / NEWS API)**
+
+Develop an AI agent that can decide which external API to call based on the user's request and return the result.
+
+* User asks a natural question, e.g., "What's today's weather in Chennai?"
+* The agent identifies that it needs to call the Weather API.
+* Makes the request, retrieves the response, and formats the result into a user-friendly answer.
+* Extend the same logic to multiple tools (e.g., News API, Dictionary API).
+* Handle errors gracefully (e.g., if the API fails, respond with a fallback message).
+
+-------------------------------------------------------------------------------
+
+**GENERATIVE AI - AGENTIC**
+
+**PROJECT 2: TRAVEL PLANNER AGENT**
+
+Build an AI-powered travel assistant that can plan a trip for a user based on destination, budget, and duration.
+
+* User provides input like "Plan me a 3-day trip to Bangalore under ₹10,000."
+* The agent automatically breaks the task into steps: transport, accommodation, food, and sightseeing.
+* Connect to APIs such as flights, hotels, and maps to gather real options.
+* Combine all results into a structured daily itinerary while staying within the budget.
+* Present the plan clearly so the user can follow it day by day.
+
+################################################### Weeks 3 ###################################################
 
 
 

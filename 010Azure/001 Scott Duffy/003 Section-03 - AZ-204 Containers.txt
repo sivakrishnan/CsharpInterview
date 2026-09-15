@@ -5,20 +5,91 @@
 
 23. Overview of Containers in Azure - 8min
 
+**Implement containerized solutions**
+
+* Create and manage container images for solutions
+* Publish an image to Azure Container Registry
+* Run containers by using Azure Container Instance
+* Create solutions by using Azure Container Apps
+
+**Containers** (container are easier to deploy than traditional applications)
+
+A package of an application and its dependencies
+
+* Lightweight
+* Portable
+
+This package is called an *image*.
+
+**Docker**
+
+The most common runtime for container images is from Docker.
+You need Docker in order to create images.
+Docker runs best on Linux or in an emulator on Windows.
+
+**Azure Container Registry (ACR)**
+
+A place to store and manage container images.
+Can be private or shared with others.
+There are other solutions like Docker Hub.
+
+**Container Orchestration**
+
+To deploy a container at enterprise scale, Azure has Kubernetes Services.
+Kubernetes (AKS) is a large-scale system for running container images.
+**AKS is not on the exam.**
+It's complicated and somewhat expensive.
+Requires more than one virtual machine to run.
+
+**Azure Container Instances (ACI)**
+
+The easiest way to run containers in Azure.
+Upload your image and Azure will run it.
+**On the exam.** We’ll see it in action.
+
+**Azure App Service**
+
+App Service supports containers.
+A good balance between the simplicity of ACI and the complexity of AKS.
+Provides the benefits of App Services we saw in the last section.
+**On the exam.** We’ll see it in action.
+
+**Stateless Applications**
+
+Containers do not retain user data or application state between sessions or requests.
+Each request is treated independently.
+Makes containers easier to scale (add or remove instances).
+If you need state, that is to be handled outside the container.
+Microservice architecture.
+
+################################################################################################################
 
 24. What is an Azure Container Instance (ACI)? - 7min
 
+practical  on creating ACI.
+
+################################################################################################################
 
 25. Azure Container Registry (ACR) - 4min
 
+practical on ACR.
+
+################################################################################################################
 
 26. Install WSL 2 on Windows and Docker Desktop - 5min
 
+Insall wsl and docker
+
+################################################################################################################
 
 27. Use Visual Studio 2022 to Create a Containerized Web App - 5min
 
+################################################################################################################
 
 28. Deploy an ACI App From Azure Container Registry - 5min
 
+################################################################################################################
 
 29. Deploy an Azure Web App From Azure Container Registry - 4min
+
+################################################################################################################

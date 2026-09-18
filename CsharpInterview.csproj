@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="001 javascript\Pragim\" />
     <Folder Include="006 AI-ML\" />
     <Folder Include="007 React\" />
 	  <Folder Include="008 TCS\" />

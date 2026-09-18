@@ -1,0 +1,25 @@
+<select id="ddlTheme" onchange="setColorCookie()">
+    <option value="Select Color">Select Color</option>
+    <option value="red">Red</option>
+    <option value="green">Green</option>
+    <option value="blue">Blue</option>
+</select>
+<script type="text/javascript">
+    window.onload = function () {
+        if (document.cookie.length != 0) {
+            var nameValueArray = document.cookie.split("=");
+            document.bgColor = nameValueArray[1];
+            document.getElementById("ddlTheme").value = nameValueArray[1];
+        }
+    }
+
+    function setColorCookie() 
+    {
+        var selectedColor = document.getElementById("ddlTheme").value;
+        if (selectedColor != "Select Color")
+        {
+            document.bgColor = selectedColor;
+			document.cookie="color="+selectedColor+";expries=Fri, 5 Aug 2016 01:00:00 UTC;";
+		}
+	}
+</script>

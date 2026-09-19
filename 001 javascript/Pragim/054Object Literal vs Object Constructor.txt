@@ -1,0 +1,38 @@
+var employee={
+name:"john"
+}
+
+var newEmployee=employee;
+console.log("Before Changes");							// VM821:6 Before Changes
+console.log("employee.name = "+employee.name);  		// VM821:7 employee.name = john
+console.log("newEmployee.name="+newEmployee.name);		// VM821:8 newEmployee.name=john
+
+newEmployee.name="Mary";
+console.log("After Changes");							// VM821:11 After Changes
+console.log("employee.name = "+employee.name);			// VM821:12 employee.name = Mary
+console.log("newEmployee.name="+newEmployee.name);		// VM821:13 newEmployee.name=Mary
+
+
+var emp=function()
+{
+	this.name="John"
+}
+
+var employee=new emp();
+var newEmployee=new emp();
+
+console.log("Before Changes");								// Before Changes					
+console.log("employee.name = "+employee.name); 				// VM825:10 employee.name = John 		
+console.log("newEmployee.name="+newEmployee.name);			// VM825:11 newEmployee.name=John	
+
+newEmployee.name="Mary";
+console.log("After Changes");								// VM825:14 After Changes							
+console.log("employee.name = "+employee.name);				// VM825:15 employee.name = John			
+console.log("newEmployee.name="+newEmployee.name);			// VM825:16 newEmployee.name=Mary	
+
+
+
+
+
+
+
